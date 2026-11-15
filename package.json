@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs && node --check db.mjs && node --check app.js",
-    "test": "node --test server.test.mjs"
+    "check": "node --check server.mjs && node --check db.mjs && node --check app.js && node --check recipe-engine.mjs && node --check recipe-studio.mjs",
+    "test": "node --test server.test.mjs recipe-engine.test.mjs"
   },
   "dependencies": {
     "@google-cloud/cloud-sql-connector": "1.13.0",

@@ -31,11 +31,20 @@ test('nutrition nulls, trace and provenance survive the API unchanged', async ()
   assert.deepEqual(JSON.parse(result.body), value);
 });
 test('only public assets and read endpoints are served', async () => {
-  for (const path of ['/db.mjs', '/server.mjs', '/004_live_catalog.sql', '/cloudbuild.yaml', '/data.js', '/data.json', '/.git/config', '/../.env']) {
+  for (const path of ['/db.mjs', '/server.mjs', '/004_live_catalog.sql', '/005_sample_products.sql', '/cloudbuild.yaml', '/data.js', '/data.json', '/.git/config', '/../.env']) {
     assert.equal((await request(path)).status, 404, path);
   }
   assert.equal((await request('/api/catalog', { method: 'POST' })).status, 405);
   assert.equal((await request('/api/catalog', { method: 'HEAD' })).body, undefined);
   assert.equal((await request('/health')).status, 200);
   assert.equal((await request('/')).status, 200);
+});
+
+test('recipe studio modules are public JavaScript assets', async () => {
+  for (const path of ['/recipe-engine.mjs', '/recipe-studio.mjs']) {
+    const result = await request(path);
+    assert.equal(result.status, 200);
+    assert.match(result.headers['Content-Type'], /javascript/);
+  }
+  assert.equal((await request('/studio.css')).status, 200);
 });

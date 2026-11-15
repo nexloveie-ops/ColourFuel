@@ -6,11 +6,11 @@ import { readCatalog, closeDatabase } from './db.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const publicFiles = new Set([
-  'index.html', 'app.js', 'style.css',
+  'index.html', 'app.js', 'style.css', 'studio.css', 'recipe-engine.mjs', 'recipe-studio.mjs',
   'salad-hero.jpg', 'salad-fresh.jpg', 'salad-glass.jpg', 'yogurt.jpg',
   'colourfuel-horizontal.jpg', 'colourfuel-round.jpg',
 ]);
-const mime = { html: 'text/html; charset=utf-8', js: 'text/javascript; charset=utf-8', css: 'text/css; charset=utf-8', json: 'application/json; charset=utf-8', jpg: 'image/jpeg' };
+const mime = { html: 'text/html; charset=utf-8', js: 'text/javascript; charset=utf-8', mjs: 'text/javascript; charset=utf-8', css: 'text/css; charset=utf-8', json: 'application/json; charset=utf-8', jpg: 'image/jpeg' };
 
 export async function handleRequest(req, res, dependencies = { readCatalog }) {
   if (!['GET', 'HEAD'].includes(req.method)) {

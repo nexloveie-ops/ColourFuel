@@ -53,3 +53,15 @@ The ColourFuel logos were supplied by the owner. Do not assume permission to reu
 - Galih Dwi Prasetyo: https://unsplash.com/photos/PKl5YIGnAyA
 
 Sources: USDA FoodData Central Foundation Foods (October 2026), USDA SR Legacy (April 2018), and Public Health England CoFID 2021. Dataset URLs, licences, retrieval dates and file hashes are retained in the database. Reference estimates preserve donor food IDs and matching notes. The on-page Data & sources dialog provides attribution and original-source links.
+
+## Recipe Studio MVP
+
+The homepage collection contains Rainbow Chicken, Vegan Power and Signature Salmon. `005_sample_products.sql` adds their provisional one-serving formulations, two exact USDA cooked protein records and six fixed Protein+ / Active Day test presets. It is additive and must be applied separately before releasing this interface. No original source nutrient values are overwritten and no runtime grants are expanded.
+
+The pure recipe engine computes each compatible nutrient from edible grams per 100 g, then divides by servings. It sums integer-scaled values to avoid order-dependent accumulation. Reference fills retain donor provenance; trace, missing and incompatible-unit values never become zero. Sodium-derived salt uses sodium × 2.5 after converting mg to g. Cooking loss and retention beyond the selected food-state records are not inferred.
+
+Original Recipe is a comparison reference, not a health ranking. Fixed presets require the exact sample baseline, serving count and source record IDs, plus a calculated increase in their named nutrient. Their arithmetic is checked; kitchen and allergen reviews remain pending. Any manual edit clears preset status. No medical needs are inferred.
+
+The first personal save establishes a user's own Original Recipe. Later saves preserve that baseline and up to ten versions. The library is local to this browser (twenty recipes maximum), without accounts or database writes. Share links contain explicit recipe weights and baseline, and shared versions always open as Custom Recipe. Reports are recalculated against current source data, with a data-read timestamp; downloaded Passport JSON includes full nutrient provenance.
+
+Prices are illustrative EUR test data, not offers for sale. Gram changes use provisional ingredient rates; they do not constitute a commercial pricing or ordering system. Kitchen feasibility, allergen/cross-contact review, dressing specifications, finished yield and real-world preset validation remain release requirements.
