@@ -33,14 +33,20 @@ steps:
       - --update-env-vars=INSTANCE_CONNECTION_NAME=$PROJECT_ID:europe-west1:colourfuel-dev-postgres,DB_NAME=colourfuel,DB_USER=colourfuel-engine@$PROJECT_ID.iam
       - --quiet
   - id: smoke-test
-    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
-    entrypoint: bash
+    name: node:22-alpine
+    entrypoint: node
     args:
-      - -ceu
+      - --input-type=module
+      - -e
       - |
-        curl --fail --retry 2 --retry-delay 5 https://colourfuel-web-721850220313.europe-west1.run.app/health
-        curl --fail --retry 2 --retry-delay 5 https://colourfuel-web-721850220313.europe-west1.run.app/api/catalog -o /tmp/catalog.json
-        python3 -c 'import json; d=json.load(open("/tmp/catalog.json")); assert d["data_mode"] == "live"; assert d["recipes"] and d["ingredients"]; print("Live database catalogue verified")'
+        const root = 'https://colourfuel-web-721850220313.europe-west1.run.app';
+        const health = await fetch(root + '/health', {signal: AbortSignal.timeout(30000)});
+        if (!health.ok || (await health.json()).status !== 'ok') throw Error('Health check failed');
+        const response = await fetch(root + '/api/catalog', {cache:'no-store',signal: AbortSignal.timeout(30000)});
+        if (!response.ok) throw Error('Live catalogue HTTP check failed');
+        const data = await response.json();
+        if (data.data_mode !== 'live' || !data.ingredients?.length || !data.recipes?.length) throw Error('Invalid live catalogue');
+        console.log('Live database catalogue verified:', data.ingredients.length, 'ingredients;', data.recipes.length, 'recipes');
 options:
   logging: CLOUD_LOGGING_ONLY
 timeout: 900s
