@@ -12,6 +12,8 @@ English-language ColourFuel website for the Irish market, using the supplied hor
 
 The site currently serves a **data snapshot**, not a live Cloud SQL connection. Source values, trace markers and explicitly labelled reference estimates remain distinguishable. Unsupported nutrient values are not replaced with zero. These recipes and matching decisions are development drafts.
 
+Live preview: https://colourfuel-web-721850220313.europe-west1.run.app
+
 ## Run
 
 Requires Node.js 22. No package installation is needed.
@@ -21,7 +23,7 @@ npm run check
 npm start
 ```
 
-Open `http://localhost:8080`. The server reads Cloud Run's `PORT` environment variable, exposes `/healthz` and serves only explicitly allowed public files.
+Open `http://localhost:8080`. The server reads Cloud Run's `PORT` environment variable, exposes `/health` and serves only explicitly allowed public files.
 
 ## Deploy to Google Cloud
 
@@ -34,6 +36,10 @@ gcloud run deploy colourfuel-web \
   --source . \
   --project project-4e0cb90b-8fb2-452b-9f0 \
   --region europe-west1 \
+  --build-service-account projects/project-4e0cb90b-8fb2-452b-9f0/serviceAccounts/colourfuel-web-build@project-4e0cb90b-8fb2-452b-9f0.iam.gserviceaccount.com \
+  --service-account colourfuel-engine@project-4e0cb90b-8fb2-452b-9f0.iam.gserviceaccount.com \
+  --min 0 \
+  --max 1 \
   --allow-unauthenticated \
   --execution-environment gen2 \
   --memory 512Mi \
