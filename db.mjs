@@ -14,7 +14,7 @@ async function getPool() {
       });
       const pool = new pg.Pool({
         ...options, user: process.env.DB_USER, database: process.env.DB_NAME || 'colourfuel',
-        max: 3, connectionTimeoutMillis: 12000, idleTimeoutMillis: 30000,
+        max: 3, connectionTimeoutMillis: 12000, idleTimeoutMillis: 300000,
         statement_timeout: 20000, query_timeout: 22000,
         options: '-c default_transaction_read_only=on',
       });
@@ -29,7 +29,7 @@ async function getPool() {
   return poolPromise;
 }
 
-export async function readCatalog() {
+async function queryCatalog() {
   if (!process.env.INSTANCE_CONNECTION_NAME || !process.env.DB_USER) throw new Error('Database configuration missing');
   const pool = await getPool();
   // One statement gives all recipe and ingredient data a consistent database snapshot.
@@ -39,6 +39,12 @@ export async function readCatalog() {
     throw new Error('Invalid live catalogue');
   }
   return payload;
+}
+
+let pendingCatalog;
+export function readCatalog(){
+  if(!pendingCatalog)pendingCatalog=queryCatalog().finally(()=>{pendingCatalog=undefined;});
+  return pendingCatalog;
 }
 
 export async function closeDatabase() {

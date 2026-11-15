@@ -46,6 +46,10 @@ steps:
         if (!response.ok) throw Error('Live catalogue HTTP check failed');
         const data = await response.json();
         if (data.data_mode !== 'live' || !data.ingredients?.length || !data.recipes?.length) throw Error('Invalid live catalogue');
+        for(const image of ['rainbow-chicken','vegan-power','signature-salmon']){
+          const response=await fetch(root+'/'+image+'.jpg',{method:'HEAD',signal:AbortSignal.timeout(30000)});
+          if(!response.ok||!response.headers.get('content-type')?.startsWith('image/jpeg'))throw Error('Missing product image: '+image);
+        }
         console.log('Live database catalogue verified:', data.ingredients.length, 'ingredients;', data.recipes.length, 'recipes');
 options:
   logging: CLOUD_LOGGING_ONLY

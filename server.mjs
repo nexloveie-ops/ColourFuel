@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import {gzipSync} from 'node:zlib';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -6,12 +7,15 @@ import { readCatalog, closeDatabase } from './db.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const publicFiles = new Set([
-  'index.html', 'app.js', 'style.css', 'studio.css', 'recipe-engine.mjs', 'recipe-studio.mjs',
+  'index.html', 'app.js', 'style.css', 'studio.css', 'recipe-engine.mjs', 'recipe-studio.mjs', 'product-content.mjs', 'catalog-client.mjs',
+  'rainbow-chicken.jpg', 'rainbow-chicken-small.jpg', 'vegan-power.jpg', 'vegan-power-small.jpg', 'signature-salmon.jpg', 'signature-salmon-small.jpg',
   'salad-hero.jpg', 'salad-fresh.jpg', 'salad-glass.jpg', 'yogurt.jpg',
   'colourfuel-horizontal.jpg', 'colourfuel-round.jpg',
 ]);
 const mime = { html: 'text/html; charset=utf-8', js: 'text/javascript; charset=utf-8', mjs: 'text/javascript; charset=utf-8', css: 'text/css; charset=utf-8', json: 'application/json; charset=utf-8', jpg: 'image/jpeg' };
 
+const assetCache=new Map();
+const acceptsGzip=req=>(req.headers?.['accept-encoding']||'').split(',').some(part=>{const [encoding,...params]=part.trim().split(';');const quality=params.find(p=>p.trim().startsWith('q='));return encoding.trim().toLowerCase()==='gzip'&&(!quality||Number(quality.trim().slice(2))>0);});
 export async function handleRequest(req, res, dependencies = { readCatalog }) {
   if (!['GET', 'HEAD'].includes(req.method)) {
     res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return;
@@ -21,9 +25,12 @@ export async function handleRequest(req, res, dependencies = { readCatalog }) {
   catch { res.writeHead(400); res.end('Bad request'); return; }
   if (pathname === '/api/catalog') {
     try {
+      const started=performance.now();
       const catalog = await dependencies.readCatalog();
-      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
-      res.end(req.method === 'HEAD' ? undefined : JSON.stringify(catalog));
+      const queryMs=performance.now()-started;
+      const json=Buffer.from(JSON.stringify(catalog));const compressed=acceptsGzip(req);const body=compressed?gzipSync(json):json;
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Vary':'Accept-Encoding', 'Content-Length':body.length,...compressed?{'Content-Encoding':'gzip'}:{},'Server-Timing':`catalog;dur=${queryMs.toFixed(1)}` });
+      res.end(req.method === 'HEAD' ? undefined : body);
     } catch (error) {
       console.error('Live catalogue unavailable', error.code || error.name);
       res.writeHead(503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Retry-After': '10' });
@@ -38,10 +45,13 @@ export async function handleRequest(req, res, dependencies = { readCatalog }) {
   const name = pathname === '/' ? 'index.html' : pathname.slice(1);
   if (!publicFiles.has(name)) { res.writeHead(404); res.end('Not found'); return; }
   try {
-    const body = await readFile(resolve(root, name));
+    if(!assetCache.has(name))assetCache.set(name,readFile(resolve(root,name)).then(body=>({body,gzip:/\.(?:html|css|mjs|js)$/.test(name)?gzipSync(body):null})).catch(error=>{assetCache.delete(name);throw error;}));
+    const asset=await assetCache.get(name),compressed=acceptsGzip(req)&&!!asset.gzip;
+    const body=compressed?asset.gzip:asset.body;
     res.writeHead(200, {
       'Content-Type': mime[name.split('.').pop()] || 'application/octet-stream',
       'Content-Length': body.length,
+      'Vary':'Accept-Encoding',...compressed?{'Content-Encoding':'gzip'}:{},
       'Cache-Control': name.endsWith('.jpg') ? 'public, max-age=86400' : 'no-cache',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -53,11 +63,8 @@ export async function handleRequest(req, res, dependencies = { readCatalog }) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  // A production revision must read the database before accepting traffic.
-  if (process.env.NODE_ENV === 'production') {
-    try { await readCatalog(); }
-    catch (error) { console.error('Database startup check failed', error.code || error.name); process.exit(1); }
-  }
+  // Serve food imagery immediately while the connection warms. Nutrition still fails closed.
+  if(process.env.NODE_ENV==='production')readCatalog().catch(error=>console.error('Database warm-up unavailable',error.code||error.name));
   const server = createServer((req, res) => handleRequest(req, res));
   server.listen(Number(process.env.PORT || 8080), '0.0.0.0', () => console.log('ColourFuel is listening on the configured PORT.'));
   process.on('SIGTERM', () => server.close(async () => { await closeDatabase(); process.exit(0); }));

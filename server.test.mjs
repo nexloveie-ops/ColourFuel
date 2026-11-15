@@ -1,10 +1,11 @@
 import test from 'node:test';
+import {gunzipSync} from 'node:zlib';
 import assert from 'node:assert/strict';
 import { handleRequest } from './server.mjs';
 
-async function request(url, { method = 'GET', readCatalog = async () => ({ data_mode: 'live', ingredients: [], recipes: [] }) } = {}) {
+async function request(url, { method = 'GET', headers={}, readCatalog = async () => ({ data_mode: 'live', ingredients: [], recipes: [] }) } = {}) {
   const response = {};
-  await handleRequest({ url, method }, {
+  await handleRequest({ url, method, headers }, {
     writeHead(status, headers) { response.status = status; response.headers = headers; },
     end(body) { response.body = body; },
   }, { readCatalog });
@@ -47,4 +48,19 @@ test('recipe studio modules are public JavaScript assets', async () => {
     assert.match(result.headers['Content-Type'], /javascript/);
   }
   assert.equal((await request('/studio.css')).status, 200);
+});
+
+test('compressed catalogue preserves exact values and reduces transmission size', async()=>{
+ const value={data_mode:'live',ingredients:Array.from({length:100},()=>({protein:null,record_id:'USDA:123',kind:'trace'}))};
+ const result=await request('/api/catalog',{headers:{'accept-encoding':'gzip'},readCatalog:async()=>value});
+ assert.equal(result.headers['Content-Encoding'],'gzip');assert.equal(result.headers['Cache-Control'],'no-store');
+ assert.deepEqual(JSON.parse(gunzipSync(result.body)),value);assert.ok(result.body.length<JSON.stringify(value).length/2);
+ const script=await request('/product-content.mjs',{headers:{'accept-encoding':'gzip'}});assert.match(gunzipSync(script.body).toString(),/Rainbow Chicken/);
+});
+
+test('all three serving images are served and disabled gzip is respected',async()=>{
+ for(const image of ['rainbow-chicken','vegan-power','signature-salmon'])for(const size of ['','-small']){
+  const result=await request('/'+image+size+'.jpg');assert.equal(result.status,200);assert.equal(result.headers['Content-Type'],'image/jpeg');assert.equal(result.body[0],255);assert.equal(result.body[1],216);
+ }
+ const result=await request('/api/catalog',{headers:{'accept-encoding':'gzip;q=0.0'}});assert.equal(result.headers['Content-Encoding'],undefined);
 });

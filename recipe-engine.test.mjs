@@ -20,7 +20,7 @@ test('trace, missing and wrong units never become a complete numeric zero',()=>{
 });
 test('manual editing clears presets without mutating the original, even on equal weights',()=>{
  const original=makeOriginal({...recipe(),servings:1},catalog),fixed=applyPreset(original,preset,catalog);
- assert.equal(fixed.mode,'Goal Preset');assert.equal(fixed.items[0].grams,175.5);assert.equal(original.items[0].grams,125.5);
+ assert.deepEqual(fixed.items.map(i=>i.variant_id),original.items.map(i=>i.variant_id));assert.equal(fixed.mode,'Goal Preset');assert.equal(fixed.items[0].grams,175.5);assert.equal(original.items[0].grams,125.5);
  const custom=editRecipe(fixed,{items:fixed.items},catalog);assert.equal(custom.mode,'Custom Recipe');assert.equal(custom.preset_id,null);
  const own=makeOriginal(custom,catalog);assert.ok(compare(own,own,catalog).metrics.every(m=>m.delta===0||m.delta===null));
 });

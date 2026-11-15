@@ -6,11 +6,11 @@ Live website: https://colourfuel-web-721850220313.europe-west1.run.app
 
 ## Live ingredient and recipe data
 
-The browser requests `GET /api/catalog` on every page navigation. The server queries Cloud SQL for PostgreSQL directly, with no response cache and no fallback to the archived snapshot. Refreshing the page retrieves current database values. This is request-based freshness, not a push subscription to database changes.
+The browser loads `GET /api/catalog` once and keeps that checked catalogue in memory for immediate navigation. While browsing, it refreshes in the background every minute; an editing session keeps its checked data until an explicit refresh. The footer shows the data-check time and offers Refresh nutrition data. The server queries Cloud SQL for PostgreSQL directly, with no response cache and no fallback to the archived snapshot. Refreshing nutrition data retrieves current database values. This is request-based freshness, not a push subscription to database changes.
 
 Nutrition, edible weights, servings, source records, reference estimates and recipe totals come from the normalized `colourfuel` tables and views. English editorial copy is stored separately in `colourfuel_web`. Source-defined trace and missing values remain distinct from numeric zero. Recipes remain development drafts; estimates do not include extra cooking-retention adjustments.
 
-The runtime uses automatic IAM database authentication through Google's Cloud SQL Node.js Connector. It has SELECT access only to `colourfuel_web.catalog`, a public development catalogue projection. No database passwords or downloaded account keys are used. The connection pool allows at most three database connections per instance. A production revision must read the database successfully before it accepts traffic.
+The runtime uses automatic IAM database authentication through Google's Cloud SQL Node.js Connector. It has SELECT access only to `colourfuel_web.catalog`, a public development catalogue projection. No database passwords or downloaded account keys are used. The connection pool allows at most three database connections per instance. Static product content is served immediately while the database connection warms. Nutrition requests fail closed with HTTP 503 if the database cannot be read. Simultaneous requests share one in-flight query without retaining a server-side nutrition response cache.
 
 `data.json` and `data.js` are archived development snapshots. The application does not load or serve them.
 
@@ -65,3 +65,9 @@ Original Recipe is a comparison reference, not a health ranking. Fixed presets r
 The first personal save establishes a user's own Original Recipe. Later saves preserve that baseline and up to ten versions. The library is local to this browser (twenty recipes maximum), without accounts or database writes. Share links contain explicit recipe weights and baseline, and shared versions always open as Custom Recipe. Reports are recalculated against current source data, with a data-read timestamp; downloaded Passport JSON includes full nutrient provenance.
 
 Prices are illustrative EUR test data, not offers for sale. Gram changes use provisional ingredient rates; they do not constitute a commercial pricing or ordering system. Kitchen feasibility, allergen/cross-contact review, dressing specifications, finished yield and real-world preset validation remain release requirements.
+
+## Food imagery and reading experience
+
+The three product photos are AI-generated serving concepts based on the listed sample ingredients, not images of final shop portions. `product-content.mjs` keeps presentation copy, colour cues and photo mappings separate from live nutritional records. The homepage links to photo-led bowl pages before the editor. The editor and printable Nutrition Passport retain the original serving image, clearly labelled when the current ingredient weights differ. No image is regenerated or represented as an exact portion preview when grams change.
+
+Each photo has a 600px card variant and a 1200px detail variant with responsive image selection and fixed dimensions. Scripts and catalogue responses support gzip. Images are browser-cacheable; code revalidates on each load. There is no persistent browser nutrition cache or offline nutrition fallback. Existing Cloud Run minimum-zero scaling is preserved; cold starts can still affect the first request after inactivity.

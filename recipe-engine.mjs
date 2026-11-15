@@ -70,7 +70,7 @@ export function applyPreset(original,preset,catalog){
   const weights=Object.fromEntries(original.items.filter(i=>i.grams>0).map(i=>[i.variant_id,i.grams]));
   if(original.servings!==1 || Object.keys(weights).length!==Object.keys(preset.required_original).length || Object.entries(preset.required_original).some(([id,g])=>weights[id]!==g)) throw Error('This preset only matches the sample original recipe and serving count.');
   if(Object.entries(preset.required_sources).some(([id,record])=>catalog.ingredients.find(i=>i.variant_id===id)?.record_id!==record))throw Error('The ingredient source has changed; this preset needs a new review.');
-  const next={...clone(original),items:Object.entries(preset.weights).map(([variant_id,grams])=>({variant_id,grams})),mode:'Goal Preset',preset_id:preset.preset_id};
+  const next={...clone(original),items:[...original.items.filter(i=>Object.hasOwn(preset.weights,i.variant_id)).map(i=>({variant_id:i.variant_id,grams:preset.weights[i.variant_id]})),...Object.entries(preset.weights).filter(([id])=>!original.items.some(i=>i.variant_id===id)).map(([variant_id,grams])=>({variant_id,grams}))],mode:'Goal Preset',preset_id:preset.preset_id};
   const base=calculate(original,catalog).metrics[preset.goal_metric], adjusted=calculate(next,catalog).metrics[preset.goal_metric];
   if(!base||!adjusted||base.status!=='complete'||adjusted.status!=='complete'||adjusted.perServing<=base.perServing)throw Error('The source data no longer supports this preset.');
   return next;
