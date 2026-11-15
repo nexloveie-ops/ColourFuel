@@ -76,6 +76,7 @@ document.addEventListener('click',async event=>{
  const b=event.target.closest('[data-studio-action]');if(!b||!catalog)return;
  try{
   const action=b.dataset.studioAction;
+  if(['save','share','passport','download','duplicate'].includes(action)&&document.querySelector('.studio [aria-invalid="true"]')){document.querySelector('.studio [aria-invalid="true"]').focus();throw Error('Correct the highlighted recipe field before saving, sharing or exporting.');}
   if(action==='restore'){
    const entry=library().find(e=>e.id===b.dataset.entry),version=entry?.versions[Number(b.dataset.version)];if(!version)throw Error('This version is unavailable.');
    session={original:makeOriginal(entry.original,catalog),current:editRecipe(version.recipe,{},catalog),entryId:entry.id};routeKey='#studio/saved/'+entry.id;location.hash=routeKey;render();return;
