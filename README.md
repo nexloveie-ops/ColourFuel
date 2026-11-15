@@ -1,66 +1,55 @@
 # ColourFuel
 
-English-language ColourFuel website for the Irish market, using the supplied horizontal and round brand logos.
+English-language ColourFuel website for Ireland, using the supplied horizontal and round logos.
 
-## What is included
+Live website: https://colourfuel-web-721850220313.europe-west1.run.app
 
-- Responsive recipe discovery and ingredient library.
-- Search, colour/category filters and browser-local saved recipes.
-- Recipe details, adjustable servings and per-serving/whole-recipe nutrition.
-- Ingredient-level nutrition, original food codes, dataset versions and reference-imputation sources.
-- A verified snapshot of 30 ingredients and 5 development recipes, dated 15 November 2026.
+## Live ingredient and recipe data
 
-The site currently serves a **data snapshot**, not a live Cloud SQL connection. Source values, trace markers and explicitly labelled reference estimates remain distinguishable. Unsupported nutrient values are not replaced with zero. These recipes and matching decisions are development drafts.
+The browser requests `GET /api/catalog` on every page navigation. The server queries Cloud SQL for PostgreSQL directly, with no response cache and no fallback to the archived snapshot. Refreshing the page retrieves current database values. This is request-based freshness, not a push subscription to database changes.
 
-Live preview: https://colourfuel-web-721850220313.europe-west1.run.app
+Nutrition, edible weights, servings, source records, reference estimates and recipe totals come from the normalized `colourfuel` tables and views. English editorial copy is stored separately in `colourfuel_web`. Source-defined trace and missing values remain distinct from numeric zero. Recipes remain development drafts; estimates do not include extra cooking-retention adjustments.
 
-## Run
+The runtime uses automatic IAM database authentication through Google's Cloud SQL Node.js Connector. It has SELECT access only to `colourfuel_web.catalog`, a public development catalogue projection. No database passwords or downloaded account keys are used. The connection pool allows at most three database connections per instance. A production revision must read the database successfully before it accepts traffic.
 
-Requires Node.js 22. No package installation is needed.
+`data.json` and `data.js` are archived development snapshots. The application does not load or serve them.
 
-```sh
-npm run check
-npm start
+## Development
+
+Requires Node.js 22. Run `npm ci`, `npm run check`, and `npm test`. With an authenticated Cloud SQL identity and the following environment variables, run `npm start`:
+
+```
+INSTANCE_CONNECTION_NAME=project-4e0cb90b-8fb2-452b-9f0:europe-west1:colourfuel-dev-postgres
+DB_NAME=colourfuel
+DB_USER=colourfuel-engine@project-4e0cb90b-8fb2-452b-9f0.iam
 ```
 
-Open `http://localhost:8080`. The server reads Cloud Run's `PORT` environment variable, exposes `/health` and serves only explicitly allowed public files.
+`GET /health` checks the process. `GET /api/catalog` verifies the database connection and returns current catalogue data. If the database is unavailable, the catalogue returns HTTP 503 with a generic error and no stale nutrition data.
 
-## Deploy to Google Cloud
+## Automatic deployment
 
-Target project: `project-4e0cb90b-8fb2-452b-9f0`. Region: `europe-west1`.
+The Cloud Build push trigger is limited to `^main$` in `nexloveie-ops/ColourFuel` and uses `cloudbuild.yaml`:
 
-From an authenticated environment with the required Cloud Run source-deployment permissions:
+1. Install locked dependencies and run checks and tests.
+2. Build and push a container tagged with the Git commit SHA.
+3. Update the existing `colourfuel-web` Cloud Run service in `europe-west1`.
+4. Verify the live health and catalogue endpoints.
 
-```sh
-gcloud run deploy colourfuel-web \
-  --source . \
-  --project project-4e0cb90b-8fb2-452b-9f0 \
-  --region europe-west1 \
-  --build-service-account projects/project-4e0cb90b-8fb2-452b-9f0/serviceAccounts/colourfuel-web-build@project-4e0cb90b-8fb2-452b-9f0.iam.gserviceaccount.com \
-  --service-account colourfuel-engine@project-4e0cb90b-8fb2-452b-9f0.iam.gserviceaccount.com \
-  --min 0 \
-  --max 1 \
-  --allow-unauthenticated \
-  --execution-environment gen2 \
-  --memory 512Mi \
-  --cpu 1 \
-  --min-instances 0 \
-  --max-instances 1 \
-  --concurrency 80 \
-  --timeout 60
-```
+The pipeline does not create services or change IAM, public access, or database schemas. Database migrations are applied separately by an administrator. `004_live_catalog.sql` creates the English editorial tables and public catalogue view, preserves existing source data, and grants the runtime read access only to that view. Seed copy uses `ON CONFLICT DO NOTHING`, preserving subsequent editorial changes.
 
-The Dockerfile runs as the built-in non-root Node user. No database passwords, cloud credentials or private user data are included. No database permissions are needed by this snapshot-only website. The existing project budget is an alert, not a hard spending cap.
+Target project: `project-4e0cb90b-8fb2-452b-9f0`.
+Build identity: `colourfuel-web-build@project-4e0cb90b-8fb2-452b-9f0.iam.gserviceaccount.com`.
+Runtime identity: `colourfuel-engine@project-4e0cb90b-8fb2-452b-9f0.iam.gserviceaccount.com`.
 
-## Images and data
+Cloud Run scales from zero to a configured maximum of one instance, with 512 MiB memory and one CPU. Builds, image storage and requests can incur charges; the existing budget sends alerts and is not a hard spending cap.
 
-The two ColourFuel logos were supplied by the project owner. Do not assume permission to reuse this branding in other projects.
+## Images and data attribution
 
-Food photographs are from Unsplash and are illustrative; the listed ingredients, not the photograph, determine nutrition:
+The ColourFuel logos were supplied by the owner. Do not assume permission to reuse them elsewhere. Food photos are illustrative: listed ingredients determine the nutrition calculation.
 
 - Jez Timms: https://unsplash.com/photos/BHD2OxkYGSk
 - Markus Spiske: https://unsplash.com/photos/9vzRpZkqpJ8
-- Berry yoghurt photograph: https://unsplash.com/photos/LymX5D2sSWM
+- Berry yoghurt: https://unsplash.com/photos/LymX5D2sSWM
 - Galih Dwi Prasetyo: https://unsplash.com/photos/PKl5YIGnAyA
 
-Nutrition sources: USDA FoodData Central Foundation Foods (October 2026), USDA SR Legacy (April 2018), and Public Health England CoFID 2021. Dataset URLs, licences, file hashes and retrieval dates are retained in `data.json`. Reference estimates preserve donor food IDs and matching notes. The on-page Data & sources dialog provides attribution and original-source links.
+Sources: USDA FoodData Central Foundation Foods (October 2026), USDA SR Legacy (April 2018), and Public Health England CoFID 2021. Dataset URLs, licences, retrieval dates and file hashes are retained in the database. Reference estimates preserve donor food IDs and matching notes. The on-page Data & sources dialog provides attribution and original-source links.

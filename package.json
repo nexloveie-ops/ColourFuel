@@ -2,11 +2,18 @@
   "name": "colourfuel-web",
   "version": "0.1.0",
   "private": true,
-  "description": "ColourFuel — healthy bowls, fresh energy. Ireland market design preview.",
+  "description": "ColourFuel \u2014 healthy bowls, fresh energy. Ireland market design preview.",
   "type": "module",
-  "engines": { "node": "22.x" },
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs && node --check app.js && node --check data.js"
+    "check": "node --check server.mjs && node --check db.mjs && node --check app.js",
+    "test": "node --test server.test.mjs"
+  },
+  "dependencies": {
+    "@google-cloud/cloud-sql-connector": "1.13.0",
+    "pg": "8.23.1"
   }
 }

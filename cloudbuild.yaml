@@ -1,0 +1,46 @@
+# Only the main-branch push trigger uses this configuration. No database migrations run here.
+steps:
+  - id: check-and-test
+    name: node:22-alpine
+    entrypoint: sh
+    args: ['-c', 'npm ci --ignore-scripts && npm run check && npm test']
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/colourfuel-web:$COMMIT_SHA', '.']
+  - id: push
+    name: gcr.io/cloud-builders/docker
+    args: ['push', 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/colourfuel-web:$COMMIT_SHA']
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - colourfuel-web
+      - --image=europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/colourfuel-web:$COMMIT_SHA
+      - --region=europe-west1
+      - --project=$PROJECT_ID
+      - --service-account=colourfuel-engine@$PROJECT_ID.iam.gserviceaccount.com
+      - --execution-environment=gen2
+      - --memory=512Mi
+      - --cpu=1
+      - --min=0
+      - --max=1
+      - --min-instances=0
+      - --max-instances=1
+      - --concurrency=20
+      - --timeout=60
+      - --update-env-vars=INSTANCE_CONNECTION_NAME=$PROJECT_ID:europe-west1:colourfuel-dev-postgres,DB_NAME=colourfuel,DB_USER=colourfuel-engine@$PROJECT_ID.iam
+      - --quiet
+  - id: smoke-test
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -ceu
+      - |
+        curl --fail --retry 2 --retry-delay 5 https://colourfuel-web-721850220313.europe-west1.run.app/health
+        curl --fail --retry 2 --retry-delay 5 https://colourfuel-web-721850220313.europe-west1.run.app/api/catalog -o /tmp/catalog.json
+        python3 -c 'import json; d=json.load(open("/tmp/catalog.json")); assert d["data_mode"] == "live"; assert d["recipes"] and d["ingredients"]; print("Live database catalogue verified")'
+options:
+  logging: CLOUD_LOGGING_ONLY
+timeout: 900s

@@ -2,22 +2,35 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readCatalog, closeDatabase } from './db.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const publicFiles = new Set([
-  'index.html', 'app.js', 'style.css', 'data.js', 'data.json',
+  'index.html', 'app.js', 'style.css',
   'salad-hero.jpg', 'salad-fresh.jpg', 'salad-glass.jpg', 'yogurt.jpg',
   'colourfuel-horizontal.jpg', 'colourfuel-round.jpg',
 ]);
 const mime = { html: 'text/html; charset=utf-8', js: 'text/javascript; charset=utf-8', css: 'text/css; charset=utf-8', json: 'application/json; charset=utf-8', jpg: 'image/jpeg' };
 
-export async function handleRequest(req, res) {
+export async function handleRequest(req, res, dependencies = { readCatalog }) {
   if (!['GET', 'HEAD'].includes(req.method)) {
     res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return;
   }
   let pathname;
   try { pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); }
   catch { res.writeHead(400); res.end('Bad request'); return; }
+  if (pathname === '/api/catalog') {
+    try {
+      const catalog = await dependencies.readCatalog();
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
+      res.end(req.method === 'HEAD' ? undefined : JSON.stringify(catalog));
+    } catch (error) {
+      console.error('Live catalogue unavailable', error.code || error.name);
+      res.writeHead(503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Retry-After': '10' });
+      res.end(req.method === 'HEAD' ? undefined : '{"error":"Catalogue temporarily unavailable. Please try again."}');
+    }
+    return;
+  }
   if (pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
     res.end(req.method === 'HEAD' ? undefined : '{"status":"ok","service":"colourfuel-web"}'); return;
@@ -40,7 +53,12 @@ export async function handleRequest(req, res) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const server = createServer(handleRequest);
+  // A production revision must read the database before accepting traffic.
+  if (process.env.NODE_ENV === 'production') {
+    try { await readCatalog(); }
+    catch (error) { console.error('Database startup check failed', error.code || error.name); process.exit(1); }
+  }
+  const server = createServer((req, res) => handleRequest(req, res));
   server.listen(Number(process.env.PORT || 8080), '0.0.0.0', () => console.log('ColourFuel is listening on the configured PORT.'));
-  process.on('SIGTERM', () => server.close(() => process.exit(0)));
+  process.on('SIGTERM', () => server.close(async () => { await closeDatabase(); process.exit(0); }));
 }
