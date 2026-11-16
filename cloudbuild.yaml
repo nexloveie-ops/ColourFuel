@@ -50,6 +50,12 @@ steps:
           const response=await fetch(root+'/'+image+'.jpg',{method:'HEAD',signal:AbortSignal.timeout(30000)});
           if(!response.ok||!response.headers.get('content-type')?.startsWith('image/jpeg'))throw Error('Missing product image: '+image);
         }
+        for (const asset of ['asian-sesame-crunch.jpg','coastal-colour.jpg','mediterranean-garden.jpg','crispy-pork.jpg','ingredient-dill--raw.jpg','ingredient-edamame--cooked.jpg','menu-formulations.mjs','sauce-picker.mjs','ingredient-photos.mjs','nutrition-context.mjs','white-theme.css']) {
+          const response = await fetch(root + '/' + asset, {method:'HEAD',signal:AbortSignal.timeout(30000)});
+          if (!response.ok) throw Error('Missing deployed Bowl asset: ' + asset);
+        }
+        const menu = await (await fetch(root + '/product-content.mjs', {cache:'no-store',signal:AbortSignal.timeout(30000)})).text();
+        if (!menu.includes('Everyday Chicken') || !menu.includes('Vegan base') || !menu.includes('base_nutrition')) throw Error('New menu or corrected Passport was not deployed');
         console.log('Live database catalogue verified:', data.ingredients.length, 'ingredients;', data.recipes.length, 'recipes');
 options:
   logging: CLOUD_LOGGING_ONLY

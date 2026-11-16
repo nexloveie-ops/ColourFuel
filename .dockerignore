@@ -5,3 +5,8 @@ node_modules
 .DS_Store
 *.log
 .openai
+
+# Keep the review copy and offline test data out of the runtime container.
+previews
+fixtures
+*.test.mjs

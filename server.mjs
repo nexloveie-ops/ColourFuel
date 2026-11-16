@@ -1,3 +1,4 @@
+import { PUBLIC_ASSETS } from './public-assets.mjs';
 import { createServer } from 'node:http';
 import {gzipSync} from 'node:zlib';
 import { readFile } from 'node:fs/promises';
@@ -6,12 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { readCatalog, closeDatabase } from './db.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
-const publicFiles = new Set([
-  'index.html', 'app.js', 'style.css', 'studio.css', 'recipe-engine.mjs', 'recipe-studio.mjs', 'product-content.mjs', 'catalog-client.mjs',
-  'rainbow-chicken.jpg', 'rainbow-chicken-small.jpg', 'vegan-power.jpg', 'vegan-power-small.jpg', 'signature-salmon.jpg', 'signature-salmon-small.jpg',
-  'salad-hero.jpg', 'salad-fresh.jpg', 'salad-glass.jpg', 'yogurt.jpg',
-  'colourfuel-horizontal.jpg', 'colourfuel-round.jpg',
-]);
+const publicFiles = new Set(PUBLIC_ASSETS);
 const mime = { html: 'text/html; charset=utf-8', js: 'text/javascript; charset=utf-8', mjs: 'text/javascript; charset=utf-8', css: 'text/css; charset=utf-8', json: 'application/json; charset=utf-8', jpg: 'image/jpeg' };
 
 const assetCache=new Map();

@@ -1,0 +1,90 @@
+{
+  "method": "Built-in image_gen",
+  "purpose": "Illustrative proposed test recipes, not final products",
+  "images": [
+    {
+      "id": "classic-caesar",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Classic Caesar dressing, creamy ivory with fine black pepper flecks. Proposed test ingredients shown subtly beside it: a small piece of parmesan, a pasteurised egg mayonnaise spoonful, lemon half, garlic clove, tiny anchovy piece, black pepper. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, 45 degree angle, landscape 3:2, ramekin hero fills most frame, shallow depth of field but sauce surface clearly visible, realistic appetising texture. No writing, labels, logos, packaging, hands or decorative unrelated ingredients. This is a proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-d2411af9-1e28-43b3-a6a9-ece112106d37.png",
+      "saved_image": "classic-caesar.jpg",
+      "saved_card": "classic-caesar-small.jpg"
+    },
+    {
+      "id": "honey-mustard",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Honey Mustard sauce, smooth warm golden yellow with fine mustard flecks. Proposed ingredients beside ramekin: Dijon mustard in a spoon, a small honey drizzle, cider vinegar and rapeseed oil in tiny dishes, lemon half. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-113702c5-7bb3-484e-b00b-e6f585f6d034.png",
+      "saved_image": "honey-mustard.jpg",
+      "saved_card": "honey-mustard-small.jpg"
+    },
+    {
+      "id": "balsamic-vinaigrette",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Balsamic Vinaigrette, a glossy dark mahogany emulsion with visible tiny oil droplets. Proposed ingredients beside ramekin: balsamic vinegar and olive oil in tiny glass dishes, small Dijon mustard spoonful, garlic clove, black pepper. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-ec8d21b0-0a99-4faf-9931-f447cc1ffc33.png",
+      "saved_image": "balsamic-vinaigrette.jpg",
+      "saved_card": "balsamic-vinaigrette-small.jpg"
+    },
+    {
+      "id": "basil-pesto",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Basil Pesto, vibrant fresh basil green, thick lightly coarse pesto. Proposed ingredients beside ramekin: fresh basil leaves, small parmesan wedge, pine nuts, garlic clove, olive oil in a tiny dish, lemon half. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-2a3d28c7-38f1-46b8-b2c8-a630847f8831.png",
+      "saved_image": "basil-pesto.jpg",
+      "saved_card": "basil-pesto-small.jpg"
+    },
+    {
+      "id": "roasted-sesame",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Roasted Sesame dressing, creamy beige, toasted sesame flecks. Proposed ingredients beside ramekin: toasted sesame seeds in a teaspoon, tahini spoonful, small soy sauce dish, rice vinegar in tiny glass cup, small sugar pinch, rapeseed oil. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-fb14ee8f-a105-42f7-8c7a-cbef1aa445d4.png",
+      "saved_image": "roasted-sesame.jpg",
+      "saved_card": "roasted-sesame-small.jpg"
+    },
+    {
+      "id": "citrus-mint",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Citrus Mint dressing, a light golden citrus vinaigrette with small chopped fresh green mint pieces, thin pourable texture. Proposed ingredients beside ramekin: fresh mint leaves, orange half, lemon half, olive oil in a tiny dish and small honey drizzle. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-f616c3c4-3cc3-4fbf-84f2-c4ca3314b1c7.png",
+      "saved_image": "citrus-mint.jpg",
+      "saved_card": "citrus-mint-small.jpg"
+    },
+    {
+      "id": "smoky-chipotle-ranch",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Smoky Chipotle Ranch sauce, creamy pale reddish coral with fine pepper flecks. Proposed ingredients beside ramekin: pasteurised egg mayonnaise spoonful, buttermilk in a tiny cup, dried chipotle chilli, lime half, garlic clove, fresh dill. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-067467ee-def7-4a8b-855b-16ba91611727.png",
+      "saved_image": "smoky-chipotle-ranch.jpg",
+      "saved_card": "smoky-chipotle-ranch-small.jpg"
+    },
+    {
+      "id": "sweet-chilli",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel website sauce concept photograph. One small off-white handmade ceramic ramekin of Sweet Chilli sauce, glossy translucent orange red, finely chopped red chilli and visible chilli seeds, thick but pourable. Proposed ingredients beside ramekin: red chillies, sugar in a teaspoon, rice vinegar in a small dish and garlic clove. Warm ivory linen tabletop, soft natural window light from the left, refined independent Irish cafe photography, camera 45 degrees above, landscape 3:2, ramekin hero fills most frame, shallow depth of field, realistic appetising sauce surface. Ingredients appear subtly around ramekin, not in the sauce unless appropriate. No writing, labels, logos, packaging, hands or unrelated garnish. Proposed R&D serving concept, not a final product photo.",
+      "generation_id": "exec-198ced6e-734c-402a-b51e-7c4ee9849df7.png",
+      "saved_image": "sweet-chilli.jpg",
+      "saved_card": "sweet-chilli-small.jpg"
+    },
+    {
+      "id": "mediterranean-garden",
+      "prompt": "Use case: photorealistic-natural. Asset type: ColourFuel website bowl concept photo. Landscape 3:2 editorial food photo. A complete shallow off-white handmade ceramic bowl filling 78% of frame on warm ivory linen. Camera 45 degrees above, soft window daylight from left. Natural cafe photography, appetising real food textures, abundant visible colourful ingredients. Entire bowl rim inside frame. No text, logos, utensils, hands, packaging, unrelated garnish or ingredients. Proposed test recipe concept, not final shop portion. Subject: Mediterranean Garden proposed test bowl: fluffy cooked quinoa, golden chickpeas, ripe cherry tomato halves, cucumber half moons, baby spinach, small feta cubes, a light olive oil sheen. Clearly distinguish red green white and gold elements.",
+      "generation_id": "exec-106c3cce-6381-4168-ae4d-b3cdd7a598c7.png",
+      "saved_image": "mediterranean-garden.jpg",
+      "saved_card": "mediterranean-garden-small.jpg"
+    },
+    {
+      "id": "asian-sesame-crunch",
+      "prompt": "Use case: photorealistic-natural. Asset type: ColourFuel website bowl concept photo. Landscape 3:2 editorial food photo. A complete shallow off-white handmade ceramic bowl filling 78% of frame on warm ivory linen. Camera 45 degrees above, soft window daylight from left. Natural cafe photography, appetising real food textures, abundant visible colourful ingredients. Entire bowl rim inside frame. No text, logos, utensils, hands, packaging, unrelated garnish or ingredients. Proposed test recipe concept, not final shop portion. Subject: Asian Sesame Crunch proposed test bowl: cooked brown rice, fully cooked edamame, finely shredded purple cabbage, orange carrot ribbons, cucumber half moons, chopped spring onion and toasted sesame seeds. No meat, no raw fish, no noodles.",
+      "generation_id": "exec-ddb6c3da-c64c-422a-a2e0-bfeaf2d66ba2.png",
+      "saved_image": "asian-sesame-crunch.jpg",
+      "saved_card": "asian-sesame-crunch-small.jpg"
+    },
+    {
+      "id": "coastal-colour",
+      "prompt": "Use case: photorealistic-natural. Asset type: ColourFuel website bowl concept photo. Landscape 3:2 editorial food photo. A complete shallow off-white handmade ceramic bowl filling 78% of frame on warm ivory linen. Camera 45 degrees above, soft window daylight from left. Natural cafe photography, appetising real food textures, abundant visible colourful ingredients. Entire bowl rim inside frame. No text, logos, utensils, hands, packaging, unrelated garnish or ingredients. Proposed test recipe concept, not final shop portion. Subject: Coastal Colour proposed test bowl: flaked fully cooked tuna, fluffy cooked brown rice, baby spinach, cherry tomato halves, cucumber half moons and sweetcorn. Tuna clearly flaked, no salmon, no raw fish.",
+      "generation_id": "exec-5f191de7-829f-4138-946a-4f6a1cada44a.png",
+      "saved_image": "coastal-colour.jpg",
+      "saved_card": "coastal-colour-small.jpg"
+    },
+    {
+      "id": "crispy-pork",
+      "prompt": "Use case: photorealistic-natural. Asset type: ColourFuel website bowl concept photo. Landscape 3:2 editorial food photo. A complete shallow off-white handmade ceramic bowl filling 78% of frame on warm ivory linen. Camera 45 degrees above, soft window daylight from left. Natural cafe photography, appetising real food textures, abundant visible colourful ingredients. Entire bowl rim inside frame. No text, logos, utensils, hands, packaging, unrelated garnish or ingredients. Proposed test recipe concept, not final shop portion. Subject: Crispy Pork R&D proposed test bowl: very thin small fully cooked pork shavings with crisp golden edges, cooked brown rice, finely shredded purple cabbage, carrot ribbons, cucumber half moons and baby spinach. Thin crispy pork pieces, no large pork belly cubes.",
+      "generation_id": "exec-cfe50ce7-ff48-49bf-b3f6-afeb0814ad25.png",
+      "saved_image": "crispy-pork.jpg",
+      "saved_card": "crispy-pork-small.jpg"
+    }
+  ]
+}
