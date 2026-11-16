@@ -64,3 +64,9 @@ test('all three serving images are served and disabled gzip is respected',async(
  }
  const result=await request('/api/catalog',{headers:{'accept-encoding':'gzip;q=0.0'}});assert.equal(result.headers['Content-Encoding'],undefined);
 });
+
+test('all reviewed runtime assets are served while previews and offline sources stay private',async()=>{
+ const {PUBLIC_ASSETS}=await import('./public-assets.mjs');
+ for(const name of PUBLIC_ASSETS){const result=await request('/'+name,{method:'HEAD'});assert.equal(result.status,200,name);assert.ok(Number(result.headers['Content-Length'])>0,name);assert.equal(result.body,undefined,name);}
+ for(const name of ['/fixtures/catalog-test-snapshot.json','/previews/colourfuel-bowl/index.html','/public-assets.mjs','/ingredient-photos.test.mjs','/ingredient-research.json'])assert.equal((await request(name)).status,404,name);
+});
