@@ -1,0 +1,51 @@
+{
+  "method": "Built-in image_gen",
+  "purpose": "Clearly labelled illustrative ingredient photographs",
+  "images": [
+    {
+      "id": "chicken-breast--roasted",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. Plain roasted skinless boneless chicken breast sliced into thick pieces, moist fully cooked white interior with a lightly golden surface. No sauce, herbs or side dishes. Clean white tabletop and white background, bright diffused natural daylight, close 45-degree overhead view, photorealistic food studio photograph, centered square composition, generous enough margins to show the complete ingredient. No text, logos, hands, packaging, labels, borders or unrelated ingredients. This is an illustrative ingredient image, not a verified supplier photograph.",
+      "generation_id": "exec-51934c7d-67e7-44e1-bc8a-ec6cc2d08da6.png"
+    },
+    {
+      "id": "pork-shavings--cooked",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. Plain cooked lean pork loin cut into thin lightly crisp golden pork shavings in a small white ceramic bowl. Lean meat with browned edges, no deep-frying oil pool, no garnish or side dishes. Illustrative cooking concept, not a measured product. Clean white tabletop and white background, bright diffused natural daylight, close 45-degree overhead view, photorealistic food studio photograph, centered square composition, generous enough margins to show the complete ingredient. No text, logos, hands, packaging, labels, borders or unrelated ingredients. This is an illustrative ingredient image, not a verified supplier photograph.",
+      "generation_id": "exec-4d3b978d-c904-44c0-95b1-cbd61be64594.png"
+    },
+    {
+      "id": "firm-tofu--raw",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. A plain block of uncooked firm white tofu with several clean cubes cut off it, matte porous firm bean curd texture, not silken tofu, not pressed brown tofu. No sauce or garnish. Clean white tabletop and white background, bright diffused natural daylight, close 45-degree overhead view, photorealistic food studio photograph, centered square composition, generous enough margins to show the complete ingredient. No text, logos, hands, packaging, labels, borders or unrelated ingredients. This is an illustrative ingredient image, not a verified supplier photograph.",
+      "generation_id": "exec-38129379-dfc7-4ea2-afd1-cccae99dd81e.png"
+    },
+    {
+      "id": "tuna--cooked",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. A small white ceramic bowl of canned tuna packed in water, drained pale pink-beige cooked tuna flakes, no can or label visible, no sauce, oil, herbs or other ingredients. Clean white tabletop and white background, bright diffused natural daylight, close 45-degree overhead view, photorealistic food studio photograph, centered square composition, generous enough margins to show the complete ingredient. No text, logos, hands, packaging, labels, borders or unrelated ingredients. This is an illustrative ingredient image, not a verified supplier photograph.",
+      "generation_id": "exec-53e43309-83e6-4e56-a724-d5429a4bd35d.png"
+    },
+    {
+      "id": "lemon-juice--raw",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. One small transparent glass of pale cloudy freshly squeezed lemon juice, one yellow lemon half beside it for recognition. No water dilution, no sugar, no ice, not lemonade, no straw or garnish. Clean white tabletop and white background, bright diffused natural daylight, close 45-degree overhead view, photorealistic food studio photograph, centered square composition, generous enough margins to show the complete ingredient. No text, logos, hands, packaging, labels, borders or unrelated ingredients. This is an illustrative ingredient image, not a verified supplier photograph.",
+      "generation_id": "exec-5686a574-d528-47e7-96fa-861975a2704b.png"
+    },
+    {
+      "id": "lime-juice--raw",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. One small transparent glass of pale cloudy freshly squeezed lime juice, one green lime half beside it for recognition. No sweet cordial, sugar, ice, cocktail, straw or garnish. Clean white tabletop and white background, bright diffused natural daylight, close 45-degree overhead view, photorealistic food studio photograph, centered square composition, generous enough margins to show the complete ingredient. No text, logos, hands, packaging, labels, borders or unrelated ingredients. This is an illustrative ingredient image, not a verified supplier photograph.",
+      "generation_id": "exec-f510d240-43c3-43fd-a453-5bed584ce403.png"
+    },
+    {
+      "id": "lentil--boiled",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photograph. A small plain white ceramic bowl containing ONLY plain cooked green-brown lentils, boiled unsalted lentils, separate tender intact lentils with visible texture. No onions, herbs, sauce, rice or other ingredients. Clean white background, bright soft natural daylight, close 45-degree overhead angle, realistic appetising studio food photograph, square composition, no text, logos, packaging, hands or borders. This is an illustrative ingredient image, not an exact supplier photograph.",
+      "generation_id": "exec-9982d3f9-ba6b-4b7c-9aa6-e85cbefb27b6.png"
+    },
+    {
+      "id": "chickpea--boiled",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. A small white ceramic bowl containing ONLY plain boiled unsalted chickpeas, pale beige tender whole chickpeas without seasoning. Clean white background and tabletop, bright soft natural light, close 45-degree overhead food studio photograph, square composition. No herbs, onions, sauce, lemon, flour, rice, garnish, labels, writing, logos, packaging or hands. Illustrative ingredient photo, not an exact supplier product.",
+      "generation_id": "exec-ca3c35c2-9ea6-45b4-a4a2-b0036394f6f9.png"
+    },
+    {
+      "id": "dill--raw",
+      "prompt": "Use case: product-mockup. Asset type: ColourFuel ingredient library identification photo. A small fresh bunch of dill leaves with delicate feathery green fronds and tender green stems, lying on a clean white surface. Only edible fresh dill leaves. No flowers, yellow blossoms, seeds, other herbs, food, garnish or props. Photorealistic close food studio photograph, bright soft daylight, centered square composition, no hands, labels, writing, logos or borders. Ingredient illustration, not an exact supplier photo.",
+      "generation_id": "exec-6bc1a8b7-4316-4a1b-9870-0c0baaa9c37b.png"
+    }
+  ]
+}

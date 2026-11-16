@@ -1,0 +1,10 @@
+{
+  "name": "colourfuel-bowl-concept-preview",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node preview.mjs",
+    "check": "node --check catalog-client.mjs && node --check catalog-client.test.mjs && node --check ingredient-additions.mjs && node --check ingredient-photos.mjs && node --check ingredient-photos.test.mjs && node --check menu-formulations.mjs && node --check menu-formulations.test.mjs && node --check nutrition-context.mjs && node --check nutrition-context.test.mjs && node --check passport.test.mjs && node --check preview.mjs && node --check product-content.mjs && node --check recipe-engine.mjs && node --check recipe-engine.test.mjs && node --check recipe-studio.mjs && node --check sauce-content.mjs && node --check sauce-picker.mjs && node --check supplier-ingredients.mjs && node --check app.js",
+    "test": "node --test recipe-engine.test.mjs catalog-client.test.mjs menu-formulations.test.mjs nutrition-context.test.mjs passport.test.mjs ingredient-photos.test.mjs"
+  }
+}
