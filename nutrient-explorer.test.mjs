@@ -11,12 +11,12 @@ const m={metric_id:'vitamin_c',name_en:'Vitamin C',unit:'mg'};
 const food=(id,value,extra={})=>({variant_id:id,name_en:id,nutrients:[{metric_id:'vitamin_c',unit:'mg',result:'primary_numeric',primary_value:value}],...extra});
 async function sqlCatalog(ingredients,metrics){const catalog={ingredients,metrics,read_at:'2026-11-17T00:00:00Z'};const result=await pg.query(NUTRIENT_RANKING_SQL,[JSON.stringify(catalog)]);return {...catalog,nutrient_rankings:result.rows[0].rankings};}
 async function index(foods,metrics,options){return hydrateNutrientIndex(await sqlCatalog(foods,metrics),options);}
-test('PostgreSQL computes the real catalogue ranking, including broccoli third and top 5% of 61',async()=>{
+test('PostgreSQL computes the real catalogue ranking, including broccoli seventh and top 7% of 111 after expansion',async()=>{
  const before=JSON.stringify(c);const rows=await index(c.ingredients,c.metrics);const entry=rows.get('vitamin_c');
- const broccoli=nutrientRank(rows,'broccoli--raw','vitamin_c');assert.equal(broccoli.value,89.2);assert.equal(broccoli.rank,3);assert.equal(broccoli.total,61);assert.equal(broccoli.topPercent,5);
- assert.equal(entry.coverage.positive,39);assert.equal(entry.coverage.zero,22);assert.equal(entry.coverage.incompatible,1);
- assert.ok(entry.rows.every((r,i)=>i===0||entry.rows[i-1].value>=r.value));assert.equal(entry.rows[0].food.ingredient_id,'red-chilli');
- assert.match(foodRankSummary(c.ingredients.find(i=>i.ingredient_id==='broccoli'),rows),/Top 5% in this library/);
+ const broccoli=nutrientRank(rows,'broccoli--raw','vitamin_c');assert.equal(broccoli.value,89.2);assert.equal(broccoli.rank,7);assert.equal(broccoli.total,111);assert.equal(broccoli.topPercent,7);
+ assert.equal(entry.coverage.positive,88);assert.equal(entry.coverage.zero,23);assert.equal(entry.coverage.incompatible,1);
+ assert.ok(entry.rows.every((r,i)=>i===0||entry.rows[i-1].value>=r.value));assert.equal(entry.rows[0].food.ingredient_id,'thyme');
+ assert.match(foodRankSummary(c.ingredients.find(i=>i.ingredient_id==='broccoli'),rows),/Top 7% in this library/);
  assert.match(foodRankingPanel(c.ingredients[0],rows),/not all foods worldwide/);assert.equal(JSON.stringify(c),before);
 });
 test('PostgreSQL ties use the entire peer group and exact numeric ordering',async()=>{
@@ -46,10 +46,10 @@ test('database provides both estimate policies; browser only selects the returne
 });
 test('server unifies source-backed additions and recalculates from changed data, using a read-only SQL statement',async()=>{
  const query=(text,args)=>pg.query(text,args);
- const first=await prepareWebCatalog(live,query);assert.equal(first.catalog_preparation,'server');assert.equal(first.ingredients.length,64);assert.equal(first.local_supplement_count,32);
- const prior=nutrientRank(hydrateNutrientIndex(first),'broccoli--raw','vitamin_c');assert.equal(prior.rank,3);
+ const first=await prepareWebCatalog(live,query);assert.equal(first.catalog_preparation,'server');assert.equal(first.ingredients.length,114);assert.equal(first.local_supplement_count,82);
+ const prior=nutrientRank(hydrateNutrientIndex(first),'broccoli--raw','vitamin_c');assert.equal(prior.rank,7);
  const changed=structuredClone(live);changed.ingredients.find(i=>i.ingredient_id==='broccoli').nutrients.find(n=>n.metric_id==='vitamin_c').primary_value=200;
- const second=await prepareWebCatalog(changed,query);assert.equal(nutrientRank(hydrateNutrientIndex(second),'broccoli--raw','vitamin_c').rank,1);assert.equal(prior.rank,3);
+ const second=await prepareWebCatalog(changed,query);assert.equal(nutrientRank(hydrateNutrientIndex(second),'broccoli--raw','vitamin_c').rank,1);assert.equal(prior.rank,7);
  await pg.exec('BEGIN READ ONLY');try{const readonly=await prepareWebCatalog(live,query);assert.equal(readonly.nutrient_rankings.engine,'postgresql-window-functions');}finally{await pg.exec('ROLLBACK');}
  await assert.rejects(prepareWebCatalog(live,async()=>({rows:[]})),/Invalid database rankings/);
 });

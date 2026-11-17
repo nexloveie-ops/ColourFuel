@@ -4,11 +4,11 @@ import {readFile} from 'node:fs/promises';
 import {prepareMenuCatalog} from './menu-formulations.mjs';
 import {browseIngredients,ingredientGroup} from './ingredient-library.mjs';
 const foods=prepareMenuCatalog(JSON.parse(await readFile(new URL('./fixtures/catalog-test-snapshot.json',import.meta.url)))).ingredients;
-test('all 64 preparation variants appear once in ordered food groups',()=>{
+test('all 114 preparation variants appear once in ordered food groups',()=>{
  const {groups,counts}=browseIngredients(foods);
- assert.equal(groups.length,9);assert.equal(counts.all,64);
+ assert.equal(groups.length,9);assert.equal(counts.all,114);
  const ids=groups.flatMap(g=>g.items.map(i=>i.variant_id));
- assert.equal(ids.length,64);assert.equal(new Set(ids).size,64);
+ assert.equal(ids.length,114);assert.equal(new Set(ids).size,114);
  assert.equal(ingredientGroup(foods.find(i=>i.ingredient_id==='tahini')),'pantry');
  assert.equal(ingredientGroup(foods.find(i=>i.ingredient_id==='chipotle')),'herbs-spices');
  assert.equal(ingredientGroup(foods.find(i=>i.ingredient_id==='firm-tofu')),'plant-protein');

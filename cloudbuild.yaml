@@ -54,11 +54,15 @@ steps:
             if (metric.rows.some((row,i)=>i>0 && row.value>metric.rows[i-1].value)) throw Error('Database ranking order is invalid');
           }
         }
+        for(const id of ['kiwi--raw','cauliflower--raw','bulgur--dry','beetroot--boiled','edible-pod-pea--raw']) {
+          const food=data.ingredients.find(f=>f.variant_id===id);
+          if(!food || !food.source_url || food.nutrients.length!==data.metrics.length) throw Error('Missing Irish ingredient expansion: '+id);
+        }
         for(const image of ['rainbow-chicken','vegan-power','signature-salmon']){
           const response=await fetch(root+'/'+image+'.jpg',{method:'HEAD',signal:AbortSignal.timeout(30000)});
           if(!response.ok||!response.headers.get('content-type')?.startsWith('image/jpeg'))throw Error('Missing product image: '+image);
         }
-        for (const asset of ['asian-sesame-crunch.jpg','coastal-colour.jpg','mediterranean-garden.jpg','crispy-pork.jpg','ingredient-dill--raw.jpg','ingredient-edamame--cooked.jpg','menu-formulations.mjs','sauce-picker.mjs','ingredient-photos.mjs','nutrition-context.mjs','white-theme.css']) {
+        for (const asset of ['asian-sesame-crunch.jpg','coastal-colour.jpg','mediterranean-garden.jpg','crispy-pork.jpg','ingredient-dill--raw.jpg','ingredient-edamame--cooked.jpg','menu-formulations.mjs','sauce-picker.mjs','ingredient-photos.mjs','nutrition-context.mjs','white-theme.css','ingredient-kiwi-library.jpg','ingredient-bulgur-library.jpg']) {
           const response = await fetch(root + '/' + asset, {method:'HEAD',signal:AbortSignal.timeout(30000)});
           if (!response.ok) throw Error('Missing deployed Bowl asset: ' + asset);
         }
