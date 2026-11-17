@@ -1,29 +1,21 @@
 // Comparisons use this catalogue only, the exact nutrient definition/unit and a 100 g edible basis.
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const nutrientAmount=value=>Number(value).toLocaleString('en-IE',{maximumSignificantDigits:4});
-export function buildNutrientIndex(foods,metrics,{includeEstimates=true}={}){
- return new Map(metrics.map(metric=>{
-  const coverage={total:foods.length,known:0,positive:0,zero:0,trace:0,missing:0,incompatible:0,estimatesExcluded:0,estimates:0};
-  const rows=[];
-  for(const food of foods){
-   if(food.source_basis&&food.source_basis!=='100g_food'){coverage.incompatible++;continue;}
-   const branded=Boolean(food.reported_nutrients);
-   const nutrient=(food.reported_nutrients||food.nutrients||[]).find(n=>n.metric_id===metric.metric_id);
-   if(nutrient?.result==='trace_retained'){coverage.trace++;continue;}
-   if(nutrient&&nutrient.unit!==metric.unit){coverage.incompatible++;continue;}
-   const estimated=nutrient?.result==='reference_imputation';
-   const value=branded?nutrient?.value:estimated?nutrient.filled_value:nutrient?.result==='primary_numeric'?nutrient.primary_value:null;
-   if(typeof value!=='number'||!Number.isFinite(value)||value<0){coverage.missing++;continue;}
-   if(estimated&&!includeEstimates){coverage.estimatesExcluded++;continue;}
-   coverage.known++;if(value>0)coverage.positive++;else coverage.zero++;if(estimated)coverage.estimates++;
-   rows.push({food,value,unit:metric.unit,estimated,kind:estimated?'Reference estimate':branded?'Manufacturer reference':'Source value'});
-  }
-  rows.sort((a,b)=>b.value-a.value||a.food.name_en.localeCompare(b.food.name_en,'en-IE')||a.food.variant_id.localeCompare(b.food.variant_id));
-  for(let i=0;i<rows.length;){let end=i+1;while(end<rows.length&&rows[end].value===rows[i].value)end++;
-   for(let j=i;j<end;j++)Object.assign(rows[j],{rank:i+1,tied:end-i,total:rows.length,topPercent:Math.ceil(end/rows.length*100)});
-   i=end;
-  }
-  return [metric.metric_id,{metric,rows,coverage,includeEstimates}];
+// Hydrate database results for rendering only: no browser sorting, ranking or percentile calculation.
+export function hydrateNutrientIndex(catalog,{includeEstimates=true}={}){
+ const response=catalog.nutrient_rankings;
+ if(response?.engine!=='postgresql-window-functions'||response.basis!=='100g_edible'||response.catalog_read_at!==catalog.read_at)throw Error('Database nutrient rankings unavailable');
+ const foods=new Map(catalog.ingredients.map(food=>[food.variant_id,food]));
+ const entries=new Map((includeEstimates?response.with_estimates:response.source_only).map(entry=>[entry.metric_id,entry]));
+ return new Map(catalog.metrics.map(metric=>{
+  const entry=entries.get(metric.metric_id);if(!entry||entry.coverage.total!==foods.size)throw Error('Incomplete database ranking coverage');
+  const rows=entry.rows.map(row=>{
+   const food=foods.get(row.variant_id);
+   if(!food||row.unit!==metric.unit||typeof row.value!=='number'||!Number.isFinite(row.value)||row.value<0||!Number.isInteger(row.rank)||row.rank<1||row.total!==entry.coverage.known||!Number.isInteger(row.topPercent)||row.topPercent<1||row.topPercent>100)throw Error('Invalid database ranking row');
+   return {...row,food};
+  });
+  if(rows.length!==entry.coverage.known)throw Error('Incomplete database ranking rows');
+  return [metric.metric_id,{metric,rows,coverage:entry.coverage,includeEstimates}];
  }));
 }
 export function nutrientRank(index,variantId,metricId){return index.get(metricId)?.rows.find(row=>row.food.variant_id===variantId)||null;}

@@ -2,18 +2,21 @@
   "name": "colourfuel-web",
   "version": "0.1.0",
   "private": true,
-  "description": "ColourFuel \u2014 healthy bowls, fresh energy. Ireland market design preview.",
+  "description": "ColourFuel — healthy bowls, fresh energy. Ireland market design preview.",
   "type": "module",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check catalog-client.mjs && node --check db.mjs && node --check ingredient-additions.mjs && node --check irish-shopping.mjs && node --check ingredient-library.mjs && node --check ingredient-photos.mjs && node --check menu-formulations.mjs && node --check nutrient-explorer.mjs && node --check nutrition-context.mjs && node --check product-content.mjs && node --check public-assets.mjs && node --check recipe-engine.mjs && node --check recipe-studio.mjs && node --check sauce-content.mjs && node --check sauce-picker.mjs && node --check server.mjs && node --check supplier-ingredients.mjs && node --check app.js",
+    "check": "node --check catalog-client.mjs && node --check web-catalog.mjs && node --check nutrient-ranking-query.mjs && node --check db.mjs && node --check ingredient-additions.mjs && node --check irish-shopping.mjs && node --check ingredient-library.mjs && node --check ingredient-photos.mjs && node --check menu-formulations.mjs && node --check nutrient-explorer.mjs && node --check nutrition-context.mjs && node --check product-content.mjs && node --check public-assets.mjs && node --check recipe-engine.mjs && node --check recipe-studio.mjs && node --check sauce-content.mjs && node --check sauce-picker.mjs && node --check server.mjs && node --check supplier-ingredients.mjs && node --check app.js",
     "test": "node --test server.test.mjs recipe-engine.test.mjs catalog-client.test.mjs menu-formulations.test.mjs nutrition-context.test.mjs passport.test.mjs ingredient-photos.test.mjs ingredient-library.test.mjs irish-shopping.test.mjs nutrient-explorer.test.mjs"
   },
   "dependencies": {
     "@google-cloud/cloud-sql-connector": "1.13.0",
     "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16"
   }
 }
