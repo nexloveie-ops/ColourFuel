@@ -23,3 +23,23 @@ body,.header,.footer,dialog,.sauce-card,.recipe-card,.catalog-item{background:#f
 .food-dot.red,.food-dot.coral,.colour-filter[data-color=red] i{background:var(--red)}
 /* Leaf icon + explicit dietary text remains readable without relying on colour. */
 .dietary-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;background:#edf3ff;border:1px solid #c2d1f3;color:#254da4;border-radius:30px;font:600 11px/1.3 var(--sans);vertical-align:middle}.dietary-badge svg{width:17px;height:17px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.dietary-badge.vegetarian{background:#f5efff;color:#684194;border-color:#dbcaef}.product-art>.dietary-badge{position:absolute;top:12px;left:12px;z-index:2;box-shadow:0 2px 9px #202d5214;background:#fffffff5}.dietary-note{font-size:11px!important;line-height:1.7!important;color:var(--muted);max-width:430px;margin:9px 0 14px}.studio-title .dietary-badge{margin-top:12px}.bowl-intro>.dietary-badge{margin-bottom:5px}@media(max-width:700px){.product-art>.dietary-badge{top:10px;left:10px;font-size:11px;padding:7px 10px}}
+
+/* Food groups and consistently filled, 4:3 library photographs. */
+.ingredient-filters{display:flex;flex-wrap:wrap;gap:9px;margin:8px 0 18px}
+.ingredient-filters button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:24px;padding:10px 15px;background:#fff;color:var(--ink);font:500 12px/1.4 var(--sans);cursor:pointer}
+.ingredient-filters button:hover{border-color:var(--forest);background:#f6f8ff}
+.ingredient-filters button[aria-pressed=true]{background:#fff2b6;border-color:#d9b32b;color:#403713}
+.ingredient-filters button:focus-visible,.catalog-item:focus-visible{outline:3px solid var(--forest);outline-offset:3px}
+.ingredient-category-count{font-size:10px;min-width:19px;padding:2px 5px;border-radius:20px;background:#f0f2fa;color:#545b77}
+.ingredient-result-count{font-size:12px;line-height:1.7;color:var(--muted);margin-bottom:30px}
+.ingredient-group-heading{display:flex;align-items:baseline;gap:15px;border-top:1px solid var(--line);padding-top:25px;margin-bottom:10px}
+.ingredient-group-heading:before{content:'';width:7px;height:25px;background:var(--red);border-radius:6px;align-self:center;flex-shrink:0}
+.ingredient-group:nth-child(3n+2) .ingredient-group-heading:before{background:var(--forest)}
+.ingredient-group:nth-child(3n) .ingredient-group-heading:before{background:var(--berry)}
+.ingredient-group-heading h2{font:500 31px/1.25 var(--serif);margin:0}
+.ingredient-group-heading>span{font-size:11px;color:var(--muted)}
+.ingredient-group .catalog-grid{padding-bottom:38px}
+.catalog-item .ingredient-card-photo{width:100%;height:auto;aspect-ratio:4/3}
+.catalog-item .ingredient-card-photo img{width:100%;height:100%;object-fit:cover;padding:0}
+.catalog-item .ingredient-card-copy{flex:1;min-height:142px}
+@media(max-width:600px){.ingredient-filters{gap:7px}.ingredient-filters button{font-size:11px;padding:9px 11px}.ingredient-group-heading h2{font-size:26px}.ingredient-group-heading{gap:10px}.ingredient-group-heading>span{font-size:10px}.catalog-item .ingredient-card-copy{min-height:150px}.ingredient-group .catalog-grid{padding-bottom:27px}}
