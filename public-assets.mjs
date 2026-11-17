@@ -93,6 +93,7 @@ export const PUBLIC_ASSETS=[
   "mediterranean-garden.jpg",
   "menu-formulations.mjs",
   "nutrition-context.mjs",
+  "nutrient-explorer.mjs",
   "product-content.mjs",
   "rainbow-chicken-small.jpg",
   "rainbow-chicken.jpg",

@@ -7,6 +7,7 @@ ColourFuel's Ireland-market Bowl concept website combines a visual menu, source-
 - Eight Bowl concepts with requested target prices; Crispy Pork and Signature Salmon are R&D and unavailable to order. No Wrap products.
 - Suggested edible gram weights, Protein+ and Active Day test presets, and one required sauce with recommended pairings and alternatives.
 - Searchable ingredient library with 64 photo-backed records, source provenance, neutral nutrition context and adult reference comparisons.
+- Nutrient-first browsing for all 33 tracked definitions, descending per-100-g lists, per-ingredient relative ranks and an estimate-inclusion switch. Rankings use only comparable numerical records in this library, with ties, source coverage and raw/cooked states explicit.
 - Irish buying references for all 64 preparation records (62 ingredient types): 69 product references and one Lidl chicken-range reference, with retailer filtering, pack sizes, review dates and explicit preparation/brand differences. M&S and Donnybrook Fair have separately labelled store-enquiry links.
 - Recipe browsing, browser-local saved recipes/version history, sharing and Nutrition Passport download/print.
 - White canvas with yellow, blue, purple and cherry red accents. Vegan-base and vegetarian-concept badges distinguish suitable base recipes; sauces, additions and vegetarian-suitable feta need their own checks.
@@ -20,6 +21,12 @@ Use Node 22. Run `npm ci --ignore-scripts`, `npm run check` and `npm test`. `npm
 For a localhost review without cloud credentials, `cd previews/colourfuel-bowl && npm start` reads the existing public catalogue using a read-only proxy. The archive in `fixtures/` is an offline test fixture and is never a live nutrition fallback.
 
 The UI combines live catalogue records with versioned, source-backed additions in `ingredient-additions.mjs` and `supplier-ingredients.mjs`. Publication does not execute migrations or write these additions into Cloud SQL. Unknown, trace, basis and source-definition differences remain explicit.
+
+## Nutrient comparisons
+
+`nutrient-explorer.mjs` calculates ranks from the currently loaded catalogue, not a global foods database. Only the same metric ID, unit and per-100-g edible basis enter a comparison. Known zeros count in the comparison pool; only positive amounts are listed as containing the nutrient. Missing, trace, non-numerical limits, incompatible units/bases and estimates excluded by the visitor remain outside that pool. Manufacturer references retain their source kind. Per-100-ml records need a verified density conversion and are excluded.
+
+Rank is one plus the number of strictly greater values. Ties share a rank; the top percentage includes the whole tied group and rounds upward to an integer. A percentile badge needs at least ten numerical records. The three ingredient highlights are selected from vitamins, minerals, protein and fibre by relative position. Raw/cooked/dried states are separate preparation records; this is concentration, not a serving recommendation, an overall health score or a regulated nutrition claim. Ingredient search, food groups and retailer filters do not change the global library comparison pool. Nutrient routes can be linked directly, e.g. `#ingredients/nutrient/vitamin_c`.
 
 ## Irish buying references
 
