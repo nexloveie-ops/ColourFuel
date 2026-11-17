@@ -46,6 +46,14 @@ steps:
         if (!response.ok) throw Error('Live catalogue HTTP check failed');
         const data = await response.json();
         if (data.data_mode !== 'live' || !data.ingredients?.length || !data.recipes?.length) throw Error('Invalid live catalogue');
+        if (data.catalog_preparation !== 'server' || data.nutrient_rankings?.engine !== 'postgresql-window-functions' || data.nutrient_rankings.catalog_read_at !== data.read_at) throw Error('PostgreSQL rankings were not deployed');
+        for (const policy of ['with_estimates','source_only']) {
+          if (data.nutrient_rankings[policy]?.length !== data.metrics.length) throw Error('Incomplete database ranking metrics');
+          for (const metric of data.nutrient_rankings[policy]) {
+            if (metric.coverage.total !== data.ingredients.length || metric.rows.length !== metric.coverage.known) throw Error('Incomplete database ranking population');
+            if (metric.rows.some((row,i)=>i>0 && row.value>metric.rows[i-1].value)) throw Error('Database ranking order is invalid');
+          }
+        }
         for(const image of ['rainbow-chicken','vegan-power','signature-salmon']){
           const response=await fetch(root+'/'+image+'.jpg',{method:'HEAD',signal:AbortSignal.timeout(30000)});
           if(!response.ok||!response.headers.get('content-type')?.startsWith('image/jpeg'))throw Error('Missing product image: '+image);

@@ -1,3 +1,4 @@
+import {prepareWebCatalog} from './web-catalog.mjs';
 // Authentication uses the Cloud Run service identity; no database password is used.
 let poolPromise;
 let connector;
@@ -38,7 +39,7 @@ async function queryCatalog() {
   if (!payload || payload.data_mode !== 'live' || !Array.isArray(payload.ingredients) || !Array.isArray(payload.recipes)) {
     throw new Error('Invalid live catalogue');
   }
-  return payload;
+  return prepareWebCatalog(payload,(text,values)=>pool.query(text,values));
 }
 
 let pendingCatalog;

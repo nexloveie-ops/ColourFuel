@@ -70,3 +70,7 @@ test('all reviewed runtime assets are served while previews and offline sources 
  for(const name of PUBLIC_ASSETS){const result=await request('/'+name,{method:'HEAD'});assert.equal(result.status,200,name);assert.ok(Number(result.headers['Content-Length'])>0,name);assert.equal(result.body,undefined,name);}
  for(const name of ['/fixtures/catalog-test-snapshot.json','/previews/colourfuel-bowl/index.html','/public-assets.mjs','/ingredient-photos.test.mjs','/ingredient-research.json'])assert.equal((await request(name)).status,404,name);
 });
+
+test('database query modules and server catalogue preparation are never public assets',async()=>{
+ for(const path of ['/nutrient-ranking-query.mjs','/web-catalog.mjs'])assert.equal((await request(path)).status,404);
+});
