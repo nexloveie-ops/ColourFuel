@@ -10,3 +10,10 @@ node_modules
 previews
 fixtures
 *.test.mjs
+
+# Import sources stay in version control; deployed server reads persistent tables only.
+migrations
+ingredient-additions.mjs
+supplier-ingredients.mjs
+irish-ingredient-expansion.mjs
+research

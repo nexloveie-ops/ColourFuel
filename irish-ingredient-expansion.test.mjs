@@ -1,7 +1,8 @@
+import './fixtures/catalog-presentation.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
 import {IRISH_INGREDIENT_ADDITIONS} from './irish-ingredient-expansion.mjs';
 import {IRISH_BUYING_REFERENCES} from './irish-shopping.mjs';
-import {prepareMenuCatalog} from './menu-formulations.mjs';
+import {prepareMenuCatalog} from './fixtures/prepare-test-catalog.mjs';
 import {calculate} from './recipe-engine.mjs';
 const live=JSON.parse(await readFile(new URL('./fixtures/catalog-test-snapshot.json',import.meta.url)));
 test('50 distinct source-matched foods have independently attributable Irish buying evidence',()=>{

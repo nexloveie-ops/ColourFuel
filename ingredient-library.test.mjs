@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {prepareMenuCatalog} from './menu-formulations.mjs';
+import {prepareMenuCatalog} from './fixtures/prepare-test-catalog.mjs';
 import {browseIngredients,ingredientGroup} from './ingredient-library.mjs';
 const foods=prepareMenuCatalog(JSON.parse(await readFile(new URL('./fixtures/catalog-test-snapshot.json',import.meta.url)))).ingredients;
 test('all 114 preparation variants appear once in ordered food groups',()=>{

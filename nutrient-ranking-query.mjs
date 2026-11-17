@@ -1,5 +1,5 @@
 // A read-only, parameterized PostgreSQL query. Percentages are query results, never stored fields.
-// $1 is the checked catalogue snapshot, including explicitly versioned supplemental records.
+// $1 is the checked catalogue snapshot, read entirely from persistent catalogue tables.
 export const NUTRIENT_RANKING_SQL=`
 WITH modes(include_estimates) AS (VALUES (true),(false)),
 foods AS (SELECT f FROM jsonb_array_elements($1::jsonb->'ingredients') f),
