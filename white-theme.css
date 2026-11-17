@@ -43,3 +43,29 @@ body,.header,.footer,dialog,.sauce-card,.recipe-card,.catalog-item{background:#f
 .catalog-item .ingredient-card-photo img{width:100%;height:100%;object-fit:cover;padding:0}
 .catalog-item .ingredient-card-copy{flex:1;min-height:142px}
 @media(max-width:600px){.ingredient-filters{gap:7px}.ingredient-filters button{font-size:11px;padding:9px 11px}.ingredient-group-heading h2{font-size:26px}.ingredient-group-heading{gap:10px}.ingredient-group-heading>span{font-size:10px}.catalog-item .ingredient-card-copy{min-height:150px}.ingredient-group .catalog-grid{padding-bottom:27px}}
+
+/* Irish shopping references sit alongside the ingredient facts. */
+.ingredient-shopping-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:20px 0 15px;font-size:12px;color:var(--muted)}
+.ingredient-shopping-toolbar label{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--ink)}
+.ingredient-shopping-toolbar select{max-width:100%;padding:11px 32px 11px 12px;border:1px solid #cbd4e7;border-radius:6px;background:#fff;color:var(--ink);font:inherit}
+.irish-shopping-guide{border:1px solid #e5e0f1;border-radius:7px;background:#fbf9ff;padding:15px 18px;margin:0 0 24px;font-size:12px;line-height:1.8}
+.irish-shopping-guide summary{cursor:pointer;color:var(--berry);font-weight:600}
+.irish-shopping-guide p{color:var(--muted);font-size:11px;line-height:1.8}
+.retailer-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.retailer-guide-grid article{padding:15px;background:white;border:1px solid var(--line);border-radius:5px}
+.retailer-guide-grid a{color:var(--forest);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.retailer-guide-grid span{display:block;font-size:10px;color:var(--berry);margin-top:5px}
+.catalog-item .ingredient-buying-summary{display:block;color:#6c5089;font-size:10px;line-height:1.7;padding:9px 12px 0 0;margin-top:10px;border-top:1px solid var(--line)}
+.catalog-item .ingredient-card-copy{min-height:182px}
+.ingredient-buying-panel{margin:22px 0 28px;border:1px solid #d9e0f2;border-top:3px solid var(--forest);padding:22px;background:#f9faff;border-radius:6px}
+.ingredient-buying-panel h3{font:500 28px/1.3 var(--serif);margin:10px 0}
+.ingredient-buying-panel>p,.ingredient-buying-panel li p{font-size:11px;line-height:1.8;color:var(--muted)}
+.ingredient-buying-panel ul{list-style:none;padding:0;margin:18px 0}
+.ingredient-buying-panel li{padding:17px 0;border-top:1px solid #dbe2f2}
+.buying-option-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+.buying-match{font-size:10px;color:#6f5189;background:#f0eafd;padding:3px 8px;border-radius:20px}
+.ingredient-buying-panel li>a{display:inline-block;font-size:13px;color:var(--forest);text-decoration:underline;text-underline-offset:3px;line-height:1.6;margin:10px 0 4px}
+.ingredient-buying-panel li>small{display:block;font-size:10px;color:var(--muted)}
+.ingredient-buying-panel .buying-scope-note{padding:12px;background:#fff8dc;border-radius:4px;color:#665725;margin-bottom:0}
+@media(max-width:700px){.ingredient-shopping-toolbar{align-items:flex-start;flex-direction:column;gap:10px}.retailer-guide-grid{grid-template-columns:1fr 1fr}.ingredient-buying-panel{padding:17px}.ingredient-buying-panel h3{font-size:25px}.catalog-item .ingredient-card-copy{min-height:195px}.ingredient-buying-summary{overflow-wrap:anywhere}}
+@media(max-width:420px){.retailer-guide-grid{grid-template-columns:1fr}}

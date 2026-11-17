@@ -65,6 +65,7 @@ export const PUBLIC_ASSETS=[
   "ingredient-parmesan--ready_to_eat.jpg",
   "ingredient-photos.mjs",
   "ingredient-library.mjs",
+  "irish-shopping.mjs",
   "ingredient-pine-nut--dried.jpg",
   "ingredient-plain-yogurt--ready_to_eat.jpg",
   "ingredient-pork-shavings--cooked.jpg",
