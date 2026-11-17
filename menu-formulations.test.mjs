@@ -8,7 +8,7 @@ import {fromCatalog,calculate,requireSauce,encodeShare,decodeShare,applyPreset} 
 const live=JSON.parse(await readFile(new URL('./fixtures/catalog-test-snapshot.json',import.meta.url)));
 const c=prepareMenuCatalog(live);
 test('all eight bowls have editable sourced quantities without changing the live snapshot',()=>{
- assert.equal(PRODUCTS.length,8);assert.equal(live.ingredients.length,32);assert.equal(c.ingredients.length,64);
+ assert.equal(PRODUCTS.length,8);assert.equal(live.ingredients.length,32);assert.equal(c.ingredients.length,114);
  for(const p of PRODUCTS){const r=fromCatalog(c.recipes.find(r=>r.recipe_id===p.recipe_id));assert.ok(r.items.length>=6);for(const row of r.items){assert.ok(row.grams>0);const i=c.ingredients.find(i=>i.variant_id===row.variant_id);assert.ok(i.source_food_id);assert.ok(i.nutrients.length)}assert.ok(calculate(r,c,{includeSauce:false}).metrics.energy_reported.perServing>0);assert.equal(calculate(r,c).metrics.energy_reported.perServing,null);assert.throws(()=>requireSauce(r,c),/required sauce/);}
 });
 test('every sauce can be chosen, weights survive sharing, and unknown sauce nutrients cannot become zero',()=>{
