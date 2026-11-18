@@ -20,7 +20,7 @@ Use Node 22. Run `npm ci --ignore-scripts`, `npm run check` and `npm test`. `npm
 
 For a localhost review without cloud credentials, `cd previews/colourfuel-bowl && npm start` reads the existing public catalogue using a read-only proxy. The archive in `fixtures/` is an offline test fixture and is never a live nutrition fallback.
 
-The server combines live catalogue records with versioned, source-backed additions in `ingredient-additions.mjs` and `supplier-ingredients.mjs`. Publication does not execute migrations or write these additions into Cloud SQL. Unknown, trace, basis and source-definition differences remain explicit.
+The current production revision combines live catalogue records with versioned, source-backed additions. This branch removes that file merge after migration 006; publication itself never executes database migrations. Unknown, trace, basis and source-definition differences remain explicit.
 
 ## Nutrient comparisons
 
@@ -28,7 +28,7 @@ The server reads the persistent `colourfuel_web.catalog` projection and checks m
 
 Rank is one plus the number of strictly greater values. Ties share a rank; the top percentage includes the whole tied group and rounds upward to an integer. A percentile badge needs at least ten numerical records. The three ingredient highlights are selected from vitamins, minerals, protein and fibre using the database-returned relative positions. Raw/cooked/dried states are separate preparation records; this is concentration, not a serving recommendation, an overall health score or a regulated nutrition claim. Ingredient search, food groups and retailer filters do not change the global library comparison pool. Nutrient routes can be linked directly, e.g. `#ingredients/nutrient/vitamin_c`.
 
-This branch requires the transactional migration in `migrations/`. It has been prepared and locally tested but is NOT yet applied to Cloud SQL or deployed: Cloud Shell credential authorization awaits explicit user approval. The migration persists all 114 preparation records (including the 82 former supplements) plus 3,661 nutrient observations, 114 photo records and 120 buying references. It retains the old normalized source data and recipes, records a checksum and original view definition for recovery, and preserves the existing SELECT-only runtime permission. See `migrations/README.md` for the verified execution and rollback order. Migration fixtures and the old ingredient modules are excluded from the deployed runtime; no file fallback is permitted.
+This branch requires the transactional migration in `migrations/`. It was imported into Cloud SQL and verified on 18 November 2026 (operation `d471bdf0-6936-485e-bd70-000b00000024`, completed `21:42:56.477Z`); this application release switches production to those tables. The migration persists all 114 preparation records (including the 82 former supplements) plus 3,661 nutrient observations, 114 photo records and 120 buying references. It retains the old normalized source data and recipes, records a checksum and original view definition for recovery, and preserves the existing SELECT-only runtime permission. See `migrations/README.md` for the verified execution and rollback order. Migration fixtures and the old ingredient modules are excluded from the deployed runtime; no file fallback is permitted.
 
 ## Irish buying references
 
@@ -50,4 +50,4 @@ The first broader-market batch adds 50 distinct ingredients beyond the Bowl menu
 
 The original `irish-ingredient-expansion.mjs` is retained solely as historical import evidence and for offline regressions; it is excluded from the runtime container. No fixed percentile is stored, and the growing population changes rankings automatically (e.g. broccoli Vitamin C: 89.2 mg/100 g, rank 7 of 111 comparable records, Top 7% with estimates in this release). Catalogue counts and ranking coverage come from the returned snapshot. Existing Bowl formulations, required sauces and sharing retain their previous behavior.
 
-This is an expanding researched catalogue, not an exhaustive inventory of foods sold in Ireland. The prepared persistence migration replaces the previous 32-database-plus-82-supplement arrangement; deployment must wait for a verified Cloud SQL import. The runtime database identity stays read-only.
+This is an expanding researched catalogue, not an exhaustive inventory of foods sold in Ireland. The verified persistence migration replaces the previous 32-database-plus-82-supplement arrangement. The runtime database identity stays read-only.

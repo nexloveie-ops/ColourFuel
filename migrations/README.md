@@ -1,6 +1,10 @@
 # Persistent ingredient catalogue migration
 
-Status: prepared and locally verified; NOT imported into Cloud SQL or deployed. Cloud Shell credential authorization is awaiting explicit user approval after automatic review rejected it.
+Status: imported and verified in Cloud SQL on 18 November 2026. Import operation `d471bdf0-6936-485e-bd70-000b00000024` completed `DONE` without error at `2026-11-18T21:42:56.477Z`. Application deployment follows the import.
+
+The imported object is `gs://colourfuel-nutrition-import-721850220313/migrations/006-persistent-catalog-1d27e702-20261118.sql`; SQL SHA-256 is `b0dab229af4a186e7ab76d7ee113b4078ed6fbe5d572629ab01c07e602cf7690`. Live API verification matched all 3,661 source nutrient observations, all 114 database records, 114 photo records, 9 retailers and 120 buying references. Transactional SQL assertions checked table counts, unknown iodine, per-100-ml vinegar and unchanged runtime privileges before commit. The separate read-only verification script remains available for operators; it was not used as the evidence for this import.
+
+Pre-import recovery checks: the existing Free Trial instance rejects manual backups (HTTP 400). SQL export to the existing private import bucket was rejected because the instance service account lacks bucket write permission (HTTP 412). No permissions were expanded. The migration is additive and transactional, preserves the original tables and exact catalogue view definition, and includes a non-destructive rollback; these are not a full database backup.
 
 `006_persistent_catalog.sql` imports the public catalogue captured in `fixtures/persistent-catalog-source.json`. Source SHA-256 is `42d2bf93fc425adc56021be63cb60188c10dc3ca4013e69e7131da39967fb211`.
 
@@ -12,7 +16,7 @@ Before committing, SQL checks the database name, original record IDs, food state
 
 Local tests run the exact import on embedded PostgreSQL with only the database-name guard adapted from `colourfuel` to PGlite's `postgres`; the unmodified guard is tested to reject a wrong database. Tests compare every food/nutrient/source/reference/photo/retail field, change a database amount to verify that ranks change without file merging, verify read-only runtime access, reject source drift and execute rollback.
 
-Execution order after credential approval:
+Execution order:
 
 1. Confirm the existing Google Cloud project `project-4e0cb90b-8fb2-452b-9f0`, instance `colourfuel-dev-postgres`, database `colourfuel` and authenticated operator. Create a pre-migration backup using the existing project permissions.
 2. Upload the exact reviewed SQL to the existing private import bucket `colourfuel-nutrition-import-721850220313` under a new migration-specific object name. Do not change bucket access or database grants.
