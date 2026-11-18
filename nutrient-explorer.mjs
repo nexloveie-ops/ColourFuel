@@ -22,7 +22,7 @@ export function nutrientRank(index,variantId,metricId){return index.get(metricId
 export function rankLabel(row){return row.total>=10&&row.value>0&&row.topPercent<=25?`Top ${row.topPercent}% in this library`:`Rank ${row.rank} of ${row.total} in this library`;}
 export function nutrientRankNote(food,metricId,index){
  const row=nutrientRank(index,food.variant_id,metricId);if(!row||row.value<=0)return '';
- return `<div class="nutrient-library-position"><strong>${esc(rankLabel(row))}</strong><small>${row.tied>1?'Tied rank':'Rank'} ${row.rank} of ${row.total} comparable entries · per 100 g${row.tied>1?` · ${row.tied} entries tied`:''}${row.estimated?' · includes a reference estimate':''}</small><button class="inline-link" data-action="explore-nutrient" data-metric="${esc(metricId)}">Compare all ${esc(index.get(metricId).metric.name_en)} ingredients ↗</button></div>`;
+ return `<div class="nutrient-library-position"><strong>${esc(rankLabel(row))}</strong><small>${row.tied>1?'Tied rank':'Rank'} ${row.rank} of ${row.total} comparable entries · per 100 g${row.tied>1?` · ${row.tied} entries tied`:''}${row.estimated?' · includes a reference estimate':''}</small><button class="inline-link" data-action="explore-nutrient" data-metric="${esc(metricId)}">Compare all ${esc(index.get(metricId).metric.name_en)} ingredients</button></div>`;
 }
 const highlightIds=['protein','fibre_total_dietary','vitamin_c','calcium','iron','magnesium','potassium','zinc','copper','manganese','selenium','iodine','chloride','biotin','thiamin','riboflavin','niacin','pantothenic_acid','vitamin_b6','vitamin_b12','vitamin_k1','folate_total','phosphorus'];
 export function foodRankingHighlights(food,index){
