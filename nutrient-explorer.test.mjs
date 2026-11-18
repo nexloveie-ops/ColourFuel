@@ -1,6 +1,7 @@
+import {persistentFixture} from './fixtures/catalog-presentation.mjs';
 import test,{after} from 'node:test';import assert from 'node:assert/strict';import{readFile}from'node:fs/promises';
 import{PGlite}from'@electric-sql/pglite';
-import{prepareMenuCatalog}from'./menu-formulations.mjs';
+import{prepareMenuCatalog}from'./fixtures/prepare-test-catalog.mjs';
 import{prepareWebCatalog}from'./web-catalog.mjs';
 import{NUTRIENT_RANKING_SQL}from'./nutrient-ranking-query.mjs';
 import{hydrateNutrientIndex,nutrientRank,rankLabel,foodRankingPanel,foodRankSummary,nutrientAmount}from'./nutrient-explorer.mjs';
@@ -46,10 +47,10 @@ test('database provides both estimate policies; browser only selects the returne
 });
 test('server unifies source-backed additions and recalculates from changed data, using a read-only SQL statement',async()=>{
  const query=(text,args)=>pg.query(text,args);
- const first=await prepareWebCatalog(live,query);assert.equal(first.catalog_preparation,'server');assert.equal(first.ingredients.length,114);assert.equal(first.local_supplement_count,82);
+ const first=await prepareWebCatalog(persistentFixture(live),query);assert.equal(first.catalog_preparation,'server');assert.equal(first.ingredients.length,114);assert.equal(first.local_supplement_count,0);
  const prior=nutrientRank(hydrateNutrientIndex(first),'broccoli--raw','vitamin_c');assert.equal(prior.rank,7);
- const changed=structuredClone(live);changed.ingredients.find(i=>i.ingredient_id==='broccoli').nutrients.find(n=>n.metric_id==='vitamin_c').primary_value=200;
+ const changed=persistentFixture(live);changed.ingredients.find(i=>i.ingredient_id==='broccoli').nutrients.find(n=>n.metric_id==='vitamin_c').primary_value=200;
  const second=await prepareWebCatalog(changed,query);assert.equal(nutrientRank(hydrateNutrientIndex(second),'broccoli--raw','vitamin_c').rank,1);assert.equal(prior.rank,7);
- await pg.exec('BEGIN READ ONLY');try{const readonly=await prepareWebCatalog(live,query);assert.equal(readonly.nutrient_rankings.engine,'postgresql-window-functions');}finally{await pg.exec('ROLLBACK');}
- await assert.rejects(prepareWebCatalog(live,async()=>({rows:[]})),/Invalid database rankings/);
+ await pg.exec('BEGIN READ ONLY');try{const readonly=await prepareWebCatalog(persistentFixture(live),query);assert.equal(readonly.nutrient_rankings.engine,'postgresql-window-functions');}finally{await pg.exec('ROLLBACK');}
+ await assert.rejects(prepareWebCatalog(persistentFixture(live),async()=>({rows:[]})),/Invalid database rankings/);
 });

@@ -1,6 +1,3 @@
-import {IRISH_INGREDIENT_ADDITIONS} from './irish-ingredient-expansion.mjs';
-import {SUPPLIER_INGREDIENTS,SUPPLIER_DATASET} from './supplier-ingredients.mjs';
-import {INGREDIENT_ADDITIONS,EXTRA_METRICS,EXTRA_VALUES} from './ingredient-additions.mjs';
 import {PRODUCTS} from './product-content.mjs';
 import {SAUCES} from './sauce-content.mjs';
 import {calculate,fromCatalog,applyPreset} from './recipe-engine.mjs';
@@ -38,12 +35,9 @@ function completeMenuPresets(data){
   }
  }
 }
-export function prepareMenuCatalog(live){
+// Recipes remain concept formulations; ingredients and nutrient values are supplied by the database.
+export function prepareMenuRecipes(live){
  const data=structuredClone(live);data.sauces=structuredClone(SAUCES);
- for(const food of [...INGREDIENT_ADDITIONS,...SUPPLIER_INGREDIENTS,...IRISH_INGREDIENT_ADDITIONS]){if(!data.ingredients.some(i=>i.variant_id===food.variant_id))data.ingredients.push(structuredClone(food));}
- for(const m of EXTRA_METRICS)if(!data.metrics.some(x=>x.metric_id===m.metric_id))data.metrics.push(structuredClone(m));
- for(const food of data.ingredients)for(const n of EXTRA_VALUES[food.record_id]||[]){if(!food.nutrients.some(x=>x.metric_id===n.metric_id))food.nutrients.push(structuredClone(n));}
- data.local_supplement_count=INGREDIENT_ADDITIONS.length+SUPPLIER_INGREDIENTS.length+IRISH_INGREDIENT_ADDITIONS.length;if(!data.datasets.some(d=>d.dataset_id===SUPPLIER_DATASET.dataset_id))data.datasets.push(structuredClone(SUPPLIER_DATASET));
  for(const p of PRODUCTS){
   const weights=FORMULATIONS[p.product_id];
   const recipe={recipe_id:p.recipe_id,title_en:p.name,bowl_product_id:p.product_id,version:1,servings:1,minutes:null,category:'Sample bowls',origin:'ColourFuel suggested test formulation v1',status:'proposed_test_formulation',description:p.description,image:p.image,colors:[],steps:['Use the food state listed for each ingredient. The quantities are edible weights for one suggested test bowl.','Select one required sauce and its test weight. Final kitchen method, yield, nutrition and allergen review are pending.'],nutrition_method:'Ingredient estimates; unverified ingredients and sauces stay incomplete',items:weights.map(([id,grams],index)=>{const i=data.ingredients.find(i=>i.variant_id===id);if(!i)throw Error('Missing ingredient '+id);return {line_no:index+1,variant_id:id,edible_grams:grams,name:i.name_en,state:i.state,edible_description:i.edible_description,record_id:i.record_id,dataset_id:i.dataset_id,source_name:i.source_name,source_food_id:i.source_food_id,source_url:i.source_url};})};

@@ -72,5 +72,5 @@ test('all reviewed runtime assets are served while previews and offline sources 
 });
 
 test('database query modules and server catalogue preparation are never public assets',async()=>{
- for(const path of ['/nutrient-ranking-query.mjs','/web-catalog.mjs','/irish-ingredient-expansion.mjs','/research/ireland-expansion-2026-11-17.json'])assert.equal((await request(path)).status,404);
+ for(const path of ['/nutrient-ranking-query.mjs','/web-catalog.mjs','/irish-ingredient-expansion.mjs','/research/ireland-expansion-2026-11-17.json','/persistent-catalog.mjs','/migrations/006_persistent_catalog.sql','/ingredient-additions.mjs','/supplier-ingredients.mjs'])assert.equal((await request(path)).status,404);
 });

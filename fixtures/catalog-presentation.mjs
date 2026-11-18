@@ -1,0 +1,6 @@
+// Offline regression presentation data, never deployed.
+import{readFile}from'node:fs/promises';import{hydrateIngredientPhotos}from'../ingredient-photos.mjs';import{hydrateIrishShopping}from'../irish-shopping.mjs';
+export const source=JSON.parse(await readFile(new URL('./persistent-catalog-source.json',import.meta.url)));
+export function persistentFixture(base){return {...structuredClone(base),ingredients:source.ingredients.map(f=>({...structuredClone(f),database_record:true,local_supplement:false,source_basis:f.source_basis||'100g_food'})),metrics:structuredClone(source.metrics),datasets:structuredClone(source.datasets),ingredient_photos:structuredClone(source.photos),irish_retailers:structuredClone(source.retailers),irish_buying_references:structuredClone(source.buying_references),local_supplement_count:0,persistent_ingredient_count:114,catalog_persistence:{migration_id:'006_persistent_ingredient_catalog',storage:'cloud-sql-tables'}};}
+export function hydrateTestPresentation(){const c={ingredients:source.ingredients,ingredient_photos:source.photos,irish_retailers:source.retailers,irish_buying_references:source.buying_references};hydrateIngredientPhotos(c);hydrateIrishShopping(c);}
+hydrateTestPresentation();

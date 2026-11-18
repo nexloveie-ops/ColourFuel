@@ -1,0 +1,7 @@
+-- Read-only post-import verification. Execute against the colourfuel database.
+SELECT current_database() AS database, migration_id, applied_at, source_sha256, details FROM colourfuel_catalog.migration_receipt WHERE migration_id='006_persistent_ingredient_catalog';
+SELECT (SELECT count(*) FROM colourfuel_catalog.ingredient) AS ingredient_types,(SELECT count(*) FROM colourfuel_catalog.variant) AS preparation_records,(SELECT count(*) FROM colourfuel_catalog.metric) AS tracked_metrics,(SELECT count(*) FROM colourfuel_catalog.observation) AS nutrient_records,(SELECT count(*) FROM colourfuel_catalog.photo) AS photos,(SELECT count(*) FROM colourfuel_catalog.buying_reference) AS buying_references;
+SELECT variant_id,metric_id,unit,result,primary_value,filled_value FROM colourfuel_catalog.observation WHERE (variant_id='broccoli--raw' AND metric_id='vitamin_c') OR (variant_id='kiwi--raw' AND metric_id='iodine');
+SELECT variant_id,source_basis FROM colourfuel_catalog.variant WHERE variant_id='rice-vinegar--ready_to_use';
+SELECT jsonb_array_length(payload->'ingredients') AS returned_records,payload->>'local_supplement_count' AS supplements,payload->'catalog_persistence' AS persistence FROM colourfuel_web.catalog;
+SELECT has_table_privilege('colourfuel-engine@project-4e0cb90b-8fb2-452b-9f0.iam','colourfuel_web.catalog','SELECT') AS runtime_can_read,has_table_privilege('colourfuel-engine@project-4e0cb90b-8fb2-452b-9f0.iam','colourfuel_catalog.variant','INSERT') AS runtime_can_insert;

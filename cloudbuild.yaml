@@ -47,6 +47,8 @@ steps:
         const data = await response.json();
         if (data.data_mode !== 'live' || !data.ingredients?.length || !data.recipes?.length) throw Error('Invalid live catalogue');
         if (data.catalog_preparation !== 'server' || data.nutrient_rankings?.engine !== 'postgresql-window-functions' || data.nutrient_rankings.catalog_read_at !== data.read_at) throw Error('PostgreSQL rankings were not deployed');
+        if(data.catalog_persistence?.migration_id!=='006_persistent_ingredient_catalog' || data.local_supplement_count!==0 || data.persistent_ingredient_count!==data.ingredients.length || data.ingredients.some(f=>!f.database_record)) throw Error('Persistent catalogue migration is required before deployment');
+        if(data.ingredient_photos?.length!==data.ingredients.length || !data.irish_buying_references?.length) throw Error('Persistent photos or Irish buying references missing');
         for (const policy of ['with_estimates','source_only']) {
           if (data.nutrient_rankings[policy]?.length !== data.metrics.length) throw Error('Incomplete database ranking metrics');
           for (const metric of data.nutrient_rankings[policy]) {
