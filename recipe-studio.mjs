@@ -17,7 +17,7 @@ const money=c=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR'}).
 const state=x=>({raw:'Raw edible weight',boiled:'Boiled · cooked weight',cooked:'Cooked weight',roasted:'Roasted · cooked weight',ready_to_use:'Ready to use',ready_to_eat:'Ready to eat',toasted:'Toasted',dry:'Dry',dried:'Dried',unroasted:'Unroasted'}[x]||x);
 const metricIds=['energy_reported','protein','fat','saturated_fat','salt','carbohydrate_by_difference','fibre_total_dietary','sugars_total'];
 const storageKey='colourfuel-recipe-library-v1';
-let catalog,callbacks,session,routeKey,passportContext,selectedBowl,kitchenOpen=false,addGroup=null,sharedNotice=null;
+let catalog,callbacks,session,routeKey,passportContext,selectedBowl,kitchenOpen=false,addGroup=null,sharedNotice=null,passportImage=null;
 // Remember the customer kitchen-sheet disclosure across full editor re-renders (presets, sauce changes).
 document.addEventListener('toggle',event=>{if(event.target.id==='kitchen-details')kitchenOpen=event.target.open;},true);
 function library(){try{const rows=JSON.parse(localStorage.getItem(storageKey)||'[]');return Array.isArray(rows)?rows.slice(0,20):[];}catch{return [];}}
@@ -144,8 +144,18 @@ async function downloadPassportImage(button){
   const model=passportCardModel(report,data,{image:visual?.image,name:visual?.name||report.current.title});
   const blob=await withTimeout(passportCardBlob(model),20000);
   const url=URL.createObjectURL(blob),name=String(model.name||'Bowl').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'')||'Bowl';
-  const a=document.createElement('a');a.href=url;a.download=`ColourFuel-${name}-Passport.png`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
-  notify?.('Passport image downloaded · 1080 × 1350 for Instagram and Facebook');
+  const fileName=`ColourFuel-${name}-Passport.png`,file=new File([blob],fileName,{type:'image/png'});
+  // Phones: show the image with a Save to Photos button (a fresh tap is needed to open the share sheet).
+  if(matchMedia('(pointer: coarse)').matches){
+   if(passportImage?.url)URL.revokeObjectURL(passportImage.url);passportImage={file,url};
+   const box=document.querySelector('#passport-image-result'),canShare=!!navigator.canShare?.({files:[file]});
+   box.hidden=false;box.innerHTML=`<img src="${url}" alt="${esc(model.name)} Passport image for Instagram and Facebook" width="1080" height="1350"><div class="passport-image-actions">${canShare?'<button class="button" data-studio-action="save-passport-image">Save to Photos</button>':''}<a class="outline-button" href="${url}" download="${esc(fileName)}">Download file</a></div><p>${canShare?'Tap <b>Save to Photos</b>, then choose <b>Save Image</b> — or share it straight to Instagram or WhatsApp. You can also press and hold the image.':'Press and hold the image and choose <b>Save to Photos</b> (iPhone) or <b>Download image</b> (Android).'}</p>`;
+   box.scrollIntoView({block:'nearest',behavior:'smooth'});
+   notify?.('Passport image ready · 1080 × 1350');
+  }else{
+   const a=document.createElement('a');a.href=url;a.download=fileName;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+   notify?.('Passport image downloaded · 1080 × 1350 for Instagram and Facebook');
+  }
  }catch(error){notify?.(error.message||'The Passport image could not be created.');}
  finally{button.disabled=false;button.textContent=label;}
 }
@@ -227,6 +237,7 @@ document.addEventListener('click',async event=>{
   if(action==='jump-mix'){event.preventDefault();document.querySelector('#mix-title').scrollIntoView({behavior:'smooth',block:'start'});return;}
   if(action==='passport-image'&&passportContext){await downloadPassportImage(b);return;}
   if(action==='passport-share'&&passportContext){await sharePassport();return;}
+  if(action==='save-passport-image'&&passportImage){try{await navigator.share({files:[passportImage.file],title:'My ColourFuel Passport'});}catch(error){if(error.name!=='AbortError')(passportContext?.handlers?.notify||callbacks?.notify)?.('Press and hold the image and choose Save to Photos.');}return;}
 
   if(['save','share','passport','download','duplicate'].includes(action)&&document.querySelector('.studio [aria-invalid="true"]')){document.querySelector('.studio [aria-invalid="true"]').focus();throw Error('Correct the highlighted recipe field before saving, sharing or exporting.');}
   if(action==='restore'){
