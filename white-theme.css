@@ -604,6 +604,17 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
  .kitchen-rows article { grid-template-columns: 1fr; gap: 12px; }
  .kitchen-rows article>div:last-child { text-align: left; }
 }
+.demo-price-bar { position: sticky; top: 10px; z-index: 3; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin: 20px 0; padding: 14px 18px; background: white; border: 2px solid var(--cf-purple); border-radius: 16px; box-shadow: 0 4px 14px #24243f12; }
+.demo-price-label, .studio-price .demo-price-label { color: var(--cf-red); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+.demo-price-bar>strong { color: var(--cf-blue); font-size: 24px; font-variant-numeric: tabular-nums; }
+.demo-price-bar>strong small { color: var(--cf-muted); font-size: 12px; font-weight: 400; }
+.demo-price-bar>span:last-child { font-size: 13px; margin-left: auto; }
+.demo-unit-price { color: var(--cf-blue); font-size: var(--cf-caption); }
+.demo-price-lines { font-size: var(--cf-label); font-variant-numeric: tabular-nums; }
+.demo-price-lines>div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; }
+.demo-price-lines b { white-space: nowrap; }
+.demo-price-total { border-top: 1px solid var(--cf-border); margin-top: 6px; }
+.comparison-panel .studio-price { margin-block: 20px 28px; padding-bottom: 24px; border-bottom: 1px solid var(--cf-border); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none!important; animation: none!important; }

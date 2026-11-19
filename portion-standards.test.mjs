@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {prepareMenuCatalog} from './fixtures/prepare-test-catalog.mjs';
-import {portionStandard,sauceStandard,portionCount,isStandardCount,portionGrams,changePortion,resizeBatch,portionPricing} from './portion-standards.mjs';
+import {portionStandard,sauceStandard,portionCount,isStandardCount,portionGrams,changePortion,resizeBatch,portionPricing,demoFoodStandard,demoSauceStandard} from './portion-standards.mjs';
 import {fromCatalog,calculate,encodeShare,decodeShare,applyPreset,validateRecipe,passport} from './recipe-engine.mjs';
 const catalog=prepareMenuCatalog(JSON.parse(await readFile(new URL('./fixtures/catalog-test-snapshot.json',import.meta.url))));
 const bowl=id=>fromCatalog(catalog.recipes.find(r=>r.bowl_product_id===id));
@@ -36,4 +36,17 @@ test('unknown pricing stays unknown; verified unit costs and customer charges ar
 test('required sauce uses whole cups and legacy shared weights are never silently rounded',()=>{
  const sauce=sauceStandard(catalog.sauces.find(s=>s.id==='citrus-mint'));assert.equal(portionGrams(2,3,sauce,{required:true}),150);assert.throws(()=>portionGrams(0,1,sauce,{required:true}));
  const legacy=bowl('everyday-chicken');legacy.items[0].grams=80;legacy.sauce={id:'citrus-mint',grams:25};const decoded=decodeShare(encodeShare(legacy,legacy,catalog),catalog).current;assert.equal(decoded.items[0].grams,80);assert.equal(isStandardCount(portionCount(80,1,portionStandard(food('chicken-breast--roasted'))),portionStandard(food('chicken-breast--roasted'))),false);
+});
+
+test('demo charges require explicit opt-in and never verify ingredient costs',()=>{
+ const original=bowl('rainbow-chicken');let current=changePortion(original,'chicken-breast--roasted',3,food('chicken-breast--roasted'));current=changePortion(current,'quinoa--cooked',2.5,food('quinoa--cooked'));current.sauce={id:'classic-caesar',grams:60};
+ const options={foodStandard:demoFoodStandard,saucePortion:demoSauceStandard};
+ assert.equal(portionPricing(original,current,catalog.ingredients,catalog.sauces,895,options).targetPriceCents,null);
+ const demo=portionPricing(original,current,catalog.ingredients,catalog.sauces,895,{...options,allowDemo:true});
+ assert.equal(demo.targetPriceCents,1125);assert.equal(demo.adjustmentCents,230);assert.equal(demo.ingredientCostCents,null);assert.equal(demo.pricingMode,'demo');assert.deepEqual(demo.lines.map(l=>l.amountCents),[150,30,50]);
+ const batch=portionPricing(original,resizeBatch(current,3),catalog.ingredients,catalog.sauces,895,{...options,allowDemo:true});assert.equal(batch.targetPriceCents,1125);assert.equal(batch.targetPriceCents*3,3375);
+});
+test('demo removals do not discount the base; one sauce portion is included',()=>{
+ const original=bowl('rainbow-chicken');const current=changePortion(original,'broccoli--raw',0,food('broccoli--raw'));current.sauce={id:'citrus-mint',grams:25};
+ const demo=portionPricing(original,current,catalog.ingredients,catalog.sauces,895,{foodStandard:demoFoodStandard,saucePortion:demoSauceStandard,allowDemo:true});assert.equal(demo.targetPriceCents,895);assert.equal(demo.lines[0].amountCents,0);assert.equal(demo.lines.some(l=>l.id.startsWith('sauce:')),false);assert.equal(portionStandard(food('chicken-breast--roasted')).pricingStatus,'pending');
 });

@@ -27,3 +27,7 @@ Cost setup
 `costCents` is cost per unit, `extraPriceCents` is the customer charge per extra unit, and `removalCreditCents` is any explicitly agreed credit. Values remain null and `pricingStatus` pending until independently verified. Unit cost should account for procurement, edible yield and preparation yield; labour, packaging and overhead need their own costing policy. Missing input does not become zero. No generic cents-per-100g fallback remains in the editor.
 
 The current implementation provides versioned configuration and a calculation model, not an authenticated costing administration screen or a production kitchen order system. No database migration or production deployment is part of this local review.
+
+## Owner-authorised demo charge overlay
+
+Invented prices are now available separately from the pending real configuration: cooked chicken/tuna +€1.50 per 50 g unit, salmon +€2.00, pork +€1.75, chickpeas +€0.50, edamame +€0.75, rice +€0.50, quinoa +€0.60, vegetables +€0.40, spinach +€0.30, feta +€0.75, spring onion/oil +€0.10, sesame +€0.15. Other library ingredients use a labelled demo +€0.50 unit charge. Extra sauce is +€0.50; one sauce portion is included. No removal discount is assumed. These are interaction-test amounts, not market research, costing or proposed verified selling prices. Actual cost fields stay null.
