@@ -855,3 +855,10 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .passport-share-result p { margin: 0 0 10px; font-size: var(--cf-label); line-height: 1.6; color: var(--cf-ink); }
 .passport-share-result label { display: block; font-size: var(--cf-caption); color: var(--cf-muted); }
 .passport-share-result input { display: block; width: 100%; margin-top: 6px; font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--cf-border-strong); border-radius: 8px; background: #fff; color: var(--cf-ink); }
+
+/* Passport image preview on phones (save to Photos) */
+.passport-image-result { margin-top: 14px; padding: 14px; border-radius: 16px; background: var(--cf-yellow-soft); border: 1px solid #f1df9a; }
+.passport-image-result img { display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto 12px; border-radius: 12px; box-shadow: 4px 5px 0 var(--cf-ink); -webkit-touch-callout: default; }
+.passport-image-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.passport-image-actions .outline-button { display: inline-flex; align-items: center; text-decoration: none; }
+.passport-image-result p { margin: 10px 0 0; font-size: var(--cf-label); line-height: 1.6; color: var(--cf-ink); text-align: center; }
