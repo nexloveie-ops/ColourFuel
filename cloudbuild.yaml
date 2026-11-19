@@ -31,6 +31,8 @@ steps:
       - --concurrency=20
       - --timeout=60
       - --update-env-vars=INSTANCE_CONNECTION_NAME=$PROJECT_ID:europe-west1:colourfuel-dev-postgres,DB_NAME=colourfuel,DB_USER=colourfuel-engine@$PROJECT_ID.iam
+      # Photo estimate key comes from Secret Manager; it is never stored in the repository or image.
+      - --update-secrets=ANTHROPIC_API_KEY=anthropic-api-key:latest
       - --quiet
   - id: smoke-test
     name: node:22-alpine
@@ -70,6 +72,8 @@ steps:
         }
         const menu = await (await fetch(root + '/product-content.mjs', {cache:'no-store',signal:AbortSignal.timeout(30000)})).text();
         if (!menu.includes('Everyday Chicken') || !menu.includes('Vegan base') || !menu.includes('base_nutrition')) throw Error('New menu or corrected Passport was not deployed');
+        const photo = await (await fetch(root + '/api/photo-estimate', {cache:'no-store',signal:AbortSignal.timeout(30000)})).json();
+        if (photo.available !== true || photo.stores_photos !== false) throw Error('Photo estimate is not configured');
         console.log('Live database catalogue verified:', data.ingredients.length, 'ingredients;', data.recipes.length, 'recipes');
 options:
   logging: CLOUD_LOGGING_ONLY

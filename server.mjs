@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readCatalog, closeDatabase } from './db.mjs';
+import { estimatePhoto, readPhotoRequest, photoErrorResponse, createPhotoLimiter, MAX_BODY_BYTES } from './photo-estimate.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const publicFiles = new Set(PUBLIC_ASSETS);
@@ -12,7 +13,41 @@ const mime = { html: 'text/html; charset=utf-8', js: 'text/javascript; charset=u
 
 const assetCache=new Map();
 const acceptsGzip=req=>(req.headers?.['accept-encoding']||'').split(',').some(part=>{const [encoding,...params]=part.trim().split(';');const quality=params.find(p=>p.trim().startsWith('q='));return encoding.trim().toLowerCase()==='gzip'&&(!quality||Number(quality.trim().slice(2))>0);});
-export async function handleRequest(req, res, dependencies = { readCatalog }) {
+const json=(res,status,value,extra={})=>{const body=JSON.stringify(value);res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...extra});res.end(body);};
+const readBody=(req,limit)=>new Promise((ok,fail)=>{const parts=[];let size=0;req.on('data',c=>{size+=c.length;if(size>limit){fail(Object.assign(Error('too large'),{status:413}));req.destroy?.();}else parts.push(c);});req.on('end',()=>ok(Buffer.concat(parts)));req.on('error',fail);});
+const clientId=req=>String(req.headers?.['x-forwarded-for']||'').split(',')[0].trim()||req.socket?.remoteAddress||'unknown';
+let photoCatalog={at:0,value:null};
+async function catalogForPhotos(read){if(!photoCatalog.value||Date.now()-photoCatalog.at>600_000)photoCatalog={at:Date.now(),value:await read()};return photoCatalog.value;}
+const defaultPhotoLimiter=createPhotoLimiter();
+const defaults={readCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY};
+
+async function handlePhotoEstimate(req,res,deps){
+  if(req.method==='GET'||req.method==='HEAD'){json(res,200,{available:deps.photoEnabled(),stores_photos:false});return;}
+  if(req.method!=='POST'){res.writeHead(405,{Allow:'GET, HEAD, POST'});res.end();return;}
+  if(!deps.photoEnabled()){json(res,503,{error:'Photo estimate is not available right now.'});return;}
+  if(!/^application\/json\b/i.test(req.headers?.['content-type']||'')){json(res,415,{error:'Send the photo as JSON.'});return;}
+  let body;
+  try{body=JSON.parse((await readBody(req,MAX_BODY_BYTES)).toString('utf8'));}
+  catch(error){json(res,error.status===413?413:400,{error:error.status===413?'The photo is too large. Please use a smaller image.':'The photo could not be read.'});return;}
+  const photo=readPhotoRequest(body);
+  if(photo.error){json(res,400,{error:photo.error});return;}
+  if(!deps.photoLimiter(clientId(req))){json(res,429,{error:'You have reached the photo estimate limit for now. Please try again later.'},{'Retry-After':'3600'});return;}
+  try{
+    const catalog=await catalogForPhotos(deps.readCatalog);
+    const result=await deps.estimatePhoto({image:photo.image,mediaType:photo.mediaType,catalog});
+    json(res,200,result);
+  }catch(error){
+    const failure=photoErrorResponse(error);
+    console.error('Photo estimate failed',failure.status,error?.constructor?.name||'Error'); // never logs the photo
+    json(res,failure.status,{error:failure.message});
+  }
+}
+
+export async function handleRequest(req, res, dependencies = defaults) {
+  dependencies={...defaults,...dependencies};
+  let photoPath;
+  try { photoPath = new URL(req.url, 'http://localhost').pathname === '/api/photo-estimate'; } catch { photoPath = false; }
+  if (photoPath) { await handlePhotoEstimate(req, res, dependencies); return; }
   if (!['GET', 'HEAD'].includes(req.method)) {
     res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return;
   }
