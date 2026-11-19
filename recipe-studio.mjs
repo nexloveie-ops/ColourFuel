@@ -2,10 +2,11 @@ import {PORTION_VERSION,portionStandard,sauceStandard,portionCount,isStandardCou
 import {referenceBar,referenceNote,referenceContext} from './nutrition-context.mjs';
 import {saucePicker} from './sauce-picker.mjs';
 import {groupedIngredientOptions} from './ingredient-library.mjs';
+import {passportCardModel,passportCardBlob} from './passport-card.mjs';
 import {bowlStageMarkup,updateBowlStage,nutriHeroMarkup,updateNutriHero,flipPrices,resetPriceMemory,pulse,pourSauce,resetSauceMemory,photoFor,thumbStyle,SAUCE_COLOURS} from './colour-fx.mjs';
 import {sauceSection,platformSection,bowlSauces} from './sauce-content.mjs';
 import {PRODUCTS,dietaryBadge,storyFor,productPhoto,colourRibbon,recipeVisual,passportMarkup} from './product-content.mjs';
-import {fromCatalog,makeOriginal,editRecipe,calculate,compare,applyPreset,passport,encodeShare,decodeShare,validateRecipe,bowlProductId,requireSauce} from './recipe-engine.mjs';
+import {fromCatalog,makeOriginal,editRecipe,calculate,compare,applyPreset,passport,encodeShare,decodeShare,validateRecipe,bowlProductId,requireSauce,bowlShareHash,parseBowlShareHash} from './recipe-engine.mjs';
 
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=(x,d=1)=>x==null?'—':Number(x).toLocaleString('en-IE',{maximumFractionDigits:d});
@@ -16,7 +17,7 @@ const money=c=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR'}).
 const state=x=>({raw:'Raw edible weight',boiled:'Boiled · cooked weight',cooked:'Cooked weight',roasted:'Roasted · cooked weight',ready_to_use:'Ready to use',ready_to_eat:'Ready to eat',toasted:'Toasted',dry:'Dry',dried:'Dried',unroasted:'Unroasted'}[x]||x);
 const metricIds=['energy_reported','protein','fat','saturated_fat','salt','carbohydrate_by_difference','fibre_total_dietary','sugars_total'];
 const storageKey='colourfuel-recipe-library-v1';
-let catalog,callbacks,session,routeKey,passportContext,selectedBowl,kitchenOpen=false,addGroup=null;
+let catalog,callbacks,session,routeKey,passportContext,selectedBowl,kitchenOpen=false,addGroup=null,sharedNotice=null;
 // Remember the customer kitchen-sheet disclosure across full editor re-renders (presets, sauce changes).
 document.addEventListener('toggle',event=>{if(event.target.id==='kitchen-details')kitchenOpen=event.target.open;},true);
 function library(){try{const rows=JSON.parse(localStorage.getItem(storageKey)||'[]');return Array.isArray(rows)?rows.slice(0,20):[];}catch{return [];}}
@@ -62,7 +63,7 @@ export function renderStudio(hash,data,handlers){
  if(hash==='#studio/library'){routeKey=null;renderLibrary();return;}
  // Legacy concept-builder links now open the Bowl page, where customisation starts directly.
  if(hash.startsWith('#studio/concept/')){location.replace('#bowl/'+encodeURIComponent(hash.split('/')[2]||''));return;}
- try{if(hash!==routeKey||!session){session=initSession(selectedBowl?'#studio/recipe/'+selectedBowl.recipe_id:hash);routeKey=hash;resetPriceMemory();resetSauceMemory();}validateRecipe(session.current,catalog);render();}
+ try{if(hash!==routeKey||!session){session=initSession(selectedBowl?'#studio/recipe/'+selectedBowl.recipe_id:hash);routeKey=hash;resetPriceMemory();resetSauceMemory();const shared=selectedBowl&&parseBowlShareHash(hash);if(shared){try{const s=decodeShare(shared.code,catalog);if(bowlProductId(s.current,catalog)!==selectedBowl.product_id)throw Error('This link is for a different bowl.');session={...s,entryId:null};sharedNotice='Shared bowl loaded · same portions, added ingredients and sauce. Adjust anything you like.';}catch(error){sharedNotice='This shared bowl link could not be opened, so the Original Recipe is shown.'+(/^This (link|recipe link|shared)/.test(error.message)?' '+error.message:'');}}}validateRecipe(session.current,catalog);render();}
  catch(error){document.querySelector('#main').innerHTML=`<div class="wrap studio-error" role="alert"><h1>Let’s start with a fresh recipe.</h1><p>${esc(error.message)}</p><a class="button" href="#studio">Open Recipe Studio</a></div>`;}
 }
 function choices(){return `<label class="studio-picker">Start from a recipe<select id="studio-base" aria-label="Start from a recipe">${catalog.recipes.map(r=>`<option value="${esc(r.recipe_id)}" ${session.original.source_recipe_id===r.recipe_id?'selected':''}>${esc(r.title_en)}</option>`).join('')}</select></label>`;}
@@ -78,6 +79,7 @@ function render(){
  document.title=current.title+' · Recipe Studio · ColourFuel';
  window.scrollTo({top:previousY,behavior:'instant'});
  updateGlance(report);updateNutriHero(report);flipPrices(document.querySelector('.studio'));pourSauce(current.sauce?.id);
+ if(sharedNotice){const note=sharedNotice;sharedNotice=null;setTimeout(()=>callbacks.notify?.(note),0);}
 }
 function glanceMarkup(){return `<dl class="bowl-glance" id="bowl-glance"><div><dt>Energy</dt><dd data-glance="energy_reported">—</dd></div><div><dt>Protein</dt><dd data-glance="protein">—</dd></div><div><dt>Your bowl</dt><dd data-glance="price">—</dd></div></dl><p class="bowl-glance-note">Per bowl · energy and protein from base ingredients, excluding sauce · price is a DEMO ONLY figure.</p>`;}
 function updateGlance(report){
@@ -122,6 +124,31 @@ function mixNutrients(variantId){
  }
  return html;
 }
+// Share links: Bowl recipes reopen the customer Bowl page with the same configuration; other recipes open Recipe Studio.
+function shareUrl(original,current,data=catalog){const code=encodeShare(original,current,data),pid=bowlProductId(current,data);return location.origin+location.pathname+(pid?bowlShareHash(pid,code):'#studio/share/'+code);}
+async function sharePassport(){
+ const {report,data}=passportContext,url=shareUrl(report.original,report.current,data),box=document.querySelector('#passport-share-result');
+ if(navigator.share&&matchMedia('(pointer: coarse)').matches){try{await navigator.share({title:report.current.title+' · ColourFuel',text:'My ColourFuel bowl: open it to see the same portions, ingredients and sauce.',url});return;}catch(error){if(error.name==='AbortError')return;}}
+ let copied=false;try{await navigator.clipboard.writeText(url);copied=true;}catch{}
+ if(!box)return;box.hidden=false;
+ box.innerHTML=`<p><strong>${copied?'Link copied.':'Copy this link.'}</strong> Opening it shows this bowl with the same portions, added ingredients and sauce, ready to adjust. Concept preview · ordering isn’t available yet.</p><label class="share-link-label">Bowl link<input readonly value="${esc(url)}"></label>`;
+ const input=box.querySelector('input');input.addEventListener('focus',()=>input.select());if(!copied)input.focus();
+}
+// Passport image: a 1080×1350 social card drawn on canvas from the Passport report (no price shown).
+const withTimeout=(promise,ms)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(Error('Creating the Passport image took too long. Please try again.')),ms))]);
+async function downloadPassportImage(button){
+ const label=button.textContent;button.disabled=true;button.textContent='Preparing image…';
+ const notify=passportContext.handlers?.notify||callbacks?.notify;
+ try{
+  const {report,data}=passportContext,visual=recipeVisual(report.current,data);
+  const model=passportCardModel(report,data,{image:visual?.image,name:visual?.name||report.current.title});
+  const blob=await withTimeout(passportCardBlob(model),20000);
+  const url=URL.createObjectURL(blob),name=String(model.name||'Bowl').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'')||'Bowl';
+  const a=document.createElement('a');a.href=url;a.download=`ColourFuel-${name}-Passport.png`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+  notify?.('Passport image downloaded · 1080 × 1350 for Instagram and Facebook');
+ }catch(error){notify?.(error.message||'The Passport image could not be created.');}
+ finally{button.disabled=false;button.textContent=label;}
+}
 function stageChips(){
  const r=session.current,chips=r.items.map(row=>({id:row.variant_id,name:ingredient(row.variant_id).name_en,grams:row.grams/r.servings,image:photoFor(row.variant_id)}));
  if(r.sauce){const s=catalog.sauces.find(x=>x.id===r.sauce.id);if(s)chips.push({id:'sauce:'+s.id,name:s.name,grams:r.sauce.grams/r.servings,image:s.small,sauce:true,colour:SAUCE_COLOURS[s.id]});}
@@ -164,7 +191,7 @@ function refreshCalculations(){
 
 function showError(error){document.querySelector('#studio-error')?.replaceChildren(document.createTextNode(error.message));}
 function renderLibrary(){const rows=library();document.querySelector('#main').innerHTML=`<div class="wrap studio"><div class="studio-breadcrumb"><a href="#studio">Recipe Studio</a><a href="#studio/new">Create a recipe</a></div><div class="eyebrow">YOUR OWN COLLECTION</div><h1>My recipe library.</h1><p>Saved only in this browser. Each recipe keeps its first saved Original Recipe and up to 10 versions. Clearing browser data removes these saves; download a Passport to keep a separate report.</p><div class="library-grid">${rows.map(e=>`<article class="library-card"><div class="eyebrow">${e.versions.length} SAVED VERSION${e.versions.length===1?'':'S'}</div><h2>${esc(e.current.title)}</h2><p>${e.current.items.filter(i=>i.grams>0).length} ingredients · ${e.current.servings} serving${e.current.servings===1?'':'s'}</p><a class="button" href="#studio/saved/${esc(e.id)}">Open recipe</a><details><summary>Version history</summary>${e.versions.map((v,index)=>`<div class="history-row"><span>v${v.number||index+1} · ${new Date(v.saved_at).toLocaleString('en-IE')}<br>${esc(v.recipe.title)}</span><button class="inline-link" data-studio-action="restore" data-entry="${esc(e.id)}" data-version="${index}">Open this version</button></div>`).join('')}</details></article>`).join('')||'<div class="empty">Your own collection starts with the first recipe you save.</div>'}</div></div>`;document.title='My recipe library · ColourFuel';}
-function showPassport(original,current,data,handlers){const report=passport(original,current,data);const visual=recipeVisual(current,data);report.serving_image=visual?{url:new URL(visual.image,location.href).href,description:visual.name,note:'Illustrative original serving concept; edits do not change the image.'}:null;passportContext={report,data};handlers.dialog('Nutrition Passport',passportMarkup(report,data));}
+function showPassport(original,current,data,handlers){const report=passport(original,current,data);const visual=recipeVisual(current,data);report.serving_image=visual?{url:new URL(visual.image,location.href).href,description:visual.name,note:'Illustrative original serving concept; edits do not change the image.'}:null;passportContext={report,data,handlers};handlers.dialog('Nutrition Passport',passportMarkup(report,data));}
 export function openNutritionPassport(recipe,data,handlers){const original=makeOriginal(fromCatalog(recipe),data);showPassport(original,original,data,handlers);}
 function passportDialog(){showPassport(session.original,session.current,catalog,callbacks);}
 
@@ -198,8 +225,8 @@ document.addEventListener('click',async event=>{
  try{
   const action=b.dataset.studioAction;
   if(action==='jump-mix'){event.preventDefault();document.querySelector('#mix-title').scrollIntoView({behavior:'smooth',block:'start'});return;}
-  if(action==='download'&&passportContext){const url=URL.createObjectURL(new Blob([JSON.stringify(passportContext.report,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='ColourFuel-Nutrition-Passport.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
-  if(action==='print'&&passportContext){const details=[...document.querySelectorAll('.passport details')],states=details.map(d=>d.open);details.forEach(d=>d.open=true);const images=[...document.querySelectorAll('.passport img')];await Promise.all(images.map(i=>i.decode().catch(()=>{})));window.print();details.forEach((d,i)=>d.open=states[i]);return;}
+  if(action==='passport-image'&&passportContext){await downloadPassportImage(b);return;}
+  if(action==='passport-share'&&passportContext){await sharePassport();return;}
 
   if(['save','share','passport','download','duplicate'].includes(action)&&document.querySelector('.studio [aria-invalid="true"]')){document.querySelector('.studio [aria-invalid="true"]').focus();throw Error('Correct the highlighted recipe field before saving, sharing or exporting.');}
   if(action==='restore'){
@@ -217,7 +244,7 @@ document.addEventListener('click',async event=>{
   if(action==='save')saveRecipe();
   if(action==='duplicate'){session={original:makeOriginal(session.current,catalog),current:makeOriginal(session.current,catalog),entryId:null};render();callbacks.notify('This mix is now a new Original Recipe. Save to keep it.');}
   if(action==='passport')passportDialog();
-  if(action==='share'){const url=location.origin+location.pathname+'#studio/share/'+encodeShare(session.original,session.current,catalog);callbacks.dialog('Share this recipe',`<p>This link includes the ingredient weights, selected sauce and sauce weight, name, servings and comparison original. It does not upload your browser library or include a health profile.</p><label class="share-link-label">Recipe link<input readonly id="studio-share-link" value="${esc(url)}"></label><button class="button" data-studio-action="copy-link">Copy link</button><p>Anyone with the link can open a copy. A shared mix is labelled Custom Recipe and recalculated with current source data.</p>`);}
+  if(action==='share'){const url=shareUrl(session.original,session.current);callbacks.dialog('Share this recipe',`<p>This link includes the ingredient weights, selected sauce and sauce weight, name, servings and comparison original. It does not upload your browser library or include a health profile.</p><label class="share-link-label">Recipe link<input readonly id="studio-share-link" value="${esc(url)}"></label><button class="button" data-studio-action="copy-link">Copy link</button><p>Anyone with the link can open a copy. A shared mix is labelled Custom Recipe and recalculated with current source data.</p>`);}
   if(action==='copy-link'){const input=document.querySelector('#studio-share-link');try{await navigator.clipboard.writeText(input.value);callbacks.notify('Recipe link copied');}catch{input.focus();input.select();callbacks.notify('Select and copy the recipe link');}}
  }catch(error){showError(error);callbacks?.notify(error.message);}
 });

@@ -102,6 +102,9 @@ export function encodeShare(original,current,catalog){
   const bytes=new TextEncoder().encode(text);
   return btoa(Array.from(bytes,b=>String.fromCharCode(b)).join('')).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
+// Bowl share links open the customer Bowl page with the shared configuration: #bowl/<product>/shared/<code>.
+export function bowlShareHash(productId,code){return `#bowl/${encodeURIComponent(productId)}/shared/${code}`;}
+export function parseBowlShareHash(hash){const m=/^#bowl\/([a-z0-9-]+)\/shared\/([A-Za-z0-9_-]+)$/.exec(String(hash||''));return m?{productId:m[1],code:m[2]}:null;}
 export function decodeShare(code,catalog){
   if(typeof code!=='string'||code.length>20000||!/^[A-Za-z0-9_-]+$/.test(code))throw Error('This shared recipe link is invalid.');
   const text=new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(atob(code.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0)));

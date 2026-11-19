@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {prepareMenuCatalog} from './fixtures/prepare-test-catalog.mjs';
 import {sauceIngredientIds} from './sauce-content.mjs';
 import {PRODUCTS} from './product-content.mjs';
-import {fromCatalog,calculate,requireSauce,encodeShare,decodeShare,applyPreset} from './recipe-engine.mjs';
+import {fromCatalog,calculate,requireSauce,encodeShare,decodeShare,applyPreset,bowlProductId,bowlShareHash,parseBowlShareHash} from './recipe-engine.mjs';
 const live=JSON.parse(await readFile(new URL('./fixtures/catalog-test-snapshot.json',import.meta.url)));
 const c=prepareMenuCatalog(live);
 test('all eight bowls have editable sourced quantities without changing the live snapshot',()=>{
@@ -32,4 +32,25 @@ test('served products match the fixed Bowl menu, replacing legacy database produ
  assert.deepEqual(c.products.map(p=>[p.product_id,p.name,p.illustrative_price_cents,p.rd]),PRODUCTS.map(p=>[p.product_id,p.name,p.illustrative_price_cents,p.rd]));
  assert.ok(!c.products.some(p=>p.product_id==='vegan-power'));
  assert.equal(c.products.find(p=>p.product_id==='rainbow-chicken').illustrative_price_cents,895);
+});
+
+test('a shared Bowl link reopens the same Bowl with added ingredients, portions and sauce',()=>{
+ const original=fromCatalog(c.recipes.find(r=>r.bowl_product_id==='rainbow-chicken'));
+ const current={...original,items:[...original.items.map(i=>i.variant_id==='chicken-breast--roasted'?{...i,grams:150}:i),{variant_id:'avocado--raw',grams:50}],sauce:{id:'honey-mustard',grams:c.sauces.find(s=>s.id==='honey-mustard').default_grams}};
+ const hash=bowlShareHash('rainbow-chicken',encodeShare(original,current,c)),parsed=parseBowlShareHash(hash);
+ assert.equal(parsed.productId,'rainbow-chicken');
+ const restored=decodeShare(parsed.code,c);
+ assert.equal(bowlProductId(restored.current,c),'rainbow-chicken');
+ assert.deepEqual(restored.current.items,current.items);assert.deepEqual(restored.current.sauce,current.sauce);
+});
+
+test('the social Passport card shows headline nutrition and changes, never a price',async()=>{
+ const {passportCardModel}=await import('./passport-card.mjs');const {passport,makeOriginal}=await import('./recipe-engine.mjs');
+ const original=makeOriginal(fromCatalog(c.recipes.find(r=>r.bowl_product_id==='rainbow-chicken')),c);
+ const current={...original,mode:'Custom Recipe',items:[...original.items.map(i=>i.variant_id==='chicken-breast--roasted'?{...i,grams:150}:i),{variant_id:'avocado--raw',grams:50}],sauce:{id:'honey-mustard',grams:c.sauces.find(s=>s.id==='honey-mustard').default_grams}};
+ const model=passportCardModel(passport(original,current,c),c,{image:'rainbow-chicken.jpg',name:'Rainbow Chicken'});
+ assert.equal(model.mode,'My custom mix');assert.equal(model.sauce,'Honey Mustard');assert.ok(model.baseOnly);
+ assert.ok(model.kcal>0);assert.deepEqual(model.macros.map(m=>m.label),['Protein','Carbs','Fat','Fibre']);
+ assert.ok(model.changes.includes('+50 g Chicken breast'));assert.ok(model.changes.includes('+50 g Avocado'));
+ assert.ok(!JSON.stringify(model).includes('€'));assert.ok(!('price' in model));
 });

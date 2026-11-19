@@ -49,3 +49,11 @@ test('invalid or unbounded recipes are rejected rather than silently clamped',()
  assert.throws(()=>validateRecipe({...recipe(),items:[recipe().items[0],recipe().items[0]]},catalog));
  assert.throws(()=>validateRecipe({...recipe(),title:''},catalog));
 });
+
+test('Bowl share links round-trip the product, portions, added ingredients and sauce',async()=>{
+ const {bowlShareHash,parseBowlShareHash}=await import('./recipe-engine.mjs');
+ assert.deepEqual(parseBowlShareHash(bowlShareHash('rainbow-chicken','abc_DEF-123')),{productId:'rainbow-chicken',code:'abc_DEF-123'});
+ assert.equal(parseBowlShareHash('#bowl/rainbow-chicken'),null);
+ assert.equal(parseBowlShareHash('#bowl/rainbow-chicken/shared/bad code'),null);
+ assert.equal(parseBowlShareHash('#studio/share/abc'),null);
+});
