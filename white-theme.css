@@ -804,3 +804,19 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .add-picker-dialog .add-ingredient-picker { margin: 0; padding: 0; border: 0; background: none; }
 .add-picker-lead { margin: 0 0 14px; }
 .add-picker-dialog .add-picker-tabs { position: sticky; top: -1px; z-index: 2; background: var(--cf-white); padding-top: 6px; }
+
+/* Per-ingredient nutrition beside each portion slider */
+.mix-nutrients { margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--cf-purple-soft); border: 1px solid #e3d6f6; }
+.mix-nutrients-title { margin: 0 0 8px; font-size: var(--cf-caption); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--cf-purple); }
+.mix-nutrients-title small { margin-left: 6px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--cf-muted); font-size: var(--cf-caption); }
+.mix-nutrient-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mix-nutrient-chips li { display: inline-flex; align-items: baseline; gap: 4px; padding: 4px 10px; border-radius: 999px; background: #fff; border: 1px solid #e3d6f6; font-size: var(--cf-caption); color: var(--cf-muted); }
+.mix-nutrient-chips b { color: var(--cf-ink); font-size: var(--cf-label); font-variant-numeric: tabular-nums; }
+.mix-nutrient-chips li.micro { background: var(--cf-yellow-soft); border-color: #f1df9a; }
+.mix-nutrient-chips li.micro b { color: var(--cf-yellow-ink); }
+.mix-nutrient-delta { margin: 10px 0 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: var(--cf-caption); }
+.mix-nutrient-delta strong { width: 100%; color: var(--cf-ink); font-size: var(--cf-caption); }
+.mix-nutrient-delta span { padding: 3px 9px; border-radius: 999px; font-weight: 700; font-variant-numeric: tabular-nums; background: #fff; border: 1px solid var(--cf-border); color: var(--cf-muted); }
+.mix-nutrient-delta span.up { color: var(--cf-blue); border-color: #b9c7f5; background: var(--cf-blue-soft); }
+.mix-nutrient-delta span.down { color: var(--cf-red); border-color: #f3b8c1; background: var(--cf-red-soft); }
+.mix-nutrient-delta span.down { color: var(--cf-purple); border-color: #d9c4f2; background: #fff; }
