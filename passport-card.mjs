@@ -66,7 +66,8 @@ export function drawPassportCard(ctx,model,{photo,logoImg}){
  ctx.font=`500 32px ${FONT}`;ctx.fillStyle=C.muted;
  ctx.fillText(`${model.bowlGrams} g per bowl${model.sauce?` · with ${model.sauce}`:''}`,M,py+ph+150);
  // Energy ring
- const cx=M+130,cy=py+ph+330,r=118,known=model.macros.slice(0,3).filter(m=>m.grams!=null),total=known.reduce((s,m)=>s+m.grams,0);
+ // Without a changes row, the nutrition block moves down to keep the card balanced.
+ const cx=M+130,cy=py+ph+330+(model.changes.length?0:40),r=118,known=model.macros.slice(0,3).filter(m=>m.grams!=null),total=known.reduce((s,m)=>s+m.grams,0);
  ctx.lineWidth=30;ctx.strokeStyle='#eceffa';ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
  if(known.length===3&&total>0){let a=-Math.PI/2;for(const m of known){const sweep=m.grams/total*Math.PI*2;ctx.strokeStyle=m.colour;ctx.beginPath();ctx.arc(cx,cy,r,a+0.03,a+sweep-0.03);ctx.stroke();a+=sweep;}}
  ctx.textAlign='center';ctx.fillStyle=C.ink;ctx.font=`900 70px ${FONT}`;ctx.fillText(model.kcal==null?'—':String(model.kcal),cx,cy+18);
