@@ -820,3 +820,14 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .mix-nutrient-delta span.up { color: var(--cf-blue); border-color: #b9c7f5; background: var(--cf-blue-soft); }
 .mix-nutrient-delta span.down { color: var(--cf-red); border-color: #f3b8c1; background: var(--cf-red-soft); }
 .mix-nutrient-delta span.down { color: var(--cf-purple); border-color: #d9c4f2; background: #fff; }
+
+/* Passport stamp: fitted, multicolour wordmark */
+.passport-stamp { gap: 3px; }
+.passport-stamp .stamp-word { display: flex; justify-content: center; font: 900 11.5px/1 var(--display); letter-spacing: .01em; max-width: 92px; }
+.passport-stamp .stamp-word i { font-style: normal; }
+.stamp-c0 { color: var(--cf-blue); }
+.stamp-c1 { color: #d9a400; }
+.stamp-c2 { color: var(--cf-purple); }
+.stamp-c3 { color: var(--cf-red); }
+.passport-stamp small { font-size: 10px; letter-spacing: .12em; line-height: 1.2; }
+@media (max-width: 700px) { .passport-stamp .stamp-word { font-size: 10px; max-width: 78px; } .passport-stamp small { font-size: 8.5px; } }
