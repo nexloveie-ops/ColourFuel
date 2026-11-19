@@ -862,3 +862,10 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .passport-image-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .passport-image-actions .outline-button { display: inline-flex; align-items: center; text-decoration: none; }
 .passport-image-result p { margin: 10px 0 0; font-size: var(--cf-label); line-height: 1.6; color: var(--cf-ink); text-align: center; }
+/* Equal Save to Photos / Download file buttons */
+.passport-image-actions { display: flex; gap: 12px; flex-wrap: nowrap; }
+.passport-image-actions > .button, .passport-image-actions > .outline-button { flex: 1 1 0; min-width: 0; height: 52px; min-height: 52px; margin: 0; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; font-size: 16px; font-weight: 700; line-height: 1.2; white-space: nowrap; border-radius: 999px; transform: none; }
+.passport-image-actions > .outline-button { border-width: 2px; }
+.passport-image-actions > .button { box-shadow: 3px 3px 0 var(--cf-ink); }
+.passport-image-actions > .outline-button { box-shadow: 3px 3px 0 #b9c7f5; }
+@media (max-width: 360px) { .passport-image-actions > * { font-size: 15px; padding: 0 10px; } }
