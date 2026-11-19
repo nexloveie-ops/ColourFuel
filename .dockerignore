@@ -21,3 +21,6 @@ research
 # Project design guidance is not needed by the production server.
 .agents
 design
+
+# iOS app source and build output are not part of the website container.
+ios

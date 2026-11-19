@@ -1,0 +1,2094 @@
+{
+ "generated_from": "recipe-engine.mjs + portion-standards.mjs",
+ "read_at": "2026-11-19T22:38:05.973393+00:00",
+ "cases": [
+  {
+   "product_id": "everyday-chicken",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "chicken-breast--roasted",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "broccoli--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 5
+    }
+   ],
+   "sauce": {
+    "id": "classic-caesar",
+    "grams": 30
+   },
+   "weight": 405,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 444.2
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 37.48
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 10.48
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 49.525
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 6.15
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 5.68
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 2.1925
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.33275
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 111.55
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 2.638
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 63.05
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 795
+  },
+  {
+   "product_id": "everyday-chicken",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "chicken-breast--roasted",
+     "grams": 150
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "broccoli--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 5
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "classic-caesar",
+    "grams": 60
+   },
+   "weight": 505,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 606.7
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 53.98
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 19.615
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 53.79
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 9.5
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 6.01
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 3.7625
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.434
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 116.55
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.433
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 76.55
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1045
+  },
+  {
+   "product_id": "everyday-chicken",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "chicken-breast--roasted",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "broccoli--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "classic-caesar",
+    "grams": 30
+   },
+   "weight": 400,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 400
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 37.48
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 5.48
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 49.525
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 6.15
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 5.68
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 1.5025
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.3325
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 111.55
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 2.61
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 63
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 795
+  },
+  {
+   "product_id": "rainbow-chicken",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "chicken-breast--roasted",
+     "grams": 100
+    },
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "broccoli--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 10
+    }
+   ],
+   "sauce": {
+    "id": "classic-caesar",
+    "grams": 30
+   },
+   "weight": 360,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 423.9
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 37.77
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 15.945
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 32.425
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 6.55
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 6.19
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 2.7235
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.3355
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 111.55
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.316
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 75.6
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 895
+  },
+  {
+   "product_id": "rainbow-chicken",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "chicken-breast--roasted",
+     "grams": 150
+    },
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "broccoli--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 10
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "classic-caesar",
+    "grams": 60
+   },
+   "weight": 460,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 586.4
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 54.27
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 25.08
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 36.69
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 9.9
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 6.52
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 4.2935
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.43675
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 116.55
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 4.111
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 89.1
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1145
+  },
+  {
+   "product_id": "rainbow-chicken",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "chicken-breast--roasted",
+     "grams": 100
+    },
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "broccoli--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "classic-caesar",
+    "grams": 30
+   },
+   "weight": 350,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 335.5
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 37.77
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 5.945
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 32.425
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 6.55
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 6.19
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 1.3435
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.335
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 111.55
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.26
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 75.5
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 895
+  },
+  {
+   "product_id": "plant-power-crunch",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "chickpea--boiled",
+     "grams": 150
+    },
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 10
+    }
+   ],
+   "sauce": {
+    "id": "balsamic-vinaigrette",
+    "grams": 25
+   },
+   "weight": 385,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 493.65
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 19.365
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 16.1725
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 71.1125
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 17.2
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 12.645
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 2.07575
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.184875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 75.925
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 6.9235
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 135.35
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 895
+  },
+  {
+   "product_id": "plant-power-crunch",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "chickpea--boiled",
+     "grams": 200
+    },
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 10
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "balsamic-vinaigrette",
+    "grams": 50
+   },
+   "weight": 485,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 655.65
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 24.795
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 24.8175
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 89.0775
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 24.35
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 15.375
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 3.27525
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.202375
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 81.575
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 8.6435
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 165.85
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1045
+  },
+  {
+   "product_id": "plant-power-crunch",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "chickpea--boiled",
+     "grams": 150
+    },
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "red-pepper--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "balsamic-vinaigrette",
+    "grams": 25
+   },
+   "weight": 375,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 405.25
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 19.365
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 6.1725
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 71.1125
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 17.2
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 12.645
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 0.69575
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.184375
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 75.925
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 6.8675
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 135.25
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 895
+  },
+  {
+   "product_id": "mediterranean-garden",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "chickpea--boiled",
+     "grams": 100
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "feta--ready_to_eat",
+     "grams": 25
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 5
+    }
+   ],
+   "sauce": {
+    "id": "balsamic-vinaigrette",
+    "grams": 25
+   },
+   "weight": 355,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 416.7
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 18.29
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 15.1375
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 54.3375
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 11.8
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 7.925
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 4.56325
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.805875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 16.575
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 5.523
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 227.05
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 895
+  },
+  {
+   "product_id": "mediterranean-garden",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "chickpea--boiled",
+     "grams": 100
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "feta--ready_to_eat",
+     "grams": 25
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 5
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "balsamic-vinaigrette",
+    "grams": 50
+   },
+   "weight": 455,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 556.7
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 21.49
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 23.4475
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 69.2525
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 16.55
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 8.69
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 5.74375
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.823375
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 21.575
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 6.543
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 241.55
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1055
+  },
+  {
+   "product_id": "mediterranean-garden",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "quinoa--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "chickpea--boiled",
+     "grams": 100
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "feta--ready_to_eat",
+     "grams": 25
+    }
+   ],
+   "sauce": {
+    "id": "balsamic-vinaigrette",
+    "grams": 25
+   },
+   "weight": 350,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 372.5
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 18.29
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 10.1375
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 54.3375
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 11.8
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 7.925
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 3.87325
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.805625
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 16.575
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 5.495
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 227
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 895
+  },
+  {
+   "product_id": "asian-sesame-crunch",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "edamame--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "purple-cabbage--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spring-onion--raw",
+     "grams": 10
+    },
+    {
+     "variant_id": "sesame-seed--toasted",
+     "grams": 5
+    }
+   ],
+   "sauce": {
+    "id": "roasted-sesame",
+    "grams": 30
+   },
+   "weight": 415,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 380.45
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 18.548
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 9.329
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 59.619
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 11.26
+    },
+    "sugars_total": {
+     "status": "incomplete",
+     "perServing": null
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 1.3942
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.157875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 40.83
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 4.688
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 171.15
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 995
+  },
+  {
+   "product_id": "asian-sesame-crunch",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 200
+    },
+    {
+     "variant_id": "edamame--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "purple-cabbage--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spring-onion--raw",
+     "grams": 10
+    },
+    {
+     "variant_id": "sesame-seed--toasted",
+     "grams": 5
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "roasted-sesame",
+    "grams": 60
+   },
+   "weight": 515,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 521.95
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 20.918
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 17.164
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 76.684
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 15.41
+    },
+    "sugars_total": {
+     "status": "incomplete",
+     "perServing": null
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 2.5892
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.171625
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 45.83
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 5.243
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 178.65
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1145
+  },
+  {
+   "product_id": "asian-sesame-crunch",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "edamame--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "purple-cabbage--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spring-onion--raw",
+     "grams": 10
+    }
+   ],
+   "sauce": {
+    "id": "roasted-sesame",
+    "grams": 30
+   },
+   "weight": 410,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 352.2
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 17.698
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 6.929
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 58.334
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 10.56
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 7.893
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 1.0582
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.1565
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 40.83
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.948
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 121.7
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 995
+  },
+  {
+   "product_id": "coastal-colour",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "tuna--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "sweetcorn--cooked",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "citrus-mint",
+    "grams": 25
+   },
+   "weight": 425,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 340.75
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 26.695
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 3.4175
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 53.5675
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 5
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 4.885
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 0.74775
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.691875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 18.025
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.6475
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 60.75
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 995
+  },
+  {
+   "product_id": "coastal-colour",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "tuna--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "sweetcorn--cooked",
+     "grams": 50
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "citrus-mint",
+    "grams": 50
+   },
+   "weight": 525,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 463.75
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 37.395
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 11.2475
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 57.8325
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 8.35
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 5.215
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 1.91825
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 1.009375
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 23.025
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 4.7375
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 75.25
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1245
+  },
+  {
+   "product_id": "coastal-colour",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "tuna--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "citrus-mint",
+    "grams": 25
+   },
+   "weight": 375,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 292.75
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 24.99
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 2.6675
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 43.0675
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 3.8
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 2.615
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 0.64925
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.690625
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 15.275
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.4225
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 59.25
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 995
+  },
+  {
+   "product_id": "crispy-pork",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "pork-shavings--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "purple-cabbage--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    }
+   ],
+   "sauce": {
+    "id": "smoky-chipotle-ranch",
+    "grams": 30
+   },
+   "weight": 425,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 442.75
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 34.93
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 11.4375
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 49.5975
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 5.65
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 5.585
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 3.96075
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.331875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 40.475
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 3.2975
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 94.25
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1095
+  },
+  {
+   "product_id": "crispy-pork",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "pork-shavings--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "purple-cabbage--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "smoky-chipotle-ranch",
+    "grams": 60
+   },
+   "weight": 525,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 627.25
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 50.23
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 23.6025
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 53.8625
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 9
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 5.915
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 6.78075
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.413125
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 45.775
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 4.1175
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 109.25
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1370
+  },
+  {
+   "product_id": "crispy-pork",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "pork-shavings--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "purple-cabbage--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "carrot--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "smoky-chipotle-ranch",
+    "grams": 30
+   },
+   "weight": 400,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 437
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 34.215
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 11.34
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 48.69
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 5.1
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 5.48
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 3.945
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.2825
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 33.45
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 2.62
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 69.5
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1095
+  },
+  {
+   "product_id": "signature-salmon",
+   "label": "original",
+   "items": [
+    {
+     "variant_id": "atlantic-salmon--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 5
+    }
+   ],
+   "sauce": {
+    "id": "citrus-mint",
+    "grams": 25
+   },
+   "weight": 330,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 395.45
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 26.32
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 18.6225
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 30.2675
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 3
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 2.495
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 3.39825
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.220875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 18.975
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 1.8805
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 55.8
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1195
+  },
+  {
+   "product_id": "signature-salmon",
+   "label": "extra-first-plus-avocado-double-sauce",
+   "items": [
+    {
+     "variant_id": "atlantic-salmon--cooked",
+     "grams": 150
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "olive-oil--ready_to_use",
+     "grams": 5
+    },
+    {
+     "variant_id": "avocado--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "citrus-mint",
+    "grams": 50
+   },
+   "weight": 430,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 578.45
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 38.37
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 32.1725
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 34.5325
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 6.35
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 2.825
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 5.66325
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.305875
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 25.825
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 2.3255
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 69.3
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1495
+  },
+  {
+   "product_id": "signature-salmon",
+   "label": "removed-last",
+   "items": [
+    {
+     "variant_id": "atlantic-salmon--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "brown-rice--cooked",
+     "grams": 100
+    },
+    {
+     "variant_id": "spinach--raw",
+     "grams": 25
+    },
+    {
+     "variant_id": "tomato--raw",
+     "grams": 50
+    },
+    {
+     "variant_id": "cucumber--raw",
+     "grams": 50
+    }
+   ],
+   "sauce": {
+    "id": "citrus-mint",
+    "grams": 25
+   },
+   "weight": 325,
+   "metrics": {
+    "energy_reported": {
+     "status": "complete",
+     "perServing": 351.25
+    },
+    "protein": {
+     "status": "complete",
+     "perServing": 26.32
+    },
+    "fat": {
+     "status": "complete",
+     "perServing": 13.6225
+    },
+    "carbohydrate_by_difference": {
+     "status": "complete",
+     "perServing": 30.2675
+    },
+    "fibre_total_dietary": {
+     "status": "complete",
+     "perServing": 3
+    },
+    "sugars_total": {
+     "status": "complete",
+     "perServing": 2.495
+    },
+    "saturated_fat": {
+     "status": "complete",
+     "perServing": 2.70825
+    },
+    "salt": {
+     "status": "complete",
+     "perServing": 0.220625
+    },
+    "vitamin_c": {
+     "status": "complete",
+     "perServing": 18.975
+    },
+    "iron": {
+     "status": "complete",
+     "perServing": 1.8525
+    },
+    "calcium": {
+     "status": "complete",
+     "perServing": 55.75
+    },
+    "iodine": {
+     "status": "incomplete",
+     "perServing": null
+    }
+   },
+   "demo_price_cents": 1195
+  }
+ ]
+}

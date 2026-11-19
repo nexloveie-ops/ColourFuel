@@ -43,6 +43,14 @@ Preparation differences remain explicit: dry grains/pulses need cooking, fresh c
 
 Ingredient photo credits/licences are retained in `ingredient-photo-credits.json` and ingredient details. Nine ingredient images are clearly labelled AI concepts; their complete prompts and asset identifiers are in `ingredient-image-generation.json`. Bowl/sauce concept imagery has its own provenance in `image-generation.json`. Images identify ingredient/serving concepts, not verified supplier products or exact portions.
 
+## Photo nutrition estimate (iPhone app)
+
+`/api/photo-estimate` lets the iPhone app send one meal photo. The server asks Claude (`claude-opus-5-5`, structured JSON output) to name the visible foods, match them to this library's `variant_id`s and estimate edible grams. It never asks the model for nutrient values: the app calculates nutrition from the PostgreSQL records for matched foods only. Unmatched foods and sauces are shown as "not counted".
+
+- Photos are handled in memory for one request and are never stored or logged. The app re-encodes images (max 1280 px JPEG) before upload, which drops location and camera metadata, and asks for consent before the first photo.
+- Limits: 8 photos per client per hour and 150 per day for the service (in memory; the service runs one instance).
+- Off by default. `GET /api/photo-estimate` returns `{"available": false}` until `ANTHROPIC_API_KEY` is set on the Cloud Run service, ideally from Secret Manager (`--update-secrets=ANTHROPIC_API_KEY=<secret>:latest`) with access for the service account. Never put the key in this repository.
+
 ## Deployment
 
 Owner publishing preference (19 November 2026): a request to “upload/update to GitHub” means deliver the tested change to `main` and verify the resulting deployment. A temporary branch/PR may be used for review, but do not stop at an unmerged PR. Report the live deployment result.
