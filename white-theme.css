@@ -753,3 +753,16 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 @media (max-width: 700px) { .passport-stamp { left: auto; bottom: auto; } }
 @media (max-width: 480px) { .nutri-hero { grid-template-columns: 1fr; justify-items: center; } .nutri-legend { width: 100%; } }
 .studio-price .flip-price, .studio-price .flip-price .flip-char { font: inherit; color: inherit; letter-spacing: inherit; }
+
+/* Bowl page key figures and loading state */
+.bowl-glance { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin: 18px 0 6px; }
+.bowl-glance>div { background: #fff; border: 1.5px solid var(--cf-ink); border-radius: 16px; padding: 10px 14px; box-shadow: 4px 5px 0 var(--cf-yellow); min-width: 0; }
+.bowl-glance>div:nth-child(2) { box-shadow: 4px 5px 0 #d8b7f5; }
+.bowl-glance>div:nth-child(3) { box-shadow: 4px 5px 0 #b9c7f5; }
+.bowl-glance dt { font-size: var(--cf-caption); color: var(--cf-muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+.bowl-glance dd { margin: 4px 0 0; font: 850 1.35rem/1.15 var(--display); letter-spacing: -.03em; color: var(--cf-ink); font-variant-numeric: tabular-nums; }
+.bowl-glance-note { font-size: var(--cf-caption); color: var(--cf-muted); margin: 6px 0 12px; }
+.add-ingredient-note { display: block; flex-basis: 100%; font-size: var(--cf-caption); color: var(--cf-muted); margin-top: 8px; }
+.pending-ingredients { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pending-ingredients li { border: 1.5px solid var(--cf-border-strong); border-radius: 999px; padding: 6px 14px; font-size: var(--cf-label); background: #fff; }
+@media (max-width: 420px) { .bowl-glance dd { font-size: 1.1rem; } .bowl-glance>div { padding: 9px 10px; } }

@@ -28,7 +28,9 @@ const highlightIds=['protein','fibre_total_dietary','vitamin_c','calcium','iron'
 export function foodRankingHighlights(food,index){
  return highlightIds.map(id=>({id,row:nutrientRank(index,food.variant_id,id),metric:index.get(id)?.metric})).filter(item=>item.row?.value>0&&item.row.total>=10).sort((a,b)=>a.row.topPercent-b.row.topPercent||highlightIds.indexOf(a.id)-highlightIds.indexOf(b.id)).slice(0,3);
 }
-export function foodRankSummary(food,index){const item=foodRankingHighlights(food,index)[0];if(!item||item.row.topPercent>25)return '';return `<small class="ingredient-rank-summary">${esc(item.metric.name_en)} · ${esc(rankLabel(item.row))}<span>${nutrientAmount(item.row.value)} ${esc(item.metric.unit)} / 100 g · ${item.row.tied>1?'tied ':''}#${item.row.rank} of ${item.row.total}</span></small>`;}
+// Card summary: a familiar nutrient with a broad comparison pool (at least half the library's records); the detail panel keeps every highlight.
+const SUMMARY_EXCLUDED=new Set(['chloride','biotin','pantothenic_acid','iodine']);
+export function foodRankSummary(food,index){const size=Math.max(0,...[...index.values()].map(entry=>entry.coverage?.total||0));const item=foodRankingHighlights(food,index).find(item=>!SUMMARY_EXCLUDED.has(item.id)&&(!size||item.row.total>=size/2));if(!item||item.row.topPercent>25)return '';return `<small class="ingredient-rank-summary">${esc(item.metric.name_en)} · ${esc(rankLabel(item.row))}<span>${nutrientAmount(item.row.value)} ${esc(item.metric.unit)} / 100 g · ${item.row.tied>1?'tied ':''}#${item.row.rank} of ${item.row.total}</span></small>`;}
 export function foodRankingPanel(food,index){
  const highlights=foodRankingHighlights(food,index);
  if(food.source_basis&&food.source_basis!=='100g_food')return '<p class="ranking-basis-note">Library ranking unavailable: this source uses a different basis (for example, per 100 ml). A verified density conversion is needed before comparing it with per-100-g records.</p>';

@@ -27,3 +27,9 @@ test('all suggested sauce ingredients open an existing source-linked library rec
 test('each Bowl has both usable presets with a real base-nutrient increase; sauce is preserved',()=>{
  for(const p of PRODUCTS){const r=fromCatalog(c.recipes.find(r=>r.recipe_id===p.recipe_id));r.sauce={id:c.sauces[0].id,grams:30};const presets=c.presets.filter(p=>p.recipe_id===r.source_recipe_id);assert.deepEqual(presets.map(p=>p.label).sort(),['Active Day','Protein+']);for(const preset of presets){const next=applyPreset(r,preset,c);assert.deepEqual(next.sauce,r.sauce);assert.ok(calculate(next,c,{includeSauce:false}).metrics[preset.goal_metric].perServing>calculate(r,c,{includeSauce:false}).metrics[preset.goal_metric].perServing);}}
 });
+
+test('served products match the fixed Bowl menu, replacing legacy database product rows',()=>{
+ assert.deepEqual(c.products.map(p=>[p.product_id,p.name,p.illustrative_price_cents,p.rd]),PRODUCTS.map(p=>[p.product_id,p.name,p.illustrative_price_cents,p.rd]));
+ assert.ok(!c.products.some(p=>p.product_id==='vegan-power'));
+ assert.equal(c.products.find(p=>p.product_id==='rainbow-chicken').illustrative_price_cents,895);
+});

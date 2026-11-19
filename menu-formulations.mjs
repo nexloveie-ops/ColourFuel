@@ -42,8 +42,9 @@ export function prepareMenuRecipes(live){
   const weights=FORMULATIONS[p.product_id];
   const recipe={recipe_id:p.recipe_id,title_en:p.name,bowl_product_id:p.product_id,version:2,servings:1,minutes:null,category:'Sample bowls',origin:'ColourFuel standard-portion test formulation v2',status:'proposed_test_formulation',description:p.description,image:p.image,colors:[],steps:['Use the food state listed for each ingredient. The quantities are edible weights for one suggested test bowl.','Select one required sauce and its test weight. Final kitchen method, yield, nutrition and allergen review are pending.'],nutrition_method:'Ingredient estimates; unverified ingredients and sauces stay incomplete',items:weights.map(([id,grams],index)=>{const i=data.ingredients.find(i=>i.variant_id===id);if(!i)throw Error('Missing ingredient '+id);return {line_no:index+1,variant_id:id,edible_grams:grams,name:i.name_en,state:i.state,edible_description:i.edible_description,record_id:i.record_id,dataset_id:i.dataset_id,source_name:i.source_name,source_food_id:i.source_food_id,source_url:i.source_url};})};
   const existing=data.recipes.findIndex(r=>r.recipe_id===p.recipe_id);if(existing>=0)data.recipes[existing]=recipe;else data.recipes.push(recipe);
-  if(!data.products.some(x=>x.recipe_id===p.recipe_id))data.products.push({...p});
  }
+ // The fixed Bowl menu is the single source for product names, prices and R&D status; legacy database rows for the same recipe are replaced.
+ data.products=[...PRODUCTS.map(p=>({...p})),...(data.products||[]).filter(x=>!PRODUCTS.some(p=>p.recipe_id===x.recipe_id||p.product_id===x.product_id))];
  for(const recipe of data.recipes.filter(r=>r.bowl_product_id)){
   const result=calculate(fromCatalog(recipe),data);
   recipe.nutrition=Object.values(result.metrics).map(n=>({metric_id:n.id,complete:n.status==='complete',per_serving:n.perServing,reference_fill_items:n.references}));
