@@ -42,6 +42,8 @@ Ingredient photo credits/licences are retained in `ingredient-photo-credits.json
 
 ## Deployment
 
+Owner publishing preference (19 November 2026): a request to “upload/update to GitHub” means deliver the tested change to `main` and verify the resulting deployment. A temporary branch/PR may be used for review, but do not stop at an unmerged PR. Report the live deployment result.
+
 The existing main-branch Cloud Build trigger runs checks/tests, builds the production container and deploys the `colourfuel-web` Cloud Run service. No database migrations run during deployment. `public-assets.mjs` is the explicit allowlist; server/database code, deployment configuration, tests, fixtures and the review directory are not public HTTP assets. The review directory and fixtures are excluded from the runtime container.
 
 ## Irish ingredient expansion — 17 November 2026

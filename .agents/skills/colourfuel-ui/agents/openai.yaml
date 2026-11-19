@@ -1,0 +1,4 @@
+interface:
+  display_name: "ColourFuel UI"
+  short_description: "Keep ColourFuel pages visually consistent and usable"
+  default_prompt: "Use $colourfuel-ui to apply ColourFuel's shared visual system to this interface."

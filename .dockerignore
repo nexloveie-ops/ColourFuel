@@ -17,3 +17,7 @@ ingredient-additions.mjs
 supplier-ingredients.mjs
 irish-ingredient-expansion.mjs
 research
+
+# Project design guidance is not needed by the production server.
+.agents
+design
