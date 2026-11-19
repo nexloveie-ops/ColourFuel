@@ -36,7 +36,7 @@ An IntersectionObserver adds a short, staggered entrance only as visible cards e
 
 ## Standard-portion model
 
-Bowl editor controls are standard portion counts **per bowl**, backed by exact edible grams. Shared proposals live in `portion-standards.mjs`, with separate unit cost, extra selling price and removal-credit fields; financial fields remain null pending costing. `menu-formulations.mjs` defines explicitly revised v2 concept originals and their 16 matching presets. Menu foods use whole portions; cooked rice and quinoa permit half portions. Sauces are required and use whole sauce portions. These are kitchen units, not dietary serving advice.
+Bowl editor controls are draggable native range sliders with live portion/gram readouts and keyboard arrow support. They select standard portion counts **per bowl**, backed by exact edible grams. Shared proposals live in `portion-standards.mjs`, with separate unit cost, extra selling price and removal-credit fields; financial fields remain null pending costing. `menu-formulations.mjs` defines explicitly revised v2 concept originals and their 16 matching presets. Menu foods use whole portions; cooked rice and quinoa permit half portions. Sauces are required and use whole sauce portions. These are kitchen units, not dietary serving advice.
 
 Changing the bowl count scales ingredient and sauce batch weights together; nutritional comparisons remain per bowl. The kitchen sheet shows preparation state, unit grams, portions and grams per bowl, total batch amounts and proposed handling. Pre-weigh portions before calibrating scoops, tongs or pumps. No utensil accuracy is asserted. Batch sizes exceeding the engine's weight limits, or requiring a silent rounding of old custom weights, are rejected.
 
