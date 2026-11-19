@@ -831,3 +831,21 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .stamp-c3 { color: var(--cf-red); }
 .passport-stamp small { font-size: 10px; letter-spacing: .12em; line-height: 1.2; }
 @media (max-width: 700px) { .passport-stamp .stamp-word { font-size: 10px; max-width: 78px; } .passport-stamp small { font-size: 8.5px; } }
+
+/* Passport stamp v2: rainbow ring, bowl-and-leaf mark, FOOD / PASSPORT */
+.passport-stamp { width: 128px; gap: 1px; border: 0; color: var(--cf-ink); background: radial-gradient(circle closest-side, #fff calc(100% - 7px), transparent calc(100% - 6.5px)), conic-gradient(from -45deg, var(--cf-blue) 0 25%, var(--cf-yellow) 0 50%, var(--cf-purple) 0 75%, var(--cf-red) 0); box-shadow: 3px 4px 0 #24243f2e; }
+.passport-stamp::after { content: ""; position: absolute; inset: 11px; border-radius: 50%; border: 1.5px dashed #cdb8ec; pointer-events: none; }
+.passport-stamp .stamp-icon { display: block; width: 28px; height: 28px; margin-bottom: 1px; }
+.stamp-leaf { fill: #3f9b47; }
+.stamp-leaf-vein { stroke: #fff; stroke-width: 1.4; stroke-linecap: round; fill: none; }
+.stamp-bowl { fill: var(--cf-yellow); stroke: var(--cf-ink); stroke-width: 1.6; }
+.stamp-bowl-rim { stroke: var(--cf-ink); stroke-width: 1.8; stroke-linecap: round; }
+.passport-stamp .stamp-word { font-size: 11px; max-width: 94px; }
+.passport-stamp small { display: block; font-size: 10px; font-weight: 800; letter-spacing: .18em; line-height: 1.15; color: var(--cf-purple); }
+@media (max-width: 700px) { .passport-stamp { width: 116px; } .passport-stamp .stamp-icon { width: 24px; height: 24px; } .passport-stamp .stamp-word { font-size: 10px; max-width: 86px; } .passport-stamp small { font-size: 9px; letter-spacing: .14em; } }
+/* Stamp wordmark: the horizontal logo, cropped to letters, leaves and swoosh (tagline excluded at this size) */
+.passport-stamp .stamp-logo { display: block; width: 94px; aspect-ratio: 1705 / 540; overflow: hidden; margin-bottom: 4px; }
+.passport-stamp .stamp-logo img { display: block; width: 127.4%; max-width: none; height: auto; margin: -2.35% 0 0 -13.2%; mix-blend-mode: multiply; }
+@media (max-width: 700px) { .passport-stamp .stamp-logo { width: 84px; } }
+.passport-cover .passport-stamp .stamp-logo img { position: static !important; width: 127.4% !important; height: auto !important; min-height: 0 !important; max-height: none !important; aspect-ratio: auto !important; object-fit: fill !important; border-radius: 0 !important; margin: -2.35% 0 0 -13.2% !important; }
+@media (max-width: 700px) { .passport-stamp .stamp-logo { width: 76px; } }
