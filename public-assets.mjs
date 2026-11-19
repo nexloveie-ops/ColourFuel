@@ -1,6 +1,7 @@
 // Explicit frontend allowlist. Server, database, test fixtures and deployment files remain private.
 export const PUBLIC_ASSETS=[
   "app.js",
+  "portion-standards.mjs",
   "brand-tokens.css",
   "ingredient-cauliflower-library.jpg",
   "ingredient-courgette-library.jpg",

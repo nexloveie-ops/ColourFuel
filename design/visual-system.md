@@ -33,3 +33,11 @@ Before signoff, compare menu, sauce library, ingredient cards/detail, nutrient p
 The ingredient landing hero reads “Good food. In full colour.” with blue display text, a yellow underline, yellow/lilac orbits and the existing round-cropped Rainbow Chicken concept photo. Red and blue stickers carry non-nutritional brand copy; the illustrative caption stays visible. The nutrient route omits the collage and uses a compact heading so current database results and comparison policies remain primary. Food library photos stay 4:3.
 
 An IntersectionObserver adds a short, staggered entrance only as visible cards enter; content is visible by default and works without motion APIs. Reduced-motion disables entrances, lifts and transitions. No experimental theme switcher or demo data enters the application.
+
+## Standard-portion model
+
+Bowl editor controls are standard portion counts **per bowl**, backed by exact edible grams. Shared proposals live in `portion-standards.mjs`, with separate unit cost, extra selling price and removal-credit fields; financial fields remain null pending costing. `menu-formulations.mjs` defines explicitly revised v2 concept originals and their 16 matching presets. Menu foods use whole portions; cooked rice and quinoa permit half portions. Sauces are required and use whole sauce portions. These are kitchen units, not dietary serving advice.
+
+Changing the bowl count scales ingredient and sauce batch weights together; nutritional comparisons remain per bowl. The kitchen sheet shows preparation state, unit grams, portions and grams per bowl, total batch amounts and proposed handling. Pre-weigh portions before calibrating scoops, tongs or pumps. No utensil accuracy is asserted. Batch sizes exceeding the engine's weight limits, or requiring a silent rounding of old custom weights, are rejected.
+
+Saved/shared recipes retain exact gram weights. A non-aligned old amount is labelled custom and is only aligned when the owner deliberately changes its count. Invalid count edits keep the last valid recipe calculation and block save/share/Passport until corrected. Passport/download includes a snapshot of current suggested standards and batch weights. An original Bowl target price is distinct from a custom quote: no unverified cost, add-on price or removal refund may be invented. Existing menu targets still await costing.
