@@ -1,6 +1,6 @@
 # ColourFuel visual system
 
-Approved direction A / Colour Pop: white, food-led pages with bold sans-serif headings, bright colour fields, tactile cards and practical information. This specification applies to the eight Bowl concepts, sauces, ingredient and nutrient libraries, recipe editor, saved recipes, ingredient details and Nutrition Passport. The current work is a local review; it does not change the deployed site or catalogue.
+Approved direction A / Colour Pop: white, food-led pages with bold sans-serif headings, bright colour fields, tactile cards and practical information. This specification applies to the eight Bowl concepts, sauces, ingredient and nutrient libraries, recipe editor, saved recipes, ingredient details and Nutrition Passport. This visual system is deployed on the concept site. Kitchen, nutrition and price validation remain separate from UI publication.
 
 ## Foundations
 

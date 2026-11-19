@@ -1,6 +1,6 @@
 # Proposed standard portions v2
 
-Local review only. These weights are proposed kitchen test units, not validated shop portions. Existing menu originals have intentionally changed to whole/half units; existing saved recipes and shared gram weights are not migrated.
+Published as a concept demonstration on 19 November 2026. These weights are proposed kitchen test units, not validated shop portions. Existing menu originals have intentionally changed to whole/half units; existing saved recipes and shared gram weights are not migrated.
 
 - Cooked chicken, tuna, pork, salmon, cooked chickpeas and edamame: 50 g, whole units.
 - Cooked brown rice and quinoa: 50 g, half units allowed (25 g increments).
@@ -26,7 +26,7 @@ Cost setup
 
 `costCents` is cost per unit, `extraPriceCents` is the customer charge per extra unit, and `removalCreditCents` is any explicitly agreed credit. Values remain null and `pricingStatus` pending until independently verified. Unit cost should account for procurement, edible yield and preparation yield; labour, packaging and overhead need their own costing policy. Missing input does not become zero. No generic cents-per-100g fallback remains in the editor.
 
-The current implementation provides versioned configuration and a calculation model, not an authenticated costing administration screen or a production kitchen order system. No database migration or production deployment is part of this local review.
+The current implementation provides versioned configuration and a calculation model, not an authenticated costing administration screen or a production kitchen order system. This model does not require a new database migration; its UI was published through the existing main-branch pipeline.
 
 ## Owner-authorised demo charge overlay
 

@@ -1,11 +1,14 @@
 # ColourFuel
 
+Start here for product intent: [Requirements handoff](design/requirements-handoff.md) · [Claude instructions](CLAUDE.md).
+
 ColourFuel's Ireland-market Bowl concept website combines a visual menu, source-linked ingredient information, editable recipes and Nutrition Passports. The production Node server reads the existing Cloud SQL catalogue; it exposes no database-write or ordering endpoints.
 
 ## Current website
 
 - Eight Bowl concepts with requested target prices; Crispy Pork and Signature Salmon are R&D and unavailable to order. No Wrap products.
-- Suggested edible gram weights, Protein+ and Active Day test presets, and one required sauce with recommended pairings and alternatives.
+- Shared v2 standard portions with draggable sliders, gram/nutrition feedback, Protein+ and Active Day test presets, and one required sauce with recommended pairings and alternatives. Customer Bowl pages omit redundant recipe-name and batch inputs; the separate recipe workspace retains them.
+- Explicitly invented demo add-on charges update the per-bowl price and breakdown; batch totals are available in the recipe workspace. Real unit costs and commercial prices remain unverified. Kitchen prep sheets and Passport reports include portion/weight details.
 - Searchable ingredient library with 114 photo-backed preparation records (112 ingredient types), source provenance, neutral nutrition context and adult reference comparisons.
 - Nutrient-first browsing for all 33 tracked definitions, descending per-100-g lists, per-ingredient relative ranks and an estimate-inclusion switch. Rankings use only comparable numerical records in this library, with ties, source coverage and raw/cooked states explicit.
 - Irish buying references for all 114 preparation records (112 ingredient types): 119 product references and one Lidl chicken-range reference, with retailer filtering, pack sizes, review dates and explicit preparation/brand differences. M&S and Donnybrook Fair have separately labelled store-enquiry links.
@@ -18,9 +21,9 @@ Menu prices are unvalidated targets, not quotes. Finished portions, cooking yiel
 
 Use Node 22. Run `npm ci --ignore-scripts`, `npm run check` and `npm test`. `npm start` serves the real app and requires the existing database configuration described in `db.mjs` and `cloudbuild.yaml`. Database credentials are never served to browsers.
 
-For a localhost review without cloud credentials, `cd previews/colourfuel-bowl && npm start` reads the existing public catalogue using a read-only proxy. The archive in `fixtures/` is an offline test fixture and is never a live nutrition fallback.
+`previews/colourfuel-bowl/` is a historical snapshot, not the current frontend development entry point. Work in the repository root. Without cloud credentials, run offline tests; a frontend preview must use a clearly identified read-only public API proxy and the current root menu preparation code. The archive in `fixtures/` is never a live nutrition fallback.
 
-The current production revision combines live catalogue records with versioned, source-backed additions. This branch removes that file merge after migration 006; publication itself never executes database migrations. Unknown, trace, basis and source-definition differences remain explicit.
+Production reads the persistent database catalogue after migration 006, without a file-supplement merge or silent offline fallback. Publication itself never executes database migrations. Unknown, trace, basis and source-definition differences remain explicit.
 
 ## Nutrient comparisons
 
@@ -28,7 +31,7 @@ The server reads the persistent `colourfuel_web.catalog` projection and checks m
 
 Rank is one plus the number of strictly greater values. Ties share a rank; the top percentage includes the whole tied group and rounds upward to an integer. A percentile badge needs at least ten numerical records. The three ingredient highlights are selected from vitamins, minerals, protein and fibre using the database-returned relative positions. Raw/cooked/dried states are separate preparation records; this is concentration, not a serving recommendation, an overall health score or a regulated nutrition claim. Ingredient search, food groups and retailer filters do not change the global library comparison pool. Nutrient routes can be linked directly, e.g. `#ingredients/nutrient/vitamin_c`.
 
-This branch requires the transactional migration in `migrations/`. It was imported into Cloud SQL and verified on 18 November 2026 (operation `d471bdf0-6936-485e-bd70-000b00000024`, completed `21:42:56.477Z`); this application release switches production to those tables. The migration persists all 114 preparation records (including the 82 former supplements) plus 3,661 nutrient observations, 114 photo records and 120 buying references. It retains the old normalized source data and recipes, records a checksum and original view definition for recovery, and preserves the existing SELECT-only runtime permission. See `migrations/README.md` for the verified execution and rollback order. Migration fixtures and the old ingredient modules are excluded from the deployed runtime; no file fallback is permitted.
+The transactional migration in `migrations/` has already been applied; do not rerun it as part of ordinary publishing. It was imported into Cloud SQL and verified on 18 November 2026 (operation `d471bdf0-6936-485e-bd70-000b00000024`, completed `21:42:56.477Z`); production uses those tables. The migration persists all 114 preparation records (including the 82 former supplements) plus 3,661 nutrient observations, 114 photo records and 120 buying references. It retains the old normalized source data and recipes, records a checksum and original view definition for recovery, and preserves the existing SELECT-only runtime permission. See `migrations/README.md` for the verified execution and rollback order. Migration fixtures and the old ingredient modules are excluded from the deployed runtime; no file fallback is permitted.
 
 ## Irish buying references
 
