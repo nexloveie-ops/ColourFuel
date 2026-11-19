@@ -22,3 +22,12 @@ test('search and category work together, with counts available for changing filt
  assert.ok(browseIngredients(foods,{query:term}).groups.flatMap(g=>g.items).some(i=>i.variant_id===alias.variant_id));
  assert.equal(browseIngredients(foods,{category:'animal-protein'}).groups[0].items.filter(i=>i.ingredient_id==='chicken-breast').length,2);
 });
+
+test('Bowl add-on options are grouped and exclude raw proteins, condiments and foods needing cooking',async()=>{
+ const {groupedIngredientOptions}=await import('./ingredient-library.mjs');
+ const foods=[{variant_id:'chicken-breast--raw',ingredient_id:'chicken-breast',category:'meat',state:'raw',name_en:'Chicken breast'},{variant_id:'chicken-breast--roasted',ingredient_id:'chicken-breast',category:'meat',state:'roasted',name_en:'Chicken breast'},{variant_id:'water--ready_to_use',ingredient_id:'water',category:'water',state:'ready_to_use',name_en:'Water'},{variant_id:'potato--raw',ingredient_id:'potato',category:'vegetable',state:'raw',name_en:'Potato'},{variant_id:'kale--raw',ingredient_id:'kale',category:'vegetable',state:'raw',name_en:'Kale'},{variant_id:'avocado--raw',ingredient_id:'avocado',category:'fruit',state:'raw',name_en:'Avocado'},{variant_id:'oat--dry',ingredient_id:'oat',category:'grain',state:'dry',name_en:'Oats'}];
+ const bowl=groupedIngredientOptions(foods,{bowl:true}),ids=bowl.flatMap(g=>g.items.map(i=>i.variant_id));
+ assert.deepEqual(ids.sort(),['avocado--raw','chicken-breast--roasted','kale--raw']);
+ assert.deepEqual(bowl.map(g=>g.label),['Vegetables','Fruit & juices','Meat, fish & eggs']);
+ assert.equal(groupedIngredientOptions(foods).flatMap(g=>g.items).length,foods.length);
+});
