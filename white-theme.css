@@ -849,3 +849,9 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 @media (max-width: 700px) { .passport-stamp .stamp-logo { width: 84px; } }
 .passport-cover .passport-stamp .stamp-logo img { position: static !important; width: 127.4% !important; height: auto !important; min-height: 0 !important; max-height: none !important; aspect-ratio: auto !important; object-fit: fill !important; border-radius: 0 !important; margin: -2.35% 0 0 -13.2% !important; }
 @media (max-width: 700px) { .passport-stamp .stamp-logo { width: 76px; } }
+
+/* Passport share result */
+.passport-share-result { margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--cf-blue-soft); border: 1px solid #c8d2f1; }
+.passport-share-result p { margin: 0 0 10px; font-size: var(--cf-label); line-height: 1.6; color: var(--cf-ink); }
+.passport-share-result label { display: block; font-size: var(--cf-caption); color: var(--cf-muted); }
+.passport-share-result input { display: block; width: 100%; margin-top: 6px; font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--cf-border-strong); border-radius: 8px; background: #fff; color: var(--cf-ink); }

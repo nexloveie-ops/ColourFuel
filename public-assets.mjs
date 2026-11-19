@@ -151,6 +151,7 @@ export const PUBLIC_ASSETS=[
   "rainbow-chicken.jpg",
   "recipe-engine.mjs",
   "recipe-studio.mjs",
+  "passport-card.mjs",
   "roasted-sesame-small.jpg",
   "roasted-sesame.jpg",
   "salad-fresh.jpg",
