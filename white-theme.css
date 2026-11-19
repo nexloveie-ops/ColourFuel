@@ -590,6 +590,13 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .kitchen-sheet { border: 1px solid var(--cf-border); border-top: 5px solid var(--cf-red); border-radius: var(--cf-radius); padding: 28px; margin-block: 40px; }
 .kitchen-sheet h2 { font-size: clamp(28px,3vw,40px); margin-block: 12px; }
 .kitchen-sheet>p { font-size: var(--cf-label); color: var(--cf-muted); }
+.kitchen-sheet-collapsible>summary { list-style: none; cursor: pointer; display: grid; gap: 4px; min-height: 44px; padding-right: 60px; position: relative; }
+.kitchen-sheet-collapsible>summary::-webkit-details-marker { display: none; }
+.kitchen-sheet-collapsible>summary h2 { margin-block: 6px 0; }
+.kitchen-sheet-collapsible>summary::after { content: "+"; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; border: 1.5px solid var(--cf-blue); border-radius: 50%; color: var(--cf-blue); font-size: 24px; font-weight: 700; line-height: 1; }
+.kitchen-sheet-collapsible[open]>summary::after { content: "−"; background: var(--cf-blue); color: var(--cf-white); }
+.kitchen-sheet-collapsible[open]>summary { margin-bottom: 16px; }
+.kitchen-toggle-hint { font-size: var(--cf-label); color: var(--cf-muted); }
 .kitchen-summary { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--cf-yellow-soft); border-radius: 12px; padding: 16px; margin-block: 20px; }
 .kitchen-rows article { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; padding-block: 20px; border-bottom: 1px solid var(--cf-border); }
 .kitchen-rows article>div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
@@ -626,3 +633,123 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
   .passport-highlights { break-inside: avoid; }
   .passport-cover-copy { background: white; }
 }
+
+/* Colour Pop effects (colour-fx.mjs). Presentation only; the global reduced-motion rule above disables every animation here. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* 1 · Exploded bowl */
+.bowl-stage-figure { margin: 0; padding: 10px 6px 0; overflow-x: clip; }
+.bowl-stage { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1; margin-inline: auto; container-type: inline-size; }
+.bowl-stage::before { content: ""; position: absolute; inset: 8%; border-radius: 50%; border: 2px dashed var(--cf-border-strong); animation: stage-spin 70s linear infinite; }
+.bowl-stage-plate { position: absolute; inset: 24%; border-radius: 50%; overflow: hidden; background: var(--cf-yellow); box-shadow: 0 0 0 10px var(--cf-yellow-soft), 9px 11px 0 var(--cf-yellow); }
+.bowl-stage-plate img, .studio-food-intro .bowl-stage-plate img { width: 100%; height: 100% !important; max-width: none; aspect-ratio: auto !important; object-fit: cover; display: block; border-radius: 0; }
+.bowl-stage-chips { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; }
+.bowl-chip { position: absolute; left: var(--x); top: var(--y); width: var(--chip); aspect-ratio: 1; transform: translate(-50%,-50%); transition: width .45s cubic-bezier(.34,1.56,.64,1), opacity .3s; animation: chip-in .6s cubic-bezier(.34,1.56,.64,1) backwards; animation-delay: calc(var(--i) * 70ms); }
+.bowl-chip-photo { display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--cf-ink), 4px 5px 0 var(--cf-ink); background: var(--cf-surface); }
+.bowl-chip.is-sauce .bowl-chip-photo { box-shadow: 0 0 0 4px var(--sauce), 4px 5px 0 var(--cf-ink); }
+.bowl-chip-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bowl-chip-label { position: absolute; left: 50%; top: 100%; transform: translate(-50%,-35%); display: flex; flex-direction: column; align-items: center; white-space: nowrap; background: #fff; border: 1.5px solid var(--cf-ink); border-radius: 999px; padding: 2px 10px; font-size: 12px; line-height: 1.3; color: var(--cf-ink); z-index: 2; }
+.bowl-chip-label b { color: var(--cf-blue); font-variant-numeric: tabular-nums; }
+.bowl-chip.is-empty { opacity: .45; }
+.bowl-chip.chip-pop .bowl-chip-photo { animation: chip-pop .5s cubic-bezier(.34,1.56,.64,1); }
+.chip-bubble { position: absolute; left: 50%; top: 0; font: 800 14px var(--display); padding: 3px 10px; border-radius: 999px; background: var(--cf-blue); color: #fff; pointer-events: none; white-space: nowrap; z-index: 3; animation: bubble-up 1s ease-out forwards; }
+.chip-bubble.down { background: var(--cf-red); }
+.bowl-stage-figure figcaption { font-size: var(--cf-caption); color: var(--cf-muted); text-align: center; margin-top: 22px; line-height: 1.6; }
+@container (max-width: 380px) { .bowl-chip-label { font-size: 11px; padding: 1px 7px; } }
+@keyframes chip-in { from { opacity: 0; transform: translate(-50%,-50%) scale(.2); } }
+@keyframes chip-pop { 45% { transform: scale(1.2) rotate(-6deg); } }
+@keyframes bubble-up { 0% { opacity: 0; transform: translate(-50%,0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%,-64px); } }
+@keyframes stage-spin { to { transform: rotate(360deg); } }
+
+/* 2 · Nutrition ring */
+.nutri-hero { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 22px; align-items: center; background: #fff; border: 1.5px solid var(--cf-ink); border-radius: var(--cf-radius); box-shadow: 6px 7px 0 var(--cf-yellow); padding: 20px; margin: 18px 0 26px; }
+.nutri-ring { position: relative; width: 150px; aspect-ratio: 1; }
+.nutri-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
+.ring-track { fill: none; stroke: #eceffa; stroke-width: 14; }
+.ring-seg { fill: none; stroke: var(--seg); stroke-width: 14; transition: stroke-dasharray .6s cubic-bezier(.34,1.3,.64,1), stroke-dashoffset .6s cubic-bezier(.34,1.3,.64,1); }
+.seg-protein { --seg: var(--cf-blue); }
+.seg-carbohydrate_by_difference { --seg: var(--cf-yellow); }
+.seg-fat { --seg: var(--cf-purple); }
+.nutri-ring-centre { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.nutri-ring-centre strong { font: 850 2.1rem/1 var(--display); letter-spacing: -.04em; color: var(--cf-ink); font-variant-numeric: tabular-nums; }
+.nutri-ring-centre span { font-size: var(--cf-caption); color: var(--cf-muted); text-transform: uppercase; letter-spacing: .14em; margin-top: 4px; }
+.nutri-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.nutri-legend li { display: grid; grid-template-columns: 14px minmax(0,1fr) auto; align-items: center; gap: 10px; font-size: var(--cf-label); }
+.nutri-legend i { width: 14px; height: 14px; border-radius: 4px; background: var(--seg); border: 1px solid #24243f33; }
+.nutri-legend b { font: 800 1.25rem var(--display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nutri-hero-note { grid-column: 1 / -1; margin: 0; font-size: var(--cf-caption); color: var(--cf-muted); line-height: 1.6; }
+@media (max-width: 420px) { .nutri-hero { grid-template-columns: 1fr; justify-items: center; } .nutri-legend { width: 100%; } }
+
+/* 3 · Price flip board */
+.flip-price { display: inline-flex; perspective: 400px; font-variant-numeric: tabular-nums; }
+.flip-char { display: inline-block; transform-origin: 50% 50%; }
+.demo-price-bar .flip-char { background: var(--cf-ink); color: var(--cf-yellow); border-radius: 5px; padding: 0 .09em; margin-right: 2px; min-width: .62em; text-align: center; }
+.flip-char.is-flipping { animation: flip-char .5s cubic-bezier(.3,1.4,.6,1) both; animation-delay: var(--d); }
+@keyframes flip-char { 0% { transform: rotateX(90deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: rotateX(0); } }
+.line-drop { animation: line-drop .5s cubic-bezier(.34,1.56,.64,1) backwards; animation-delay: var(--d); }
+@keyframes line-drop { from { opacity: 0; transform: translateY(-14px) scale(.96); } }
+
+/* 4 · Block sliders with a food-photo thumb */
+.portion-slider::-webkit-slider-runnable-track { height: 16px; border-radius: 6px; background: repeating-linear-gradient(to right, transparent 0 calc(100% / var(--blocks,4) - 3px), #fff calc(100% / var(--blocks,4) - 3px) calc(100% / var(--blocks,4))), linear-gradient(to right, var(--cf-blue) 0 var(--portion-fill), #e4e8f6 var(--portion-fill) 100%); }
+.portion-slider::-webkit-slider-thumb { width: 38px; height: 38px; margin-top: -11px; border: 3px solid var(--cf-blue); border-radius: 50%; background: #fff var(--thumb-img,none) center / cover no-repeat; box-shadow: 0 0 0 2px #fff, 3px 4px 0 var(--cf-ink); transition: transform .2s cubic-bezier(.34,1.56,.64,1); }
+.portion-slider:active::-webkit-slider-thumb { transform: scale(1.14) rotate(-8deg); }
+.portion-slider::-moz-range-track { height: 16px; border-radius: 6px; background: repeating-linear-gradient(to right, transparent 0 calc(100% / var(--blocks,4) - 3px), #fff calc(100% / var(--blocks,4) - 3px) calc(100% / var(--blocks,4))), linear-gradient(to right, var(--cf-blue) 0 var(--portion-fill), #e4e8f6 var(--portion-fill) 100%); }
+.portion-slider::-moz-range-thumb { width: 32px; height: 32px; border: 3px solid var(--cf-blue); border-radius: 50%; background: #fff var(--thumb-img,none) center / cover no-repeat; box-shadow: 3px 4px 0 var(--cf-ink); }
+.portion-readout output { display: inline-block; }
+.readout-pop { animation: readout-pop .35s cubic-bezier(.34,1.56,.64,1); }
+@keyframes readout-pop { 50% { transform: scale(1.16); color: var(--cf-red); } }
+
+/* 5 · Sauce pour */
+.sauce-choice { position: relative; isolation: isolate; overflow: hidden; }
+.sauce-choice::before { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--sauce) 26%, #fff); transform: scaleY(0); transform-origin: bottom; }
+.sauce-choice.is-selected::before { transform: scaleY(1); }
+.sauce-choice.just-poured::before { animation: sauce-pour .85s cubic-bezier(.5,0,.2,1); }
+.sauce-choice.just-poured::after { content: ""; position: absolute; top: -12px; left: 50%; width: 14px; height: 18px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: var(--sauce); z-index: -1; animation: sauce-drop .55s ease-in forwards; }
+.sauce-choice img { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+.sauce-choice.is-selected img { transform: rotate(-4deg) scale(1.06); }
+@keyframes sauce-pour { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes sauce-drop { from { transform: translate(-50%,0); opacity: 1; } to { transform: translate(-50%,90px); opacity: 0; } }
+
+/* 6 · Menu card tilt and ingredient stickers */
+.product-card { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; will-change: transform; }
+.product-card.is-tilting { transition: transform .08s linear, box-shadow .3s ease; }
+.product-card .product-art { position: relative; }
+.card-pop-tags { position: absolute; top: 14px; right: 14px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; z-index: 2; }
+.card-pop-tags i { font-style: normal; font-size: 12px; font-weight: 700; background: #fff; color: var(--cf-ink); border: 1.5px solid var(--cf-ink); border-radius: 999px; padding: 3px 10px; opacity: 0; transform: scale(0) rotate(-10deg); transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .2s; transition-delay: calc(var(--i) * 70ms); }
+.card-pop-tags i:nth-child(2) { background: var(--cf-yellow); }
+.card-pop-tags i:nth-child(3) { background: var(--cf-purple-soft); }
+@media (hover: hover) and (pointer: fine) { .product-card:hover .card-pop-tags i { opacity: 1; transform: scale(1) rotate(calc(-4deg + var(--i) * 4deg)); } }
+
+/* 7 · Ingredient card flip */
+.flip-photo { display: block; perspective: 1000px; }
+.flip-inner { display: block; position: relative; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.3,1.3,.6,1); }
+.flip-inner>.ingredient-card-photo, .flip-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip-back { position: absolute; inset: 0; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 14px 16px; background: var(--cf-yellow); color: var(--cf-ink); text-align: left; overflow: hidden; }
+.flip-back>small { font-size: var(--cf-caption); color: var(--cf-yellow-ink); font-weight: 700; letter-spacing: .04em; }
+.flip-back>strong { font: 850 1.15rem/1.2 var(--display); letter-spacing: -.02em; }
+.flip-back .ingredient-rank-summary { margin: 0; background: #fff; }
+@media (hover: hover) and (pointer: fine) { .catalog-item:hover .flip-inner, .catalog-item:focus-visible .flip-inner { transform: rotateY(180deg); } }
+
+/* 8 · Passport stamp and ticket edge */
+.passport-cover { position: relative; }
+.passport-stamp { position: absolute; top: 18px; right: 18px; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 4px; width: 132px; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--cf-red); color: var(--cf-red); text-align: center; background: #ffffffd9; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 7px var(--cf-red); transform: rotate(-14deg); animation: stamp-in .5s cubic-bezier(.2,1.6,.4,1) .35s backwards; pointer-events: none; }
+.passport-stamp span { font: 900 16px/1 var(--display); letter-spacing: .06em; }
+.passport-stamp small { font-size: 11px; font-weight: 700; letter-spacing: .1em; max-width: 96px; line-height: 1.3; }
+.passport-cover::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: radial-gradient(circle at 10px 8px, #fff 6px, transparent 6.5px) 0 0 / 20px 8px repeat-x; z-index: 2; pointer-events: none; }
+@keyframes stamp-in { 0% { opacity: 0; transform: rotate(-32deg) scale(2.6); } 70% { opacity: 1; transform: rotate(-12deg) scale(.92); } 100% { transform: rotate(-14deg) scale(1); } }
+@media (max-width: 600px) { .passport-stamp { width: 104px; top: 12px; right: 12px; } .passport-stamp span { font-size: 13px; } }
+@media print { .passport-stamp { animation: none; } }
+.studio .flip-price { display: inline-flex !important; flex-direction: row; vertical-align: baseline; }
+.studio .flip-price .flip-char { display: inline-block !important; }
+.nutri-hero { grid-template-columns: 132px minmax(0,1fr); }
+.nutri-ring { width: 132px; }
+.nutri-legend span { white-space: nowrap; }
+.nutri-legend b { font-size: 1.1rem; }
+.passport-stamp { top: auto; right: auto; bottom: 26px; left: calc(53.5% - 74px); width: 120px; }
+.passport-stamp span { font-size: 14px; }
+@media (max-width: 700px) { .passport-stamp { bottom: auto; top: 12px; left: auto; right: 12px; width: 100px; } .passport-stamp span { font-size: 12px; } }
+.passport-stamp { left: calc(53.5% - 104px); bottom: 20px; }
+.passport-stamp span { font-size: 13px; letter-spacing: .02em; }
+@media (max-width: 700px) { .passport-stamp { left: auto; bottom: auto; } }
+@media (max-width: 480px) { .nutri-hero { grid-template-columns: 1fr; justify-items: center; } .nutri-legend { width: 100%; } }
+.studio-price .flip-price, .studio-price .flip-price .flip-char { font: inherit; color: inherit; letter-spacing: inherit; }

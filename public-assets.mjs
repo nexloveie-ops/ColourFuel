@@ -158,6 +158,7 @@ export const PUBLIC_ASSETS=[
   "salad-hero.jpg",
   "sauce-content.mjs",
   "sauce-picker.mjs",
+  "colour-fx.mjs",
   "signature-salmon-small.jpg",
   "signature-salmon.jpg",
   "smoky-chipotle-ranch-small.jpg",
