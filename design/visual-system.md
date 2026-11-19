@@ -1,14 +1,14 @@
 # ColourFuel visual system
 
-White, food-led pages with editorial serif headings and practical sans-serif information. This specification applies to the eight Bowl concepts, sauces, ingredient and nutrient libraries, recipe editor, saved recipes, ingredient details and Nutrition Passport. The current work is a local review; it does not change the deployed site or catalogue.
+Approved direction A / Colour Pop: white, food-led pages with bold sans-serif headings, bright colour fields, tactile cards and practical information. This specification applies to the eight Bowl concepts, sauces, ingredient and nutrient libraries, recipe editor, saved recipes, ingredient details and Nutrition Passport. The current work is a local review; it does not change the deployed site or catalogue.
 
 ## Foundations
 
-`brand-tokens.css` is the source of shared tokens. White `#ffffff` is the canvas. Ink `#222741` is primary text; `#5b6276` is secondary text. Blue `#294cc7` is for primary actions, active navigation and focus; yellow `#ffda58` marks selected filters and presets, always with dark text. Purple `#7145ad` and its pale surface group source/nutrition information. Red `#c73246` is a restrained brand accent. Yellow, purple and red are not nutrient-health judgements.
+`brand-tokens.css` is the source of shared tokens. White `#ffffff` is the canvas. Ink `#24243f` is primary text; `#5b6276` is secondary text. Blue `#294bd1` is for primary actions, active navigation and focus; yellow `#ffda42` marks selected filters and presets, always with dark text. Purple `#783ec2` and its pale surface group source/nutrition information. Red `#d32d43` is a restrained brand accent. Yellow, purple and red are not nutrient-health judgements.
 
-Use Georgia for editorial headings, retaining the existing brand character. Use the existing system/Inter sans-serif stack for navigation, copy, labels, controls and numbers, without fetching a font. Body copy is normally 16px, regular labels 14px, secondary captions 12px. Phone card summaries and compact preset controls may use 13px where the 2-column structure requires it. Form controls stay 16px. Use tabular numerals for nutrition and prices. Keep a fixed, non-wrapping column for tied or three-digit nutrient ranks. Desktop page headings scale to 54px; phone headings are 36–38px. Keep body line height around 1.65–1.8 and heading line height around 1.2.
+Use Arial/Helvetica Neue/system sans for bold display headings (750–850), with tight tracking and no remote font dependency. Use the existing system/Inter sans-serif stack for navigation, copy, labels, controls and numbers, without fetching a font. Body copy is normally 16px, regular labels 14px, secondary captions 12px. Phone card summaries and compact preset controls may use 13px where the 2-column structure requires it. Form controls stay 16px. Use tabular numerals for nutrition and prices. Keep a fixed, non-wrapping column for tied or three-digit nutrient ranks. The ingredient hero scales to 74px desktop / 48px phone; information-heavy headings stay 28–54px. Keep body line height around 1.65–1.8 and heading line height around 1.2.
 
-Use 4, 8, 12, 16, 24, 32, 48 and 64px spacing steps. Shared card radius is 16px, controls 8px and large editorial image/dialog radius 24px. Use thin neutral borders and one light hover shadow; do not give every information block a shadow. The content frame is at most 1280px including responsive 20–56px horizontal padding.
+Use 4, 8, 12, 16, 24, 32, 48 and 64px spacing steps. Shared card radius is 22px, inputs 8px and large editorial image/dialog radius 24px. Use neutral 1.5px card borders with a light bottom shadow. Fine-pointer hover lifts food cards onto a yellow offset shadow; every fourth second ingredient card uses lilac. Information panels remain steady. Primary buttons are pills with an ink offset shadow. The content frame is at most 1280px including responsive 20–56px horizontal padding.
 
 ## Components
 
@@ -27,3 +27,9 @@ Dialogs have a visible 44px close control outside the scrollable content area an
 Keep shared values in `brand-tokens.css`; edit the shared visual-system section in `white-theme.css` rather than appending ad hoc page themes. Existing structural rules remain in `style.css`, `studio.css` and `visual-menu.css`. Do not edit production data or calculate nutrition in CSS/markup. The server's static asset allowlist must include any new CSS file.
 
 Before signoff, compare menu, sauce library, ingredient cards/detail, nutrient policies, builder preset and required sauce, Passport and recipe-sharing pages at desktop and phone widths. Check long names, empty filters, selected states, reduced-motion behavior, focus visibility and horizontal fit. Keep a reviewable local preview and screenshots. Preserve deployment authorization as given by the owner for the active task.
+
+## Approved A composition and motion
+
+The ingredient landing hero reads “Good food. In full colour.” with blue display text, a yellow underline, yellow/lilac orbits and the existing round-cropped Rainbow Chicken concept photo. Red and blue stickers carry non-nutritional brand copy; the illustrative caption stays visible. The nutrient route omits the collage and uses a compact heading so current database results and comparison policies remain primary. Food library photos stay 4:3.
+
+An IntersectionObserver adds a short, staggered entrance only as visible cards enter; content is visible by default and works without motion APIs. Reduced-motion disables entrances, lifts and transitions. No experimental theme switcher or demo data enters the application.
