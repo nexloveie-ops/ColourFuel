@@ -766,3 +766,7 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .pending-ingredients { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .pending-ingredients li { border: 1.5px solid var(--cf-border-strong); border-radius: 999px; padding: 6px 14px; font-size: var(--cf-label); background: #fff; }
 @media (max-width: 420px) { .bowl-glance dd { font-size: 1.1rem; } .bowl-glance>div { padding: 9px 10px; } }
+.add-ingredient { flex-wrap: wrap; }
+.add-ingredient label { flex: 1 1 260px; }
+.add-ingredient .outline-button { flex: 0 0 auto; }
+.add-ingredient-note { flex: 1 0 100%; margin-top: 0; }
