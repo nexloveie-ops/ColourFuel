@@ -770,3 +770,37 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 750; letter-spacing: -.0
 .add-ingredient label { flex: 1 1 260px; }
 .add-ingredient .outline-button { flex: 0 0 auto; }
 .add-ingredient-note { flex: 1 0 100%; margin-top: 0; }
+
+/* Add-ingredient picker: food-group chips and photo tiles */
+.add-ingredient-picker { margin-top: 26px; padding: 20px; border: 1.5px solid var(--cf-border); border-radius: var(--cf-radius); background: var(--cf-surface); }
+.add-picker-head h3 { margin: 0; font: 800 1.25rem/1.2 var(--display); letter-spacing: -.02em; }
+.add-picker-head p { margin: 4px 0 14px; font-size: var(--cf-label); color: var(--cf-muted); }
+.add-picker-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 10px; scrollbar-width: thin; }
+.add-picker-tabs button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 14px; border: 1.5px solid var(--cf-border-strong); border-radius: 999px; background: #fff; color: var(--cf-ink); font: 600 var(--cf-label) var(--sans); cursor: pointer; white-space: nowrap; }
+.add-picker-tabs button span { font-size: var(--cf-caption); color: var(--cf-muted); font-variant-numeric: tabular-nums; }
+.add-picker-tabs button[aria-pressed="true"] { background: var(--cf-yellow); border-color: var(--cf-ink); box-shadow: 3px 3px 0 var(--cf-ink); }
+.add-picker-tabs button[aria-pressed="true"] span { color: var(--cf-yellow-ink); }
+.add-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; margin-top: 6px; }
+.add-tile { position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 2px; padding: 0 0 10px; border: 1.5px solid var(--cf-border); border-radius: 16px; background: #fff; color: var(--cf-ink); text-align: left; cursor: pointer; overflow: hidden; transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, border-color .2s; min-height: 44px; }
+.add-tile-photo { position: relative; display: block; aspect-ratio: 4 / 3; background: var(--cf-blue-soft); margin-bottom: 6px; }
+.add-tile-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.add-tile-plus { position: absolute; right: 8px; bottom: -14px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--cf-blue); color: #fff; font: 800 18px/1 var(--display); font-style: normal; box-shadow: 2px 2px 0 var(--cf-ink); }
+.add-tile-name { padding: 6px 12px 0; font-weight: 700; font-size: var(--cf-label); line-height: 1.3; }
+.add-tile small { padding: 0 12px; font-size: var(--cf-caption); color: var(--cf-muted); line-height: 1.4; }
+@media (hover: hover) and (pointer: fine) { .add-tile:hover { transform: translateY(-3px) rotate(-.6deg); border-color: var(--cf-blue); box-shadow: 4px 5px 0 var(--cf-yellow); } }
+.add-tile:active { transform: scale(.97); }
+.add-ingredient-picker .add-ingredient-note { margin-top: 12px; }
+@media (max-width: 600px) { .add-ingredient-picker { padding: 16px 14px; } .add-picker-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } }
+.add-tile-photo { overflow: hidden; }
+.add-tile .add-tile-photo img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; max-width: none; aspect-ratio: auto !important; object-fit: cover; }
+.add-tile-plus { bottom: 8px; z-index: 1; }
+
+/* Add-ingredient launcher and dialog */
+.add-ingredient-launch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 24px; }
+.add-launch { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; }
+.add-launch span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--cf-blue); color: #fff; font: 800 17px/1 var(--display); }
+.add-ingredient-launch small { font-size: var(--cf-caption); color: var(--cf-muted); }
+#info-dialog.add-picker-dialog { max-width: 760px; }
+.add-picker-dialog .add-ingredient-picker { margin: 0; padding: 0; border: 0; background: none; }
+.add-picker-lead { margin: 0 0 14px; }
+.add-picker-dialog .add-picker-tabs { position: sticky; top: -1px; z-index: 2; background: var(--cf-white); padding-top: 6px; }
