@@ -50,13 +50,27 @@ final class BowlSession {
         self.current = recipe
     }
 
+    /// The option the bowl is based on: nil = Original, else Protein+ / Active Day. Reset returns here.
+    private(set) var basePreset: Preset?
+    var basePresetLabel: String { basePreset?.label ?? "Original" }
+    /// Each bowl keeps its own changes (foods, portions, sauce, base option) while you browse other bowls.
+    private var savedBowls: [String: (recipe: BowlRecipe, base: Preset?)] = [:]
+
     func select(_ product: Product) {
         guard product.id != self.product.id, let recipe = catalog.recipe(for: product) else { return }
+        savedBowls[self.product.id] = (current, basePreset)
         self.product = product
         original = BowlRecipe(recipe: recipe)
-        current = original
+        let saved = savedBowls[product.id]
+        current = saved?.recipe ?? original
+        basePreset = saved?.base
         changeDeltas = [:]
     }
+
+    /// Foods the customer added that the recipe doesn't have.
+    var hasAddedFoods: Bool { current.items.contains { item in !original.items.contains { $0.variantId == item.variantId } } }
+    /// Back to the selected option (Original / Protein+ / Active Day); the chosen sauce is kept.
+    func reset() { apply(basePreset) }
 
     // MARK: Portions
     func food(_ id: String) -> Ingredient? { catalog.ingredient(id) }
@@ -85,6 +99,7 @@ final class BowlSession {
     var presets: [Preset] { (catalog.presets ?? []).filter { $0.recipeId == product.recipeId } }
     var isCustom: Bool { current.items != original.items }
     func apply(_ preset: Preset?) {
+        basePreset = preset
         let before = current.items
         current.items = original.items.map { BowlItem(variantId: $0.variantId, grams: preset?.weights[$0.variantId] ?? $0.grams) }
         var deltas: [String: Double] = [:]

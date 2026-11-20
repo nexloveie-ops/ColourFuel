@@ -76,12 +76,6 @@ struct BowlStageScreen: View {
                     .frame(width: 44, height: 44).background(Circle().fill(CF.purpleSoft))
             }
             .accessibilityLabel("Photo nutrition estimate")
-            Text(session.isCustom ? (session.activePreset ?? "Custom mix") : "Original Recipe")
-                .font(.system(size: 12, weight: .heavy))
-                .padding(.horizontal, 12).padding(.vertical, 7)
-                .background(Capsule().fill(session.isCustom ? CF.yellow : CF.blueSoft))
-                .overlay(Capsule().stroke(session.isCustom ? CF.ink : .clear, lineWidth: 1.5))
-                .animation(.spring, value: session.isCustom)
         }
         .padding(.horizontal, 20).padding(.top, 8)
     }
@@ -122,11 +116,24 @@ struct BowlStageScreen: View {
             Text(session.product.isResearch ? "In the test kitchen · not available to order" : "Concept preview · not yet available to order")
                 .font(.footnote).foregroundStyle(CF.muted)
             Text("Tap a food to adjust · swipe for more bowls").font(.subheadline).lineLimit(1).minimumScaleFactor(0.85).foregroundStyle(CF.muted)
-            Button { showAdd = true } label: {
-                Label("Add a food", systemImage: "plus.circle.fill").font(.system(size: 15, weight: .bold))
-                    .padding(.horizontal, 16).frame(minHeight: 44)
-                    .overlay(Capsule().stroke(CF.blue, lineWidth: 2))
+            HStack(spacing: 10) {
+                Button { showAdd = true } label: {
+                    Label("Add a food", systemImage: "plus.circle.fill").font(.system(size: 15, weight: .bold))
+                        .padding(.horizontal, 16).frame(minHeight: 44)
+                        .overlay(Capsule().stroke(CF.blue, lineWidth: 2))
+                }
+                if session.hasAddedFoods {
+                    Button { withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) { session.reset() } } label: {
+                        Label("Reset", systemImage: "arrow.counterclockwise").font(.system(size: 15, weight: .bold)).foregroundStyle(CF.red)
+                            .padding(.horizontal, 16).frame(minHeight: 44)
+                            .overlay(Capsule().stroke(CF.red, lineWidth: 2))
+                    }
+                    .accessibilityLabel("Reset to \(session.basePresetLabel)")
+                    .accessibilityHint("Removes added foods and restores the \(session.basePresetLabel) portions. Your sauce stays.")
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
+            .animation(.spring(response: 0.4, dampingFraction: 0.75), value: session.hasAddedFoods)
             .padding(.top, 6)
         }
         .padding(.top, 2).padding(.horizontal, 20)
@@ -134,13 +141,26 @@ struct BowlStageScreen: View {
     }
 
     private var presetRow: some View {
+        // Centred when it fits; scrolls sideways on narrow phones (e.g. when "Custom" is added).
+        ViewThatFits(in: .horizontal) {
+            presetPills.padding(.horizontal, 20)
+            ScrollView(.horizontal) { presetPills.padding(.horizontal, 20) }.scrollIndicators(.hidden)
+        }
+        .padding(.top, 12)
+    }
+
+    private var presetPills: some View {
         HStack(spacing: 8) {
             Button { withAnimation(.spring) { session.apply(nil) } } label: { Pill(text: "Original", selected: session.activePreset == "Original") }
             ForEach(session.presets, id: \.presetId) { preset in
                 Button { withAnimation(.spring) { session.apply(preset) } } label: { Pill(text: preset.label, selected: session.activePreset == preset.label) }
             }
+            // Portions changed by hand and matching no preset.
+            if session.activePreset == nil {
+                Pill(text: "Custom", selected: true).transition(.scale.combined(with: .opacity))
+                    .accessibilityLabel("Custom portions")
+            }
         }
-        .padding(.top, 12)
     }
 
     private var dock: some View {
