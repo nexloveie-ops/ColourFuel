@@ -121,7 +121,7 @@ struct IngredientCard: View {
 
 func sourceLabel(_ food: Ingredient) -> String {
     let id = food.datasetId ?? ""
-    let base = id.hasPrefix("usda") ? "USDA" : id.hasPrefix("supplier") ? "Manufacturer" : "CoFID"
+    let base = id == "photo_pack_label" ? "Pack label" : id.hasPrefix("usda") ? "USDA" : id.hasPrefix("supplier") ? "Manufacturer" : "CoFID"
     return base + (food.verificationStatus == "reference_estimate" ? " · reference estimate" : "")
 }
 
@@ -223,6 +223,16 @@ struct IngredientDetail: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(food.nameEn).font(CF.display(30)).foregroundStyle(CF.ink)
                     Text("\(CF.stateLabel(food.state)) · \(sourceLabel(food)) · per 100 g").font(.subheadline).foregroundStyle(CF.muted)
+                    if let added = food.photoAddition {
+                        HStack(spacing: 6) {
+                            Label("Added from a customer photo · \(added.sourceLabel) · not yet reviewed", systemImage: "sparkles")
+                                .font(.caption.weight(.semibold)).foregroundStyle(CF.purple)
+                            if let url = food.sourceUrl.flatMap(URL.init(string:)) {
+                                Link(destination: url) { Image(systemName: "arrow.up.right.square") }.font(.caption.weight(.bold)).accessibilityLabel("Open the source record")
+                            }
+                        }
+                        .padding(.top, 2)
+                    }
                 }
                 if !highlights.isEmpty {
                     ScrollView(.horizontal) {

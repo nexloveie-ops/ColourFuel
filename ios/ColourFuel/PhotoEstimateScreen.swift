@@ -66,6 +66,9 @@ struct PhotoEstimateScreen: View {
     @State private var showCamera = false
     @State private var grams: [String: Double] = [:]
     @State private var available: Bool?
+    /// Catalogue plus any foods the server added to the library for this photo.
+    @State private var library: Catalog?
+    private var lib: Catalog { library ?? catalog }
 
     var body: some View {
         NavigationStack {
@@ -170,16 +173,17 @@ struct PhotoEstimateScreen: View {
         if !estimate.isFoodPhoto || estimate.foods.isEmpty {
             Label("We couldn’t spot a meal in this photo. Try a clearer shot from above.", systemImage: "eye.slash").font(.headline).foregroundStyle(CF.ink)
         } else {
-            let recipe = estimate.recipe(grams: grams, catalog: catalog)
-            let n = NutritionEngine.calculate(recipe, catalog: catalog)
+            let recipe = estimate.recipe(grams: grams, catalog: lib)
+            let n = NutritionEngine.calculate(recipe, catalog: lib)
             totals(n, counted: recipe.items.count)
+            sourceSummary(estimate)
             if !estimate.note.isEmpty { Text(estimate.note).font(.subheadline).foregroundStyle(CF.muted) }
             if !estimate.matched.isEmpty {
                 Text("ADJUST THE WEIGHTS").font(.system(size: 12, weight: .heavy)).kerning(1.2).foregroundStyle(CF.blue)
                 ForEach(estimate.matched) { food in foodRow(food) }
             }
             if !estimate.unmatched.isEmpty {
-                Text("SEEN, NOT COUNTED").font(.system(size: 12, weight: .heavy)).kerning(1.2).foregroundStyle(CF.purple)
+                Text("SEEN, NOT COUNTED · NO MATCHING SOURCE FOUND").font(.system(size: 12, weight: .heavy)).kerning(1.2).foregroundStyle(CF.purple)
                 ForEach(estimate.unmatched) { food in
                     HStack {
                         Text(food.label).font(.subheadline.weight(.semibold)).foregroundStyle(CF.ink)
@@ -222,15 +226,16 @@ struct PhotoEstimateScreen: View {
 
     private func foodRow(_ food: PhotoEstimate.Food) -> some View {
         let id = food.variantId ?? ""
-        let record = catalog.ingredient(id)
+        let record = lib.ingredient(id)
         let value = grams[id] ?? food.grams
         let upper = max(300, (food.grams * 2 / 10).rounded(.up) * 10)
         return VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 10) {
-                RemoteImage(path: catalog.photo(for: id)).frame(width: 44, height: 44).clipShape(Circle())
+                RemoteImage(path: lib.photo(for: id) ?? (record?.photoAddition != nil ? "colourfuel-round.jpg" : nil)).frame(width: 44, height: 44).clipShape(Circle())
                 VStack(alignment: .leading, spacing: 1) {
                     Text(record?.nameEn ?? food.label).font(.subheadline.weight(.heavy)).foregroundStyle(CF.ink)
                     Text("Seen as “\(food.label)” · \(food.confidence) confidence · estimated \(Int(food.grams)) g").font(.caption2).foregroundStyle(CF.muted).lineLimit(2)
+                    sourceTag(food, record: record)
                 }
                 Spacer()
                 Text("\(Int(value)) g").font(.system(size: 17, weight: .black)).foregroundStyle(CF.blue).monospacedDigit()
@@ -241,6 +246,40 @@ struct PhotoEstimateScreen: View {
         }
         .padding(12)
         .background(RoundedRectangle(cornerRadius: 16).stroke(CF.border, lineWidth: 1.5))
+    }
+
+    /// Where each food's nutrition comes from: our library, or a source added just now.
+    @ViewBuilder private func sourceTag(_ food: PhotoEstimate.Food, record: Ingredient?) -> some View {
+        let (text, colour): (String, Color) = {
+            switch food.source {
+            case "added_usda": return ("Added to library now · USDA FoodData Central", CF.purple)
+            case "added_pack_label": return ("Added to library now · pack label", CF.purple)
+            case "library_photo_added": return ("Library · added from a photo (\(record?.photoAddition?.sourceLabel ?? "sourced")) · not yet reviewed", CF.blue)
+            default: return ("Library", CF.blue)
+            }
+        }()
+        HStack(spacing: 4) {
+            Image(systemName: food.addedNow ? "sparkles" : "books.vertical.fill").font(.system(size: 9, weight: .bold))
+            Text(text).font(.system(size: 10, weight: .bold)).lineLimit(1).minimumScaleFactor(0.8)
+            if record?.photoAddition != nil, let url = record?.sourceUrl.flatMap(URL.init(string:)) {
+                Link(destination: url) { Image(systemName: "arrow.up.right.square").font(.system(size: 10, weight: .bold)) }
+                    .accessibilityLabel("Open the source record")
+            }
+        }
+        .foregroundStyle(colour)
+        .padding(.horizontal, 6).padding(.vertical, 2)
+        .background(Capsule().fill(colour.opacity(0.1)))
+    }
+
+    @ViewBuilder private func sourceSummary(_ estimate: PhotoEstimate) -> some View {
+        let added = estimate.foods.filter(\.addedNow).count
+        let fromLibrary = estimate.matched.count - added
+        if added > 0 {
+            let origin = estimate.foods.contains { $0.source == "added_pack_label" } ? "the pack label" : "USDA FoodData Central"
+            let prefix = fromLibrary > 0 ? "\(fromLibrary) from our library · " : ""
+            Label("\(prefix)\(added) new food\(added == 1 ? "" : "s") added to the library from \(origin). Next time \(added == 1 ? "it comes" : "they come") straight from the library.", systemImage: "sparkles")
+                .font(.footnote.weight(.semibold)).foregroundStyle(CF.purple)
+        }
     }
 
     private var againButton: some View {
@@ -254,6 +293,7 @@ struct PhotoEstimateScreen: View {
         Task {
             do {
                 let estimate = try await PhotoEstimateAPI.estimate(image)
+                library = catalog.adding(estimate.foodRecords ?? [])
                 withAnimation(.snappy) { phase = .result(image, estimate) }
             } catch let failure as PhotoEstimateAPI.Failure {
                 withAnimation(.snappy) { phase = .failed(image, failure.message) }

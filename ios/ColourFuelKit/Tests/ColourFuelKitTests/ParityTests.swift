@@ -116,6 +116,26 @@ final class ParityTests: XCTestCase {
         let direct = NutritionEngine.calculate(recipe, catalog: catalog)
         XCTAssertEqual(direct.weight, 90, accuracy: 1e-9)
         XCTAssertTrue(estimate.recipe(grams: ["avocado--raw": 0], catalog: catalog).items.isEmpty)
+
+        // A food the server just added arrives with the response and is counted at once.
+        let added = """
+        {"estimate_only":true,"is_food_photo":true,"sauce_or_dressing_visible":false,"note":"",
+         "foods":[{"label":"Irish ham pieces","variant_id":"cooked-ham--cured","grams":110,"confidence":"medium","source":"added_usda"}],
+         "food_records":[{"variant_id":"cooked-ham--cured","ingredient_id":"cooked-ham","name_en":"Cooked ham","state":"cured","category":"meat",
+           "record_id":"usda_fdc:746952","source_url":"https://fdc.nal.usda.gov/food-details/746952/nutrients","verification_status":"photo_added_unreviewed",
+           "photo_addition":{"source_type":"usda_fdc","review_status":"unreviewed"},
+           "nutrients":[{"metric_id":"energy_reported","unit":"kcal","result":"primary_numeric","primary_value":121},
+                        {"metric_id":"protein","unit":"g","result":"primary_numeric","primary_value":19.6},
+                        {"metric_id":"iodine","unit":"µg","result":"missing","primary_value":null}]}]}
+        """
+        let withHam = try PhotoEstimate.decode(Data(added.utf8))
+        XCTAssertTrue(withHam.foods[0].addedNow)
+        let lib = catalog.adding(withHam.foodRecords ?? [])
+        XCTAssertNil(catalog.ingredient("cooked-ham--cured"))
+        XCTAssertEqual(lib.ingredient("cooked-ham--cured")?.photoAddition?.sourceLabel, "USDA FoodData Central")
+        let hamResult = NutritionEngine.calculate(withHam.recipe(grams: [:], catalog: lib), catalog: lib)
+        XCTAssertEqual(hamResult.value("protein") ?? 0, 21.56, accuracy: 1e-9)
+        XCTAssertEqual(hamResult.value("energy_reported") ?? 0, 133.1, accuracy: 1e-9)
     }
 
     func testPortionsAndReferences() {
