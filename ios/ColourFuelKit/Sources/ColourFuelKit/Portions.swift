@@ -104,14 +104,14 @@ public enum FoodGroups {
         if food.ingredientId == "tahini" { return "pantry" }
         return groups.first { $0.categories.contains(food.category) }?.id ?? "pantry"
     }
-    static let needsCooking: Set<String> = ["potato", "sweet-potato", "aubergine", "butternut-squash", "parsnip", "swede", "leek"]
-    static let libraryOnly: Set<String> = ["lemon-juice", "orange-juice", "lime-juice", "tahini", "whole-milk", "buttermilk"]
+    static let needsCooking: Set<String> = ["potato", "sweet-potato", "aubergine", "butternut-squash", "parsnip", "swede", "leek", "pumpkin", "rhubarb", "broad-bean", "okra", "tempeh"]
+    static let libraryOnly: Set<String> = ["lemon-juice", "orange-juice", "lime-juice", "tahini", "whole-milk", "buttermilk", "semi-skimmed-milk", "skimmed-milk", "goats-milk", "single-cream", "double-cream", "soya-milk", "almond-drink", "rice-drink", "coconut-milk", "coconut-water", "apple-juice", "butter", "unsalted-butter", "lard", "ghee"]
 
     /// Foods a customer can sensibly add to a ready Bowl in their listed state.
     public static func isBowlAddOn(_ food: Ingredient) -> Bool {
         if ["sauce", "sweetener", "water", "spice"].contains(food.category) { return false }
         if ["meat", "fish", "egg"].contains(food.category) && food.state == "raw" { return false }
-        if food.category == "grain" && food.state == "dry" { return false }
+        if ["grain", "pulse", "soy"].contains(food.category) && food.state == "dry" { return false }
         if needsCooking.contains(food.ingredientId) && food.state == "raw" { return false }
         return !libraryOnly.contains(food.ingredientId)
     }

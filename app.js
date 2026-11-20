@@ -18,7 +18,7 @@ try{saved=new Set(JSON.parse(localStorage.getItem('colourfuel-saved')||'[]'));}c
 const fmt=(v,d=1)=>v==null||!Number.isFinite(Number(v))?'—':Number(v).toLocaleString('en-IE',{maximumFractionDigits:d});
 const ds=id=>data.datasets.find(x=>x.dataset_id===id);
 const sourceLabel=id=>id.startsWith('usda')?'USDA':id.startsWith('supplier')?'Manufacturer':'CoFID';
-const stateName=x=>({raw:'Raw',roasted:'Roasted, cooked weight',boiled:'Boiled, unsalted',cooked:'Cooked',dry:'Dry',dried:'Dry',pasteurised:'Pasteurised',ready_to_eat:'Ready to eat',ready_to_use:'Ready to use',toasted:'Toasted',unroasted:'Unroasted'}[x]||x);
+const stateName=x=>({raw:'Raw',roasted:'Roasted, cooked weight',boiled:'Boiled, unsalted',cooked:'Cooked',dry:'Dry',dried:'Dry',pasteurised:'Pasteurised',ready_to_eat:'Ready to eat',ready_to_use:'Ready to use',toasted:'Toasted',unroasted:'Unroasted',grilled:'Grilled',fried:'Fried',baked:'Baked',smoked:'Smoked',cured:'Cured',steamed:'Steamed'}[x]||x);
 const findIngredient=id=>data.ingredients.find(i=>i.variant_id===id);
 function vegetable(type){
  const leaf='<path d="M30 45C5 37 12 13 39 13c9 22-2 32-9 32Z" fill="#84975e"/><path d="m24 46 14-27m-11 19-7-6m11-1 10-2" fill="none" stroke="#3e6543" stroke-width="2"/>';

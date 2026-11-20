@@ -14,7 +14,7 @@ const signed=(x,d=1)=>x==null?'Not fully quantified':Math.abs(x)<1e-8?'No change
 const portionLabel=count=>fmt(count,4)+' portion'+(Math.abs(count-1)<1e-7?'':'s');
 const gramChange=value=>Math.abs(value)<1e-7?'No change per bowl':signed(value)+' g / bowl';
 const money=c=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR'}).format(c/100);
-const state=x=>({raw:'Raw edible weight',boiled:'Boiled · cooked weight',cooked:'Cooked weight',roasted:'Roasted · cooked weight',ready_to_use:'Ready to use',ready_to_eat:'Ready to eat',toasted:'Toasted',dry:'Dry',dried:'Dried',unroasted:'Unroasted'}[x]||x);
+const state=x=>({raw:'Raw edible weight',boiled:'Boiled · cooked weight',cooked:'Cooked weight',roasted:'Roasted · cooked weight',ready_to_use:'Ready to use',ready_to_eat:'Ready to eat',toasted:'Toasted',dry:'Dry',dried:'Dried',unroasted:'Unroasted',grilled:'Grilled · cooked weight',fried:'Fried · cooked weight',baked:'Baked · cooked weight',smoked:'Smoked',cured:'Cured',steamed:'Steamed · cooked weight',pasteurised:'Pasteurised'}[x]||x);
 const metricIds=['energy_reported','protein','fat','saturated_fat','salt','carbohydrate_by_difference','fibre_total_dietary','sugars_total'];
 const storageKey='colourfuel-recipe-library-v1';
 let catalog,callbacks,session,routeKey,passportContext,selectedBowl,kitchenOpen=false,addGroup=null,sharedNotice=null,passportImage=null;

@@ -2,15 +2,19 @@
 // $1 is the checked catalogue snapshot, read entirely from persistent catalogue tables.
 export const NUTRIENT_RANKING_SQL=`
 WITH modes(include_estimates) AS (VALUES (true),(false)),
-foods AS (SELECT f FROM jsonb_array_elements($1::jsonb->'ingredients') f),
-metrics AS (SELECT m FROM jsonb_array_elements($1::jsonb->'metrics') m),
-matched AS (
- SELECT include_estimates,f,m,
-  (SELECT n FROM jsonb_array_elements(COALESCE(f->'reported_nutrients',f->'nutrients','[]'::jsonb)) n
-   WHERE n->>'metric_id'=m->>'metric_id' LIMIT 1) AS n
- FROM foods CROSS JOIN metrics CROSS JOIN modes
+foods AS (SELECT f->>'variant_id' AS variant_id,f->>'name_en' AS name_en,f->>'source_basis' AS source_basis,f ? 'reported_nutrients' AS reported,
+ COALESCE(f->'reported_nutrients',f->'nutrients','[]'::jsonb) AS list FROM jsonb_array_elements($1::jsonb->'ingredients') f),
+metrics AS (SELECT m->>'metric_id' AS metric_id,m->>'unit' AS unit FROM jsonb_array_elements($1::jsonb->'metrics') m),
+entries_by_food AS (
+ SELECT DISTINCT ON (variant_id,n->>'metric_id') variant_id,n->>'metric_id' AS metric_id,n
+ FROM foods CROSS JOIN LATERAL jsonb_array_elements(list) WITH ORDINALITY x(n,pos)
+ ORDER BY variant_id,n->>'metric_id',pos
+), matched AS (
+ SELECT md.include_estimates,f.variant_id,f.name_en,f.source_basis,f.reported,m.metric_id,m.unit,e.n
+ FROM foods f CROSS JOIN metrics m CROSS JOIN modes md
+ LEFT JOIN entries_by_food e ON e.variant_id=f.variant_id AND e.metric_id=m.metric_id
 ), extracted AS (
- SELECT *,CASE WHEN f ? 'reported_nutrients' THEN n->'value'
+ SELECT *,CASE WHEN reported THEN n->'value'
   WHEN n->>'result'='reference_imputation' THEN n->'filled_value'
   WHEN n->>'result'='primary_numeric' THEN n->'primary_value' END AS raw_value,
   COALESCE(n->>'result'='reference_imputation',false) AS estimated
@@ -19,10 +23,10 @@ matched AS (
  SELECT *,CASE WHEN jsonb_typeof(raw_value)='number' THEN (raw_value#>>'{}')::numeric END AS amount
  FROM extracted
 ), classified AS (
- SELECT *,m->>'metric_id' AS metric_id,f->>'variant_id' AS variant_id,
- CASE WHEN f->>'source_basis' IS NOT NULL AND f->>'source_basis'<>'100g_food' THEN 'incompatible'
+ SELECT *,
+ CASE WHEN source_basis IS NOT NULL AND source_basis<>'100g_food' THEN 'incompatible'
   WHEN n->>'result'='trace_retained' THEN 'trace'
-  WHEN n IS NOT NULL AND n->>'unit' IS DISTINCT FROM m->>'unit' THEN 'incompatible'
+  WHEN n IS NOT NULL AND n->>'unit' IS DISTINCT FROM unit THEN 'incompatible'
   WHEN amount IS NULL OR amount<0 THEN 'missing'
   WHEN estimated AND NOT include_estimates THEN 'estimatesExcluded'
   ELSE 'known' END AS status
@@ -42,16 +46,18 @@ matched AS (
    'estimatesExcluded',count(*) FILTER(WHERE status='estimatesExcluded'),
    'estimates',count(*) FILTER(WHERE status='known' AND estimated)) AS coverage
  FROM classified GROUP BY include_estimates,metric_id
-), entries AS (
- SELECT c.include_estimates,c.metric_id,jsonb_build_object('metric_id',c.metric_id,'coverage',c.coverage,
- 'rows',COALESCE((SELECT jsonb_agg(jsonb_build_object('variant_id',r.variant_id,'value',r.amount,
-  'unit',r.m->>'unit','estimated',r.estimated,
-  'kind',CASE WHEN r.estimated THEN 'Reference estimate' WHEN r.f ? 'reported_nutrients' THEN 'Manufacturer reference' ELSE 'Source value' END,
+), ranked_rows AS (
+ SELECT r.include_estimates,r.metric_id,jsonb_agg(jsonb_build_object('variant_id',r.variant_id,'value',r.amount,
+  'unit',r.unit,'estimated',r.estimated,
+  'kind',CASE WHEN r.estimated THEN 'Reference estimate' WHEN r.reported THEN 'Manufacturer reference' ELSE 'Source value' END,
   'rank',r.rank,'tied',r.tied,'total',r.population,
   'topPercent',ceil((r.rank+r.tied-1)::numeric*100/r.population))
-  ORDER BY r.amount DESC,r.f->>'name_en' COLLATE "C",r.variant_id)
- FROM ranked r WHERE r.include_estimates=c.include_estimates AND r.metric_id=c.metric_id),'[]'::jsonb)) AS entry
- FROM coverage c
+  ORDER BY r.amount DESC,r.name_en COLLATE "C",r.variant_id) AS rows
+ FROM ranked r GROUP BY r.include_estimates,r.metric_id
+), entries AS (
+ SELECT c.include_estimates,c.metric_id,jsonb_build_object('metric_id',c.metric_id,'coverage',c.coverage,
+ 'rows',COALESCE(rr.rows,'[]'::jsonb)) AS entry
+ FROM coverage c LEFT JOIN ranked_rows rr ON rr.include_estimates=c.include_estimates AND rr.metric_id=c.metric_id
 )
 SELECT jsonb_build_object('engine','postgresql-window-functions','basis','100g_edible',
  'catalog_read_at',$1::jsonb->'read_at',
