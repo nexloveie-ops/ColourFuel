@@ -65,3 +65,10 @@ Status: imported into Cloud SQL on 20 November 2026 as `postgres` (operation `3c
 # Nutrient ranking query (application change shipped with 009)
 
 `nutrient-ranking-query.mjs` was rewritten to expand each food's nutrient list once and aggregate each metric once, carrying only the fields it needs. On the 514-food catalogue in embedded PostgreSQL it takes 0.48 s instead of 6.9 s, and its output is byte-identical to the previous query on both the 114- and 514-food catalogues. Deploy it before importing 009.
+
+
+# 011 library photos (second pass)
+
+Status: prepared and dry-run locally; not yet imported.
+
+36 more openly licensed Wikimedia Commons photos for 009 foods that still showed the placeholder after 010, found with hand-written search phrases (no Anthropic API) and chosen by reviewing thumbnails. Manifest `fixtures/library-photos-011.json` (+ `.sha256`); `build-011-library-photos.mjs [image-cache-dir]` re-reads or re-downloads every image and refuses any byte difference; the generated `011_library_photos.sql` is not committed. Same checks as 010 (only placeholders of 009 foods are replaced, licence, Commons file page, artist, size, hashes, photo invariant, runtime privileges); the migration receipt lists the pictured variants. 28 foods still keep the placeholder. Rollback: `011_library_photos.rollback.sql` restores placeholders for exactly those variants.

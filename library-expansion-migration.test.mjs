@@ -83,11 +83,15 @@ test('bowl add-ons leave out raw, dry and drink-like foods from the expansion', 
     assert.equal(isBowlAddOn(food(id)), true, id);
 });
 
-test('010 photo manifest: checksum, open licences, Commons sources, 009 foods only', async () => {
-  const text = await readFile(new URL('./fixtures/library-photos-010.json', import.meta.url), 'utf8');
-  assert.equal(createHash('sha256').update(text).digest('hex'), (await readFile(new URL('./fixtures/library-photos-010.sha256', import.meta.url), 'utf8')).trim());
-  const { photos } = JSON.parse(text); const batch = new Set(capture.foods.map(f => f.variant_id));
-  assert.ok(photos.length > 300); assert.equal(new Set(photos.map(p => p.variant_id)).size, photos.length);
+test('010 and 011 photo manifests: checksums, open licences, Commons sources, 009 foods only, no overlap', async () => {
+  const all = [];
+  for (const id of ['010', '011']) {
+    const text = await readFile(new URL(`./fixtures/library-photos-${id}.json`, import.meta.url), 'utf8');
+    assert.equal(createHash('sha256').update(text).digest('hex'), (await readFile(new URL(`./fixtures/library-photos-${id}.sha256`, import.meta.url), 'utf8')).trim());
+    all.push(...JSON.parse(text).photos);
+  }
+  const photos = all; const batch = new Set(capture.foods.map(f => f.variant_id));
+  assert.ok(photos.length > 360); assert.equal(new Set(photos.map(p => p.variant_id)).size, photos.length, 'each food pictured once');
   for (const p of photos) {
     assert.ok(batch.has(p.variant_id), p.variant_id);
     assert.match(p.license, /^(CC0( 1\.0)?|Public domain|CC BY( [0-9.]+)?|CC BY-SA( [0-9.]+)?)$/i, p.variant_id);
