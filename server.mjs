@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readCatalog, closeDatabase, addPhotoFood, setPhotoFoodImage, readPhotoImage } from './db.mjs';
-import { attachFoodPhotos, searchCommons, chooseCommonsPhoto, downloadJpeg } from './food-photos.mjs';
+import { attachFoodPhotos, placeholderFoods, searchCommons, chooseCommonsPhoto, downloadJpeg } from './food-photos.mjs';
 import { addMissingFoods, searchUsda, chooseUsdaRecord } from './food-additions.mjs';
 import { estimatePhoto, readPhotoRequest, photoErrorResponse, createPhotoLimiter, MAX_BODY_BYTES } from './photo-estimate.mjs';
 
@@ -46,8 +46,10 @@ async function handlePhotoEstimate(req,res,deps){
     }
     // Photo-added foods still showing the placeholder get an openly licensed Commons photo.
     let current=added.length?photoCatalog.value:catalog;
-    const needPhoto=result.foods.filter(f=>f.variant_id&&f.source!=='library').map(f=>f.variant_id);
-    const pictured=deps.attachFoodPhotos&&needPhoto.length?await deps.attachFoodPhotos(needPhoto,current,deps.photoLookups):[];
+    // Foods in this photo first, then one earlier photo-added food still without a photo.
+    const inPhoto=result.foods.filter(f=>f.variant_id&&f.source!=='library').map(f=>f.variant_id);
+    const needPhoto=[...inPhoto,...placeholderFoods(current||{}).filter(id=>!inPhoto.includes(id)).slice(0,1)];
+    const pictured=deps.attachFoodPhotos&&needPhoto.length?await deps.attachFoodPhotos(needPhoto,current,deps.photoLookups,{limit:inPhoto.length+1}):[];
     if(pictured.length){photoCatalog={at:0,value:null};current=await catalogForPhotos(deps.readCatalog);}
     // Full records of every matched food, so the app can calculate even if its copy of the
     // library predates foods added from other photos.

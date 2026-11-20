@@ -27,7 +27,12 @@ final class CatalogStore {
 /// The bowl the customer is building: one bowl, edible grams, standard portions and a required sauce.
 @MainActor @Observable
 final class BowlSession {
-    let catalog: Catalog
+    private(set) var catalog: Catalog
+    /// Foods added to the library from a photo estimate appear in the library right away.
+    func mergeLibrary(_ foods: [Ingredient], photos: [IngredientPhoto]) {
+        guard !foods.isEmpty || !photos.isEmpty else { return }
+        catalog = catalog.adding(foods, photos: photos)
+    }
     private(set) var product: Product
     private(set) var original: BowlRecipe
     var current: BowlRecipe

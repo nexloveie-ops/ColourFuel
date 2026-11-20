@@ -58,7 +58,7 @@ struct BowlStageScreen: View {
         .sheet(isPresented: $showNutrition) { NutritionSheet(session: session).presentationDetents([.large]).presentationDragIndicator(.visible) }
         .fullScreenCover(isPresented: $showPassport) { PassportScreen(session: session) }
         .fullScreenCover(isPresented: $showLibrary) { LibraryScreen(session: session) }
-        .fullScreenCover(isPresented: $showPhoto) { PhotoEstimateScreen(catalog: session.catalog) }
+        .fullScreenCover(isPresented: $showPhoto) { PhotoEstimateScreen(catalog: session.catalog, onLibraryUpdate: { session.mergeLibrary($0, photos: $1) }) }
     }
 
     private var header: some View {

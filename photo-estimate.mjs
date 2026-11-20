@@ -74,7 +74,7 @@ How to estimate weights (photos make food look heavier than it is):
 List each distinct food once. Do not list sauces, dressings or drizzles as foods; set sauce_or_dressing_visible instead, because sauce nutrition is not calculated.
 
 new_food: null when variant_id matches the library. When it is "none", fill it so ColourFuel can look up real nutrition data:
-- library_name: a short generic food name, e.g. "Cooked ham", "Falafel" (no brand).
+- library_name: a short generic food name of 1–3 words, e.g. "Cooked ham", "Beef ribeye", "Falafel" (no brand, no commas, no preparation words such as sliced or diced; the state field carries raw/cooked).
 - category and state: the closest values from the allowed lists.
 - usda_query: 2–5 plain words to search USDA FoodData Central, e.g. "ham sliced deli".
 - pack_label: only if a nutrition table on the packaging is clearly readable in the photo, copy its per 100 g values exactly as printed (null for any value not printed or not legible). Otherwise null.
