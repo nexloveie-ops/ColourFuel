@@ -48,7 +48,7 @@ Adds `colourfuel_catalog.photo_image` (JPEG bytes, 1–400 KB) and two SECURITY 
 
 # 009 library expansion (400 foods)
 
-Status: prepared and tested locally; not yet imported.
+Status: imported into Cloud SQL on 20 November 2026 as `postgres` (operation `2296ed12-e140-49aa-a8b0-fbc800000024`, DONE) after the faster ranking query was deployed (PR #28). Object `gs://colourfuel-nutrition-import-721850220313/migrations/009-library-expansion-33f75091-20261120.sql`, SQL SHA-256 `33f75091a1905175070b24aead8e214489faeaac654b205e2c6380ba28ceccce`, capture SHA-256 `372843cf9d7d2226f99d2e586b315ac5467334a20545ede3cd15055738338724`. Live check: `/api/catalog` returns 516 foods (114 + 2 photo-added + 400) with rankings over 515 protein values; back rashers (CoFID 19-500) 287 kcal.
 
 Adds 400 everyday foods sold in Ireland (batch `ireland-core-2026-11-20`). The reviewed list is `009-food-list.txt` (one line per food: variant id, English name, category, Chinese alias, exact source record). `prepare-009-library-expansion.mjs` reads the three already-registered public datasets (USDA SR Legacy 2018-04, USDA Foundation 2026-10, UK CoFID 2021), refuses any file whose SHA-256 differs from the registered one, and writes `fixtures/library-expansion-009.json` (+ `.sha256`). `build-009-library-expansion.mjs` turns the checked capture into `009_library_expansion.sql`.
 
@@ -58,7 +58,7 @@ Before commit the SQL checks the capture (400 distinct new variants, registered 
 
 # 010 library photos
 
-Status: prepared locally; not yet imported.
+Status: imported into Cloud SQL on 20 November 2026 as `postgres` (operation `3c0970e9-f7b9-4712-9864-99e400000024`, DONE). Object `gs://colourfuel-nutrition-import-721850220313/migrations/010-library-photos-30e76a9a-20261120.sql`, SQL SHA-256 `30e76a9ad35473b297b05ba75606dc60e61ce7e143281665650021f9e239f70b`. Live check: 338 database photos (336 from 010 + 2 earlier photo additions), 64 placeholders, images served as `image/jpeg` from `/ingredient-photo-…jpg`.
 
 336 openly licensed Wikimedia Commons photos (CC BY-SA 212, CC BY 64, CC0 36, public domain 24; artist and file page kept) for the 400 foods of 009, chosen by reviewing candidate thumbnails (English Wikipedia lead images and Commons search results), then checked again by file title and as a full contact sheet. 64 foods with no suitable open photo (wrong food, packaging/brand, live animal only) keep the ColourFuel placeholder. The manifest `fixtures/library-photos-010.json` (+ `.sha256`) records each file's attribution, thumbnail URL and SHA-256. `build-010-library-photos.mjs [image-cache-dir]` re-reads or re-downloads every image, refuses any byte difference, and writes `010_library_photos.sql` (not committed: it embeds the JPEG bytes). The SQL only replaces placeholders of 009 foods, stores bytes in `photo_image` (served by the existing `photo_image_bytes` function), and checks licence, source, size, hashes, the photo invariant and runtime privileges before commit. Rollback: `010_library_photos.rollback.sql`.
 

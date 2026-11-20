@@ -42,11 +42,21 @@ async function queryCatalog() {
   return prepareWebCatalog(payload,(text,values)=>pool.query(text,values));
 }
 
-let pendingCatalog;
-export function readCatalog(){
-  if(!pendingCatalog)pendingCatalog=queryCatalog().finally(()=>{pendingCatalog=undefined;});
+// The checked catalogue (database view + PostgreSQL rankings) is reused for a few minutes per
+// instance: a stale copy is served while one refresh runs in the background, and photo additions
+// invalidate it. Values always come from the database; nothing is computed or stored elsewhere.
+export const CATALOG_TTL_MS=5*60_000;
+let pendingCatalog,cachedCatalog;
+function refreshCatalog(query,now){
+  if(!pendingCatalog)pendingCatalog=query().then(value=>{cachedCatalog={value,at:now};return value;}).finally(()=>{pendingCatalog=undefined;});
   return pendingCatalog;
 }
+export function readCatalog({query=queryCatalog,now=Date.now()}={}){
+  if(cachedCatalog&&now-cachedCatalog.at<CATALOG_TTL_MS)return Promise.resolve(cachedCatalog.value);
+  if(cachedCatalog){refreshCatalog(query,now).catch(error=>console.error('Catalogue refresh failed',error.code||error.name));return Promise.resolve(cachedCatalog.value);}
+  return refreshCatalog(query,now);
+}
+export function invalidateCatalog(){cachedCatalog=undefined;}
 
 /**
  * Adds one sourced food through colourfuel_catalog.add_photo_food (migration 007). The runtime

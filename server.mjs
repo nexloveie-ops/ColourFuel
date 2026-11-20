@@ -4,7 +4,7 @@ import {gzipSync} from 'node:zlib';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readCatalog, closeDatabase, addPhotoFood, setPhotoFoodImage, readPhotoImage } from './db.mjs';
+import { readCatalog, invalidateCatalog, closeDatabase, addPhotoFood, setPhotoFoodImage, readPhotoImage } from './db.mjs';
 import { attachFoodPhotos, placeholderFoods, searchCommons, chooseCommonsPhoto, downloadJpeg } from './food-photos.mjs';
 import { addMissingFoods, searchUsda, chooseUsdaRecord } from './food-additions.mjs';
 import { estimatePhoto, readPhotoRequest, photoErrorResponse, createPhotoLimiter, MAX_BODY_BYTES } from './photo-estimate.mjs';
@@ -21,7 +21,7 @@ const clientId=req=>String(req.headers?.['x-forwarded-for']||'').split(',')[0].t
 let photoCatalog={at:0,value:null};
 async function catalogForPhotos(read){if(!photoCatalog.value||Date.now()-photoCatalog.at>600_000)photoCatalog={at:Date.now(),value:await read()};return photoCatalog.value;}
 const defaultPhotoLimiter=createPhotoLimiter();
-const defaults={readCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY,addMissingFoods,foodLookups:{searchUsda,chooseUsdaRecord,addPhotoFood},attachFoodPhotos,photoLookups:{searchCommons,chooseCommonsPhoto,downloadJpeg,setPhotoFoodImage},readPhotoImage};
+const defaults={readCatalog,invalidateCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY,addMissingFoods,foodLookups:{searchUsda,chooseUsdaRecord,addPhotoFood},attachFoodPhotos,photoLookups:{searchCommons,chooseCommonsPhoto,downloadJpeg,setPhotoFoodImage},readPhotoImage};
 
 async function handlePhotoEstimate(req,res,deps){
   if(req.method==='GET'||req.method==='HEAD'){json(res,200,{available:deps.photoEnabled(),stores_photos:false});return;}
@@ -40,9 +40,9 @@ async function handlePhotoEstimate(req,res,deps){
     // Foods missing from the library: add them from a pack label or USDA record, then return their records.
     const added=deps.addMissingFoods?await deps.addMissingFoods(result,catalog,deps.foodLookups):[];
     if(added.length){
-      photoCatalog={at:0,value:null};
+      photoCatalog={at:0,value:null};deps.invalidateCatalog?.();
       let fresh=await catalogForPhotos(deps.readCatalog);
-      if(!added.every(id=>fresh.ingredients.some(f=>f.variant_id===id))){photoCatalog={at:0,value:null};fresh=await catalogForPhotos(deps.readCatalog);}
+      if(!added.every(id=>fresh.ingredients.some(f=>f.variant_id===id))){photoCatalog={at:0,value:null};deps.invalidateCatalog?.();fresh=await catalogForPhotos(deps.readCatalog);}
     }
     // Photo-added foods still showing the placeholder get an openly licensed Commons photo.
     let current=added.length?photoCatalog.value:catalog;
@@ -50,7 +50,7 @@ async function handlePhotoEstimate(req,res,deps){
     const inPhoto=result.foods.filter(f=>f.variant_id&&f.source!=='library').map(f=>f.variant_id);
     const needPhoto=[...inPhoto,...placeholderFoods(current||{}).filter(id=>!inPhoto.includes(id)).slice(0,1)];
     const pictured=deps.attachFoodPhotos&&needPhoto.length?await deps.attachFoodPhotos(needPhoto,current,deps.photoLookups,{limit:inPhoto.length+1}):[];
-    if(pictured.length){photoCatalog={at:0,value:null};current=await catalogForPhotos(deps.readCatalog);}
+    if(pictured.length){photoCatalog={at:0,value:null};deps.invalidateCatalog?.();current=await catalogForPhotos(deps.readCatalog);}
     // Full records of every matched food, so the app can calculate even if its copy of the
     // library predates foods added from other photos.
     const lib=new Map((current?.ingredients||[]).map(f=>[f.variant_id,f]));
@@ -67,6 +67,14 @@ async function handlePhotoEstimate(req,res,deps){
 }
 
 const photoImageCache=new Map();
+// Serialised (and gzipped on first use) once per catalogue snapshot, not per request.
+const catalogBodyCache=new WeakMap();
+function catalogBodies(catalog){
+  let entry=catalogBodyCache.get(catalog);
+  if(!entry){const json=Buffer.from(JSON.stringify(catalog));let gz;entry={json,gzip:()=>gz??=gzipSync(json)};catalogBodyCache.set(catalog,entry);}
+  return entry;
+}
+
 async function servePhotoImage(name,req,res,deps){
   try{
     let bytes=photoImageCache.get(name);
@@ -93,7 +101,7 @@ export async function handleRequest(req, res, dependencies = defaults) {
       const started=performance.now();
       const catalog = await dependencies.readCatalog();
       const queryMs=performance.now()-started;
-      const json=Buffer.from(JSON.stringify(catalog));const compressed=acceptsGzip(req);const body=compressed?gzipSync(json):json;
+      const {json,gzip}=catalogBodies(catalog);const compressed=acceptsGzip(req);const body=compressed?gzip():json;
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Vary':'Accept-Encoding', 'Content-Length':body.length,...compressed?{'Content-Encoding':'gzip'}:{},'Server-Timing':`catalog;dur=${queryMs.toFixed(1)}` });
       res.end(req.method === 'HEAD' ? undefined : body);
     } catch (error) {
