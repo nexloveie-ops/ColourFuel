@@ -10,3 +10,4 @@ ios/**/.build/
 ios/**/xcuserdata/
 *.xcuserstate
 migrations/010_library_photos.sql
+migrations/011_library_photos.sql
