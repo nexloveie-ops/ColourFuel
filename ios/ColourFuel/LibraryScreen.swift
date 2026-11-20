@@ -8,6 +8,7 @@ struct LibraryScreen: View {
     @Environment(\.dismiss) private var dismiss
     @State private var mode = 0
     @State private var path: [String] = []
+    @State private var showIdentify = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -17,7 +18,9 @@ struct LibraryScreen: View {
                     Text("By nutrient").tag(1)
                 }
                 .pickerStyle(.segmented).padding(.horizontal, 20).padding(.vertical, 10)
-                if mode == 0 { IngredientBrowser(catalog: session.catalog) } else { NutrientBrowser(catalog: session.catalog) }
+                if mode == 0 {
+                    IngredientBrowser(catalog: session.catalog).modifier(PhotoSearchButton { showIdentify = true })
+                } else { NutrientBrowser(catalog: session.catalog) }
             }
             .navigationTitle("Ingredients")
             .navigationBarTitleDisplayMode(.large)
@@ -27,6 +30,10 @@ struct LibraryScreen: View {
             }
         }
         .tint(CF.blue)
+        .sheet(isPresented: $showIdentify) {
+            FoodIdentifySheet(session: session) { id in path = [id] }
+                .presentationDetents([.large]).presentationDragIndicator(.visible)
+        }
     }
 }
 
