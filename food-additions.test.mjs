@@ -73,6 +73,7 @@ test('server returns the new library record so the app can calculate it at once'
     readCatalog: async () => (++reads === 1 ? base : { ...base, ingredients: [...base.ingredients, { variant_id: 'cooked-ham--cured', name_en: 'Cooked ham', photo_addition: { source_type: 'usda_fdc' } }] }),
     estimatePhoto: async ({ catalog: c }) => sanitizeEstimate(raw(hamLookup()), c),
     foodLookups: { searchUsda: async () => [usdaHam], chooseUsdaRecord: async (lk, c) => c[0], addPhotoFood: async p => p.variant_id },
+    attachFoodPhotos: async () => [],
   });
   queueMicrotask(() => { req.emit('data', Buffer.from(JSON.stringify({ media_type: 'image/jpeg', image_base64: '/9j/2Q==' }))); req.emit('end'); });
   await done;

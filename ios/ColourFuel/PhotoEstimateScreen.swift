@@ -293,7 +293,7 @@ struct PhotoEstimateScreen: View {
         Task {
             do {
                 let estimate = try await PhotoEstimateAPI.estimate(image)
-                library = catalog.adding(estimate.foodRecords ?? [])
+                library = catalog.adding(estimate.foodRecords ?? [], photos: estimate.foodPhotos ?? [])
                 withAnimation(.snappy) { phase = .result(image, estimate) }
             } catch let failure as PhotoEstimateAPI.Failure {
                 withAnimation(.snappy) { phase = .failed(image, failure.message) }

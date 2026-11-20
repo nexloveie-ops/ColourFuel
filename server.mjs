@@ -4,7 +4,8 @@ import {gzipSync} from 'node:zlib';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readCatalog, closeDatabase, addPhotoFood } from './db.mjs';
+import { readCatalog, closeDatabase, addPhotoFood, setPhotoFoodImage, readPhotoImage } from './db.mjs';
+import { attachFoodPhotos, searchCommons, chooseCommonsPhoto, downloadJpeg } from './food-photos.mjs';
 import { addMissingFoods, searchUsda, chooseUsdaRecord } from './food-additions.mjs';
 import { estimatePhoto, readPhotoRequest, photoErrorResponse, createPhotoLimiter, MAX_BODY_BYTES } from './photo-estimate.mjs';
 
@@ -20,7 +21,7 @@ const clientId=req=>String(req.headers?.['x-forwarded-for']||'').split(',')[0].t
 let photoCatalog={at:0,value:null};
 async function catalogForPhotos(read){if(!photoCatalog.value||Date.now()-photoCatalog.at>600_000)photoCatalog={at:Date.now(),value:await read()};return photoCatalog.value;}
 const defaultPhotoLimiter=createPhotoLimiter();
-const defaults={readCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY,addMissingFoods,foodLookups:{searchUsda,chooseUsdaRecord,addPhotoFood}};
+const defaults={readCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY,addMissingFoods,foodLookups:{searchUsda,chooseUsdaRecord,addPhotoFood},attachFoodPhotos,photoLookups:{searchCommons,chooseCommonsPhoto,downloadJpeg,setPhotoFoodImage},readPhotoImage};
 
 async function handlePhotoEstimate(req,res,deps){
   if(req.method==='GET'||req.method==='HEAD'){json(res,200,{available:deps.photoEnabled(),stores_photos:false});return;}
@@ -43,17 +44,35 @@ async function handlePhotoEstimate(req,res,deps){
       let fresh=await catalogForPhotos(deps.readCatalog);
       if(!added.every(id=>fresh.ingredients.some(f=>f.variant_id===id))){photoCatalog={at:0,value:null};fresh=await catalogForPhotos(deps.readCatalog);}
     }
+    // Photo-added foods still showing the placeholder get an openly licensed Commons photo.
+    let current=added.length?photoCatalog.value:catalog;
+    const needPhoto=result.foods.filter(f=>f.variant_id&&f.source!=='library').map(f=>f.variant_id);
+    const pictured=deps.attachFoodPhotos&&needPhoto.length?await deps.attachFoodPhotos(needPhoto,current,deps.photoLookups):[];
+    if(pictured.length){photoCatalog={at:0,value:null};current=await catalogForPhotos(deps.readCatalog);}
     // Full records of every matched food, so the app can calculate even if its copy of the
     // library predates foods added from other photos.
-    const lib=new Map(((added.length?photoCatalog.value:catalog)?.ingredients||[]).map(f=>[f.variant_id,f]));
+    const lib=new Map((current?.ingredients||[]).map(f=>[f.variant_id,f]));
     for(const food of result.foods)if(food.variant_id&&!lib.has(food.variant_id)){food.variant_id=null;food.source='not_found';}
     result.food_records=[...new Set(result.foods.map(f=>f.variant_id).filter(Boolean))].map(id=>lib.get(id));
+    const photos=new Map((current?.ingredient_photos||[]).map(p=>[p.variant_id,p]));
+    result.food_photos=result.food_records.map(f=>photos.get(f.variant_id)).filter(Boolean);
     json(res,200,result);
   }catch(error){
     const failure=photoErrorResponse(error);
     console.error('Photo estimate failed',failure.status,error?.constructor?.name||'Error'); // never logs the photo
     json(res,failure.status,{error:failure.message});
   }
+}
+
+const photoImageCache=new Map();
+async function servePhotoImage(name,req,res,deps){
+  try{
+    let bytes=photoImageCache.get(name);
+    if(!bytes){bytes=await deps.readPhotoImage(name);if(bytes){photoImageCache.set(name,bytes);if(photoImageCache.size>100)photoImageCache.delete(photoImageCache.keys().next().value);}}
+    if(!bytes){res.writeHead(404);res.end('Not found');return;}
+    res.writeHead(200,{'Content-Type':'image/jpeg','Content-Length':bytes.length,'Cache-Control':'public, max-age=86400','X-Content-Type-Options':'nosniff'});
+    res.end(req.method==='HEAD'?undefined:bytes);
+  }catch(error){console.error('Photo image unavailable',error?.code||error?.name);res.writeHead(503);res.end('Image temporarily unavailable');}
 }
 
 export async function handleRequest(req, res, dependencies = defaults) {
@@ -87,6 +106,7 @@ export async function handleRequest(req, res, dependencies = defaults) {
     res.end(req.method === 'HEAD' ? undefined : '{"status":"ok","service":"colourfuel-web"}'); return;
   }
   const name = pathname === '/' ? 'index.html' : pathname.slice(1);
+  if (/^ingredient-photo-[a-z0-9]+(-[a-z0-9]+)*--[a-z_]+\.jpg$/.test(name) && !publicFiles.has(name)) { await servePhotoImage(name, req, res, dependencies); return; }
   if (!publicFiles.has(name)) { res.writeHead(404); res.end('Not found'); return; }
   try {
     if(!assetCache.has(name))assetCache.set(name,readFile(resolve(root,name)).then(body=>({body,gzip:/\.(?:html|css|mjs|js)$/.test(name)?gzipSync(body):null})).catch(error=>{assetCache.delete(name);throw error;}));
