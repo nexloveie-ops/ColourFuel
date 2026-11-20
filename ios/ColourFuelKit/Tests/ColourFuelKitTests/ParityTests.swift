@@ -130,7 +130,8 @@ final class ParityTests: XCTestCase {
         """
         let withHam = try PhotoEstimate.decode(Data(added.utf8))
         XCTAssertTrue(withHam.foods[0].addedNow)
-        let lib = catalog.adding(withHam.foodRecords ?? [])
+        let lib = catalog.adding(withHam.foodRecords ?? [], photos: [IngredientPhoto(variantId: "cooked-ham--cured", image: "ingredient-photo-cooked-ham--cured.jpg", artist: "Anna.Massini", license: "CC BY 4.0", sourceUrl: nil, generated: nil)])
+        XCTAssertEqual(lib.photo(for: "cooked-ham--cured"), "ingredient-photo-cooked-ham--cured.jpg")
         XCTAssertNil(catalog.ingredient("cooked-ham--cured"))
         XCTAssertEqual(lib.ingredient("cooked-ham--cured")?.photoAddition?.sourceLabel, "USDA FoodData Central")
         let hamResult = NutritionEngine.calculate(withHam.recipe(grams: [:], catalog: lib), catalog: lib)

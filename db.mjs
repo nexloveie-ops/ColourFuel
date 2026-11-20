@@ -66,6 +66,28 @@ export async function addPhotoFood(payload) {
   } finally { client.release(); }
 }
 
+/** Replaces the placeholder of a photo-added food with a Commons image (migration 008 function). */
+export async function setPhotoFoodImage(variantId, info, bytes) {
+  if (!process.env.INSTANCE_CONNECTION_NAME || !process.env.DB_USER) throw new Error('Database configuration missing');
+  const client = await (await getPool()).connect();
+  try {
+    await client.query('BEGIN READ WRITE');
+    const { rows } = await client.query('SELECT colourfuel_catalog.set_photo_food_image($1, $2::jsonb, $3) AS path', [variantId, JSON.stringify(info), bytes]);
+    await client.query('COMMIT');
+    return rows[0].path;
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => {});
+    throw error;
+  } finally { client.release(); }
+}
+
+/** Stored image bytes for an `ingredient-photo-…jpg` path, or null. */
+export async function readPhotoImage(path) {
+  if (!process.env.INSTANCE_CONNECTION_NAME || !process.env.DB_USER) throw new Error('Database configuration missing');
+  const { rows } = await (await getPool()).query('SELECT colourfuel_catalog.photo_image_bytes($1) AS bytes', [path]);
+  return rows[0]?.bytes || null;
+}
+
 export async function closeDatabase() {
   if (poolPromise) {
     try { await (await poolPromise).end(); } finally { connector?.close(); }

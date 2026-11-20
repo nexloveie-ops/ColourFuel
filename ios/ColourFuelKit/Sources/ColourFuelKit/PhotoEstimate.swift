@@ -23,6 +23,8 @@ public struct PhotoEstimate: Decodable, Sendable, Hashable {
     public let note: String
     /// Full library records of every matched food (includes foods added from photos after the app loaded).
     public let foodRecords: [Ingredient]?
+    /// Photo records for those foods (Commons photo, or placeholder until one is found).
+    public let foodPhotos: [IngredientPhoto]?
 
     public static func decode(_ data: Data) throws -> PhotoEstimate {
         let decoder = JSONDecoder(); decoder.keyDecodingStrategy = .convertFromSnakeCase

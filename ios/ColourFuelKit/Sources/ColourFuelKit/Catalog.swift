@@ -15,9 +15,9 @@ public struct Catalog: Decodable, Sendable {
     public let nutrientRankings: NutrientRankings?
     public let irishBuyingReferences: [BuyingReference]
     public let irishRetailers: [Retailer]
-    private let photoRecords: [String: IngredientPhoto]
+    private var photoRecords: [String: IngredientPhoto]
     private var ingredientIndex: [String: Ingredient]
-    private let photoIndex: [String: String]
+    private var photoIndex: [String: String]
 
     enum CodingKeys: String, CodingKey { case readAt, dataMode, metrics, ingredients, recipes, products, sauces, presets, ingredientPhotos, nutrientRankings, irishBuyingReferences, irishRetailers }
 
@@ -48,11 +48,13 @@ public struct Catalog: Decodable, Sendable {
 
     public func ingredient(_ variantId: String) -> Ingredient? { ingredientIndex[variantId] }
     /// The same catalogue plus foods the server just added to the library (photo estimate).
-    public func adding(_ extra: [Ingredient]) -> Catalog {
+    public func adding(_ extra: [Ingredient], photos: [IngredientPhoto] = []) -> Catalog {
         var copy = self
         for food in extra where copy.ingredientIndex[food.variantId] == nil {
             copy.ingredients.append(food); copy.ingredientIndex[food.variantId] = food
         }
+        // Newer photo records win (a placeholder may since have been replaced by a real photo).
+        for photo in photos { copy.photoRecords[photo.variantId] = photo; copy.photoIndex[photo.variantId] = photo.image }
         return copy
     }
     public func sauce(_ id: String) -> Sauce? { sauces.first { $0.id == id } }
