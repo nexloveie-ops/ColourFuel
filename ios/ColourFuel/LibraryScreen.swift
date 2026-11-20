@@ -99,14 +99,15 @@ struct IngredientCard: View {
             Color.clear.frame(maxWidth: .infinity).frame(height: 116)
                 .overlay(RemoteImage(path: catalog.photo(for: food.variantId))).clipped()
             VStack(alignment: .leading, spacing: 4) {
-                Text(food.nameEn).font(.system(size: 15, weight: .heavy)).foregroundStyle(CF.ink).lineLimit(2)
-                Text("\(CF.stateLabel(food.state)) · \(sourceLabel(food))").font(.caption2).foregroundStyle(CF.muted)
-                Text(Library.quickLook(food, catalog: catalog)).font(.caption.weight(.semibold)).foregroundStyle(CF.blue).lineLimit(2)
-                if let r = Library.rankSummary(food, entries: entries) {
-                    Text("\(catalog.metric(r.metricId)?.nameEn ?? r.metricId) · Top \(r.row.topPercent)%")
-                        .font(.caption2.weight(.bold)).foregroundStyle(Color(hex: 0x6A4191))
-                        .padding(.horizontal, 7).padding(.vertical, 4).background(RoundedRectangle(cornerRadius: 8).fill(Color(hex: 0xF3EEFF)))
-                }
+                // Every slot keeps its space so all cards in the grid are the same size.
+                Text(food.nameEn).font(.system(size: 15, weight: .heavy)).foregroundStyle(CF.ink).lineLimit(1).minimumScaleFactor(0.8)
+                Text("\(CF.stateLabel(food.state)) · \(sourceLabel(food))").font(.caption2).foregroundStyle(CF.muted).lineLimit(1)
+                Text(Library.quickLook(food, catalog: catalog)).font(.caption.weight(.semibold)).foregroundStyle(CF.blue).lineLimit(2, reservesSpace: true)
+                let rank = Library.rankSummary(food, entries: entries)
+                Text(rank.map { "\(catalog.metric($0.metricId)?.nameEn ?? $0.metricId) · Top \($0.row.topPercent)%" } ?? "Top")
+                    .font(.caption2.weight(.bold)).foregroundStyle(Color(hex: 0x6A4191)).lineLimit(1).minimumScaleFactor(0.75)
+                    .padding(.horizontal, 7).padding(.vertical, 4).background(RoundedRectangle(cornerRadius: 8).fill(Color(hex: 0xF3EEFF)))
+                    .opacity(rank == nil ? 0 : 1).accessibilityHidden(rank == nil)
             }
             .padding(.horizontal, 10).padding(.bottom, 10)
         }

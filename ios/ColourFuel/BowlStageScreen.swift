@@ -11,6 +11,21 @@ struct BowlStageScreen: View {
     @State private var showPassport = false
     @State private var showLibrary = false
     @State private var showPhoto = false
+    @State private var swipeEdge: Edge = .trailing
+
+    /// Horizontal swipe on the bowl or its title moves to the next or previous bowl.
+    private var swipeToSwitch: some Gesture {
+        DragGesture(minimumDistance: 30).onEnded { value in
+            let dx = value.translation.width, dy = value.translation.height
+            guard abs(dx) > 60, abs(dx) > abs(dy) * 1.6 else { return }
+            let bowls = session.catalog.bowls
+            guard let i = bowls.firstIndex(where: { $0.id == session.product.id }) else { return }
+            let next = dx < 0 ? i + 1 : i - 1
+            guard bowls.indices.contains(next) else { return }
+            swipeEdge = dx < 0 ? .trailing : .leading
+            withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { session.select(bowls[next]) }
+        }
+    }
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -18,9 +33,15 @@ struct BowlStageScreen: View {
                 VStack(spacing: 0) {
                     header
                     bowlPicker
-                    BowlStage(session: session, onTapFood: { editing = $0 }, onTapSauce: { showSauce = true })
-                        .padding(.top, 8)
-                    titleBlock
+                    Group {
+                        BowlStage(session: session, onTapFood: { editing = $0 }, onTapSauce: { showSauce = true })
+                            .padding(.top, -12)
+                        titleBlock
+                    }
+                    .id(session.product.id)
+                    .transition(.push(from: swipeEdge))
+                    .contentShape(Rectangle())
+                    .simultaneousGesture(swipeToSwitch)
                     presetRow
                     Color.clear.frame(height: 130)
                 }
@@ -55,7 +76,7 @@ struct BowlStageScreen: View {
                     .frame(width: 44, height: 44).background(Circle().fill(CF.purpleSoft))
             }
             .accessibilityLabel("Photo nutrition estimate")
-            Text(session.isCustom ? "Custom mix" : "Original Recipe")
+            Text(session.isCustom ? (session.activePreset ?? "Custom mix") : "Original Recipe")
                 .font(.system(size: 12, weight: .heavy))
                 .padding(.horizontal, 12).padding(.vertical, 7)
                 .background(Capsule().fill(session.isCustom ? CF.yellow : CF.blueSoft))
@@ -66,12 +87,16 @@ struct BowlStageScreen: View {
     }
 
     private var bowlPicker: some View {
+        ScrollViewReader { proxy in
         ScrollView(.horizontal) {
             HStack(spacing: 8) {
                 ForEach(session.catalog.bowls) { bowl in
                     let selected = bowl.id == session.product.id
                     Button {
-                        withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) { session.select(bowl) }
+                        let bowls = session.catalog.bowls
+                        let from = bowls.firstIndex { $0.id == session.product.id } ?? 0, to = bowls.firstIndex { $0.id == bowl.id } ?? 0
+                        swipeEdge = to >= from ? .trailing : .leading
+                        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { session.select(bowl) }
                     } label: {
                         Text(bowl.name + (bowl.isResearch ? " · R&D" : ""))
                             .font(.system(size: 13, weight: selected ? .bold : .semibold))
@@ -81,11 +106,14 @@ struct BowlStageScreen: View {
                             .overlay(Capsule().stroke(selected ? CF.ink : CF.borderStrong, lineWidth: 1.5))
                     }
                     .accessibilityAddTraits(selected ? .isSelected : [])
+                    .id(bowl.id)
                 }
             }
-            .padding(.horizontal, 20).padding(.vertical, 10)
+            .padding(.horizontal, 20).padding(.vertical, 8)
         }
         .scrollIndicators(.hidden)
+        .onChange(of: session.product.id) { _, id in withAnimation(.snappy) { proxy.scrollTo(id, anchor: .center) } }
+        }
     }
 
     private var titleBlock: some View {
@@ -93,7 +121,7 @@ struct BowlStageScreen: View {
             Text(session.product.name).font(CF.display(28)).foregroundStyle(CF.ink)
             Text(session.product.isResearch ? "In the test kitchen · not available to order" : "Concept preview · not yet available to order")
                 .font(.footnote).foregroundStyle(CF.muted)
-            Text("Tap any food to change its portions").font(.subheadline).foregroundStyle(CF.muted)
+            Text("Tap a food to adjust · swipe for more bowls").font(.subheadline).lineLimit(1).minimumScaleFactor(0.85).foregroundStyle(CF.muted)
             Button { showAdd = true } label: {
                 Label("Add a food", systemImage: "plus.circle.fill").font(.system(size: 15, weight: .bold))
                     .padding(.horizontal, 16).frame(minHeight: 44)
@@ -101,7 +129,7 @@ struct BowlStageScreen: View {
             }
             .padding(.top, 6)
         }
-        .padding(.top, 14).padding(.horizontal, 20)
+        .padding(.top, 2).padding(.horizontal, 20)
         .multilineTextAlignment(.center)
     }
 
@@ -112,7 +140,7 @@ struct BowlStageScreen: View {
                 Button { withAnimation(.spring) { session.apply(preset) } } label: { Pill(text: preset.label, selected: session.activePreset == preset.label) }
             }
         }
-        .padding(.top, 14)
+        .padding(.top, 12)
     }
 
     private var dock: some View {
@@ -181,7 +209,8 @@ struct BowlStage: View {
                     let angle = (-90 + Double(index) * 360 / Double(chips.count)) * .pi / 180
                     let size = chip.isSauce && chip.photo == nil ? w * 0.15 : (chip.grams > 0 ? w * (0.10 + 0.08 * sqrt(chip.grams / maxGrams)) : w * 0.09)
                     ChipView(chip: chip, size: size, labelWidth: w * 0.34,
-                             bubble: session.lastChange?.id == chip.id ? session.lastChange : nil)
+                             bubbleDelta: session.changeDeltas[chip.id], bubbleTick: session.changeTick,
+                             difference: chip.isSauce ? nil : session.differenceFromOriginal(chip.id))
                         .position(x: w / 2 + cos(angle) * w * 0.37, y: w / 2 + sin(angle) * w * 0.37)
                         .onTapGesture { chip.isSauce ? onTapSauce() : onTapFood(chip.id) }
                         .accessibilityElement(children: .combine)
@@ -201,8 +230,12 @@ struct ChipView: View {
     let chip: BowlStage.Chip
     let size: CGFloat
     let labelWidth: CGFloat
-    let bubble: (id: String, delta: Double, tick: Int)?
+    let bubbleDelta: Double?
+    let bubbleTick: Int
+    let difference: (delta: Double, isNew: Bool)?
     @State private var showBubble = false
+    @State private var shownDelta: Double = 0
+    @State private var bubbleGeneration = 0
 
     var body: some View {
         VStack(spacing: -8) {
@@ -219,6 +252,19 @@ struct ChipView: View {
             .overlay(Circle().stroke(chip.isSauce && chip.photo != nil ? CF.yellow : CF.ink, lineWidth: chip.isSauce ? 4 : 2).padding(-2))
             .background(Circle().fill(CF.ink).offset(x: 4, y: 5))
             .opacity(chip.grams > 0 || chip.isSauce ? 1 : 0.45)
+            .overlay(alignment: .topTrailing) {
+                // Persistent tag: how this food differs from the Original recipe.
+                if let d = difference {
+                    Text(d.isNew ? "New" : "\(d.delta > 0 ? "+" : "−")\(CF.number(abs(d.delta)))")
+                        .font(.system(size: 10, weight: .heavy)).foregroundStyle(.white).monospacedDigit()
+                        .padding(.horizontal, 5).padding(.vertical, 2)
+                        .background(Capsule().fill(d.isNew ? CF.purple : (d.delta > 0 ? CF.blue : CF.red)))
+                        .overlay(Capsule().stroke(Color.white, lineWidth: 1.5))
+                        .offset(x: 8, y: -4)
+                        .transition(.scale.combined(with: .opacity))
+                        .accessibilityLabel(d.isNew ? "Added food" : "\(d.delta > 0 ? "plus" : "minus") \(CF.number(abs(d.delta))) grams from the original")
+                }
+            }
             HStack(spacing: 3) {
                 Text(chip.name).foregroundStyle(CF.ink)
                 if chip.grams > 0 { Text("\(CF.number(chip.grams)) g").foregroundStyle(CF.blue) }
@@ -230,7 +276,8 @@ struct ChipView: View {
             .fixedSize(horizontal: false, vertical: true)
         }
         .overlay(alignment: .top) {
-            if showBubble, let b = bubble {
+            if showBubble {
+                let b = (delta: shownDelta, tick: bubbleTick)
                 Text("\(b.delta > 0 ? "+" : "−")\(CF.number(abs(b.delta))) g")
                     .font(.system(size: 13, weight: .heavy)).foregroundStyle(.white)
                     .padding(.horizontal, 9).padding(.vertical, 3)
@@ -239,12 +286,19 @@ struct ChipView: View {
                     .transition(.asymmetric(insertion: .scale.combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
             }
         }
-        .onChange(of: bubble?.tick) { _, tick in
-            guard tick != nil else { return }
+        .onChange(of: bubbleTick) { _, _ in
+            guard let delta = bubbleDelta else { return }
+            shownDelta = delta
+            bubbleGeneration += 1
+            let generation = bubbleGeneration
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) { showBubble = true }
-            Task { try? await Task.sleep(for: .seconds(0.9)); withAnimation(.easeOut(duration: 0.4)) { showBubble = false } }
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(1.3))
+                if generation == bubbleGeneration { withAnimation(.easeOut(duration: 0.4)) { showBubble = false } }
+            }
         }
-        .sensoryFeedback(.impact(weight: .light), trigger: bubble?.tick)
+        .animation(.spring(response: 0.35, dampingFraction: 0.7), value: difference?.delta)
+        .sensoryFeedback(.impact(weight: .light), trigger: bubbleDelta == nil ? 0 : bubbleTick)
     }
 }
 
