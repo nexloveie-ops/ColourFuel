@@ -69,20 +69,46 @@ export async function downloadJpeg(url, { fetchImpl = fetch } = {}) {
  * For photo-added foods that still show the placeholder (newly added or earlier ones), find and store
  * a Commons photo. At most `limit` per request; failures leave the placeholder in place.
  */
-export async function attachFoodPhotos(variantIds, catalog, deps, { limit = 2 } = {}) {
+/** Search phrases from most to least specific: "Beef ribeye, thinly sliced" → "Beef ribeye". */
+export function photoQueries(food) {
+  const name = String(food.name_en || '').trim();
+  const head = name.split(',')[0].trim();
+  const plain = head.replace(/\b(thinly|thickly|finely|roughly|sliced|slices|diced|chopped|shredded|grated|minced|cubed|pieces?|cooked|raw|fresh|frozen|canned|boiled|roasted|grilled|fried|baked|steamed|smoked|cured)\b/gi, ' ').replace(/\s+/g, ' ').trim();
+  const usda = String(food.source_name || '').split(',').slice(0, 2).join(' ').replace(/\s+/g, ' ').trim();
+  return [...new Set([name, head, plain, usda].filter(q => q && q.length >= 3))].slice(0, 4);
+}
+
+// Foods tried recently without success are not retried for a day (per server instance).
+const tried = new Map();
+const DAY = 86_400_000;
+export function resetPhotoAttempts() { tried.clear(); }
+
+/** Photo-added foods anywhere in the library that still show the placeholder (background backfill). */
+export function placeholderFoods(catalog) {
+  const photos = new Map((catalog.ingredient_photos || []).map(p => [p.variant_id, p]));
+  return (catalog.ingredients || []).filter(f => f.photo_addition && photos.get(f.variant_id)?.image === PLACEHOLDER).map(f => f.variant_id);
+}
+
+export async function attachFoodPhotos(variantIds, catalog, deps, { limit = 2, now = Date.now() } = {}) {
   const photos = new Map((catalog.ingredient_photos || []).map(p => [p.variant_id, p]));
   const foods = new Map((catalog.ingredients || []).map(f => [f.variant_id, f]));
-  const todo = [...new Set(variantIds)].filter(id => foods.get(id)?.photo_addition && photos.get(id)?.image === PLACEHOLDER).slice(0, limit);
+  const todo = [...new Set(variantIds)].filter(id => foods.get(id)?.photo_addition && photos.get(id)?.image === PLACEHOLDER && !(now - (tried.get(id) || 0) < DAY)).slice(0, limit);
   const done = [];
   for (const id of todo) {
+    tried.set(id, now);
     try {
       const food = foods.get(id);
-      const pick = await deps.chooseCommonsPhoto(food, await deps.searchCommons(food.name_en));
+      let pick = null;
+      for (const q of photoQueries(food)) {
+        const candidates = await deps.searchCommons(q);
+        if (candidates.length && (pick = await deps.chooseCommonsPhoto(food, candidates))) break;
+      }
       if (!pick) continue;
       const bytes = await deps.downloadJpeg(pick.thumb_url);
       const { thumb_url, ...info } = pick;
       const size = jpegSize(bytes); if (size) Object.assign(info, size);
       await deps.setPhotoFoodImage(id, info, bytes);
+      tried.delete(id);
       done.push(id);
     } catch (error) {
       console.error('Food photo skipped', error?.status || error?.code || error?.constructor?.name || 'Error');

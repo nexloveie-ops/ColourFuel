@@ -57,6 +57,7 @@ extension UIImage {
 
 struct PhotoEstimateScreen: View {
     let catalog: Catalog
+    var onLibraryUpdate: ([Ingredient], [IngredientPhoto]) -> Void = { _, _ in }
     @Environment(\.dismiss) private var dismiss
     @AppStorage("photoEstimateConsent") private var consented = false
 
@@ -294,6 +295,8 @@ struct PhotoEstimateScreen: View {
             do {
                 let estimate = try await PhotoEstimateAPI.estimate(image)
                 library = catalog.adding(estimate.foodRecords ?? [], photos: estimate.foodPhotos ?? [])
+                // Share new foods and photos with the rest of the app (ingredient library, Add a food).
+                onLibraryUpdate((estimate.foodRecords ?? []).filter { catalog.ingredient($0.variantId) == nil }, estimate.foodPhotos ?? [])
                 withAnimation(.snappy) { phase = .result(image, estimate) }
             } catch let failure as PhotoEstimateAPI.Failure {
                 withAnimation(.snappy) { phase = .failed(image, failure.message) }

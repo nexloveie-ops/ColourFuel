@@ -1,7 +1,7 @@
 // Migration 008 + Commons photo flow: only placeholders of photo-added foods can be replaced,
 // only by openly licensed Commons JPEGs; images are served from the database.
 import test from 'node:test'; import assert from 'node:assert/strict'; import { readFile } from 'node:fs/promises'; import { EventEmitter } from 'node:events'; import { PGlite } from '@electric-sql/pglite';
-import { searchCommons, attachFoodPhotos, jpegSize, PLACEHOLDER } from './food-photos.mjs';
+import { searchCommons, attachFoodPhotos, jpegSize, photoQueries, placeholderFoods, resetPhotoAttempts, PLACEHOLDER } from './food-photos.mjs';
 import { handleRequest } from './server.mjs';
 const local = s => s.replaceAll("current_database()<>'colourfuel'", "current_database()<>'postgres'");
 const mig = n => readFile(new URL(`./migrations/${n}.sql`, import.meta.url), 'utf8').then(local);
@@ -56,14 +56,20 @@ test('Commons search keeps only JPEGs with an accepted licence and an author', a
 });
 
 test('attachFoodPhotos skips library foods and real photos; failures keep the placeholder', async () => {
+  resetPhotoAttempts();
   const catalog = { ingredients: [{ variant_id: 'cooked-ham--cured', name_en: 'Cooked ham', state: 'cured', photo_addition: {} }, { variant_id: 'broccoli--raw', name_en: 'Broccoli' }, { variant_id: 'tofu--raw', name_en: 'Tofu', photo_addition: {} }],
     ingredient_photos: [{ variant_id: 'cooked-ham--cured', image: PLACEHOLDER }, { variant_id: 'broccoli--raw', image: PLACEHOLDER }, { variant_id: 'tofu--raw', image: 'ingredient-photo-tofu--raw.jpg' }] };
   const stored = [];
   const deps = { searchCommons: async () => [{ title: 'Ham.jpg', thumb_url: 't', ...info }], chooseCommonsPhoto: async (f, c) => c[0], downloadJpeg: async () => jpeg, setPhotoFoodImage: async (id, i) => { stored.push([id, i]); return 'p'; } };
   assert.deepEqual(await attachFoodPhotos(['cooked-ham--cured', 'broccoli--raw', 'tofu--raw'], catalog, deps), ['cooked-ham--cured']);
   assert.equal(stored.length, 1); assert.ok(!('thumb_url' in stored[0][1]));
+  resetPhotoAttempts();
   assert.deepEqual(await attachFoodPhotos(['cooked-ham--cured'], catalog, { ...deps, downloadJpeg: async () => { throw Error('timeout'); } }), []);
-  assert.deepEqual(await attachFoodPhotos(['cooked-ham--cured'], catalog, { ...deps, chooseCommonsPhoto: async () => null }), []);
+  let searches = 0;
+  assert.deepEqual(await attachFoodPhotos(['cooked-ham--cured'], catalog, { ...deps, searchCommons: async () => { searches++; return []; } }), [], 'tried within a day: no repeat');
+  assert.equal(searches, 0);
+  assert.deepEqual(await attachFoodPhotos(['cooked-ham--cured'], catalog, { ...deps, searchCommons: async () => { searches++; return []; } }, { now: Date.now() + 86_400_001 }), []);
+  assert.ok(searches >= 1, 'retried after a day');
 });
 
 test('server serves stored food photos from the database with caching; unknown paths 404', async () => {
@@ -81,4 +87,16 @@ test('real pixel size is read from the JPEG, not trusted from the API', () => {
   const sof0 = Buffer.from([0xff, 0xc0, 0x00, 0x11, 0x08, 0x02, 0x19, 0x03, 0xc0, 0x03]);
   assert.deepEqual(jpegSize(Buffer.concat([Buffer.from([0xff, 0xd8]), app0, sof0, Buffer.alloc(20)])), { width: 960, height: 537 });
   assert.equal(jpegSize(Buffer.from([0xff, 0xd8, 0x00])), null);
+});
+
+test('photo search falls back from a long name to the generic food', async () => {
+  assert.deepEqual(photoQueries({ name_en: 'Beef ribeye, thinly sliced', source_name: 'Beef, rib, eye, small end (ribs 10-12), raw' }), ['Beef ribeye, thinly sliced', 'Beef ribeye', 'Beef rib']);
+  assert.deepEqual(photoQueries({ name_en: 'Cooked ham' }), ['Cooked ham', 'ham']);
+  resetPhotoAttempts();
+  const queries = [];
+  const catalog = { ingredients: [{ variant_id: 'beef-ribeye-thinly-sliced--raw', name_en: 'Beef ribeye, thinly sliced', photo_addition: {} }], ingredient_photos: [{ variant_id: 'beef-ribeye-thinly-sliced--raw', image: PLACEHOLDER }] };
+  const deps = { searchCommons: async q => { queries.push(q); return q === 'Beef ribeye' ? [{ title: 'Raw Beef Ribeye Slices for Hot Pot.jpg', thumb_url: 't', ...info }] : []; }, chooseCommonsPhoto: async (f, c) => c[0], downloadJpeg: async () => jpeg, setPhotoFoodImage: async () => 'p' };
+  assert.deepEqual(await attachFoodPhotos(['beef-ribeye-thinly-sliced--raw'], catalog, deps), ['beef-ribeye-thinly-sliced--raw']);
+  assert.deepEqual(queries, ['Beef ribeye, thinly sliced', 'Beef ribeye']);
+  assert.deepEqual(placeholderFoods(catalog), ['beef-ribeye-thinly-sliced--raw']);
 });
