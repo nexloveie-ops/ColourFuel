@@ -72,7 +72,7 @@ struct PassportScreen: View {
                         }
                     }
                 }
-                Text("Concept preview · base ingredients, excludes sauce · not medical advice. Ordering isn’t available yet.")
+                Text("Base ingredients, excludes sauce · not medical advice.")
                     .font(.caption2).foregroundStyle(Color.white.opacity(0.7)).multilineTextAlignment(.center)
             }
             .padding(.horizontal, 20).padding(.bottom, 12)
@@ -192,7 +192,7 @@ struct PassportCard: View {
             HStack {
                 Text("colourfuel.ie").font(.system(size: 30, weight: .black)).foregroundStyle(CF.ink)
                 Spacer()
-                Text("Concept preview · base ingredients, excludes sauce · not medical advice").font(.system(size: 20, weight: .medium)).foregroundStyle(CF.muted)
+                Text("Base ingredients, excludes sauce · not medical advice").font(.system(size: 20, weight: .medium)).foregroundStyle(CF.muted)
             }
             .padding(.horizontal, 60).padding(.top, 24).padding(.bottom, 36)
         }

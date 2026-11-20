@@ -92,7 +92,7 @@ struct BowlStageScreen: View {
                         swipeEdge = to >= from ? .trailing : .leading
                         withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { session.select(bowl) }
                     } label: {
-                        Text(bowl.name + (bowl.isResearch ? " · R&D" : ""))
+                        Text(bowl.name + (bowl.isResearch ? " · New" : ""))
                             .font(.system(size: 13, weight: selected ? .bold : .semibold))
                             .foregroundStyle(selected ? Color.white : CF.ink)
                             .padding(.horizontal, 12).frame(minHeight: 36)
@@ -113,7 +113,7 @@ struct BowlStageScreen: View {
     private var titleBlock: some View {
         VStack(spacing: 6) {
             Text(session.product.name).font(CF.display(28)).foregroundStyle(CF.ink)
-            Text(session.product.isResearch ? "In the test kitchen · not available to order" : "Concept preview · not yet available to order")
+            Text(session.product.isResearch ? "New recipe from the ColourFuel kitchen" : "Fresh bowl · build it your way")
                 .font(.footnote).foregroundStyle(CF.muted)
             Text("Tap a food to adjust · swipe for more bowls").font(.subheadline).lineLimit(1).minimumScaleFactor(0.85).foregroundStyle(CF.muted)
             HStack(spacing: 10) {
@@ -171,7 +171,7 @@ struct BowlStageScreen: View {
                 Text("\(n.value("energy_reported").map { CF.number($0, digits: 0) } ?? "—") kcal · \(n.value("protein").map { CF.number($0) } ?? "—") g protein")
                     .font(.system(size: 15, weight: .heavy)).foregroundStyle(.white).lineLimit(1).minimumScaleFactor(0.75)
                     .contentTransition(.numericText()).animation(.snappy, value: n.value("energy_reported"))
-                Text("\(session.priceCents.map(CF.euro) ?? "Pending") · DEMO ONLY")
+                Text("\(session.priceCents.map(CF.euro) ?? "—") · \(CF.number(session.bowlGrams, digits: 0)) g bowl")
                     .font(.system(size: 12, weight: .bold)).foregroundStyle(CF.yellow).lineLimit(1)
                     .contentTransition(.numericText()).animation(.snappy, value: session.priceCents)
                 Text("Base ingredients · excl. sauce").font(.system(size: 11)).foregroundStyle(Color.white.opacity(0.75)).lineLimit(1).minimumScaleFactor(0.8)
