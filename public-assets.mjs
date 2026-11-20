@@ -74,6 +74,8 @@ export const PUBLIC_ASSETS=[
   "honey-mustard-small.jpg",
   "honey-mustard.jpg",
   "index.html",
+  "privacy.html",
+  "support.html",
   "ingredient-almond--unroasted.jpg",
   "ingredient-anchovy--ready_to_eat.jpg",
   "ingredient-apple--raw.jpg",

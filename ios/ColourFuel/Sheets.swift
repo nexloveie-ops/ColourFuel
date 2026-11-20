@@ -38,10 +38,10 @@ struct FoodSheet: View {
                         .tint(CF.blue)
                         .sensoryFeedback(.selection, trigger: grams)
                         .accessibilityValue("\(CF.number(count, digits: 2)) portions, \(CF.number(grams)) grams")
-                    Text("Original: \(CF.number(before)) g · Demo extra portion +\(CF.euro(DemoPricing.extraCents(for: variantId))) · DEMO ONLY")
+                    Text("Original recipe: \(CF.number(before)) g · Extra portion +\(CF.euro(DemoPricing.extraCents(for: variantId)))")
                         .font(.caption).foregroundStyle(CF.muted)
                     PortionNutrition(session: session, variantId: variantId, grams: grams, before: before)
-                    Text("Standard portions are kitchen test units, not a dietary recommendation. Raw and cooked records are separate.")
+                    Text("Standard portions are kitchen measures, not a dietary recommendation. Raw and cooked records are separate.")
                         .font(.caption).foregroundStyle(CF.muted)
                 }
                 .padding(20)
@@ -126,7 +126,7 @@ struct SauceSheet: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
                 Text("Choose your sauce").font(CF.display(26)).foregroundStyle(CF.ink)
-                Text("Required · one portion included. Recommended pairings first; every sauce is available in this concept test.")
+                Text("Pick one sauce for your bowl. Recommended pairings come first.")
                     .font(.subheadline).foregroundStyle(CF.muted)
                 ForEach(session.sauceOptions) { sauce in
                     let selected = session.current.sauce?.id == sauce.id
@@ -135,7 +135,7 @@ struct SauceSheet: View {
                             RemoteImage(path: sauce.small ?? sauce.image).frame(width: 64, height: 48).clipShape(RoundedRectangle(cornerRadius: 10))
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(sauce.name).font(.system(size: 16, weight: .bold)).foregroundStyle(CF.ink)
-                                Text((sauce.pairs.contains(session.product.productId) ? "Recommended pairing" : "Alternative flavour") + ((sauce.rd ?? false) ? " · R&D candidate" : ""))
+                                Text((sauce.pairs.contains(session.product.productId) ? "Recommended pairing" : "Alternative flavour") + ((sauce.rd ?? false) ? " · New" : ""))
                                     .font(.caption).foregroundStyle(CF.muted)
                             }
                             Spacer()
@@ -156,9 +156,9 @@ struct SauceSheet: View {
                         }
                         Slider(value: Binding(get: { session.sauceCount }, set: { session.setSauceCount($0) }), in: 1...3, step: 1) { Text("Sauce portions") }
                             .tint(CF.blue).sensoryFeedback(.selection, trigger: session.sauceCount)
-                        Text("1 portion = \(CF.number(sauce.defaultGrams)) g. Demo: extra portions +€0.50 each. Sauce nutrition is still being calculated and is never counted as zero.")
+                        Text("1 portion = \(CF.number(sauce.defaultGrams)) g, included in the bowl price. Extra portions +€0.50 each. Sauce nutrition isn’t included in the figures and is never counted as zero.")
                             .font(.caption).foregroundStyle(CF.muted)
-                        Text("Draft ingredients: \(sauce.ingredients.joined(separator: " · "))").font(.caption).foregroundStyle(CF.ink)
+                        Text("Main ingredients: \(sauce.ingredients.joined(separator: " · "))").font(.caption).foregroundStyle(CF.ink)
                         if let review = sauce.review { Text(review).font(.caption).foregroundStyle(CF.muted) }
                     }
                     .padding(14).background(RoundedRectangle(cornerRadius: 16).fill(CF.blueSoft))
@@ -275,7 +275,7 @@ struct NutritionSheet: View {
                     .padding(.vertical, 6)
                     Divider()
                 }
-                Text("Adult reference intakes (RI/NRV; fibre: EFSA adequate intake) are label comparisons, not daily minimums or a personal target. Sauce nutrition is still being calculated, so full-bowl totals are not shown. Concept preview, not medical advice.")
+                Text("Adult reference intakes (RI/NRV; fibre: EFSA adequate intake) are label comparisons, not daily minimums or a personal target. Sauce nutrition isn’t included, so these are base-ingredient figures, not full-bowl totals. Not medical advice.")
                     .font(.caption).foregroundStyle(CF.muted)
             }
             .padding(20)

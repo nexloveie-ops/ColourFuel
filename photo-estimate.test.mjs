@@ -102,3 +102,15 @@ test('photo endpoint: availability, validation, limits and no caching', async ()
   const failed = await post(JSON.stringify({ media_type: 'image/jpeg', image_base64: tinyJpeg }), { deps: { estimatePhoto: async () => { throw Error('secret key sk-ant-xyz'); } } });
   assert.equal(failed.status, 503); assert.ok(!failed.body.includes('sk-ant'));
 });
+
+test('food entries are flat (a nested null-or-object field made the model list only one food)', () => {
+  const item = ESTIMATE_SCHEMA.properties.foods.items;
+  for (const [key, def] of Object.entries(item.properties)) assert.ok(!def.anyOf, `${key} must not be a nested null-or-object field`);
+  const est = sanitizeEstimate({ is_food_photo: true, sauce_or_dressing_visible: false, note: '', foods: [
+    { label: 'Broccoli', variant_id: 'broccoli--raw', grams: 50, confidence: 'high', library_name: 'Broccoli', category: 'vegetable', state: 'raw', usda_query: '', pack_label: { energy_kcal: null, fat_g: null, saturates_g: null, carbohydrate_g: null, sugars_g: null, fibre_g: null, protein_g: null, salt_g: null } },
+    { label: 'Irish ham pieces', variant_id: 'none', grams: 110, confidence: 'medium', library_name: 'Cooked ham', category: 'meat', state: 'cured', usda_query: 'ham sliced deli', pack_label: { energy_kcal: 107, fat_g: 3, saturates_g: 1, carbohydrate_g: 1, sugars_g: 1, fibre_g: null, protein_g: 19, salt_g: 2 } },
+  ] }, catalog);
+  assert.equal(est.foods.length, 2);
+  assert.equal(est.foods[0].lookup, undefined, 'library foods need no lookup');
+  assert.deepEqual({ ...est.foods[1].lookup, pack_label: !!est.foods[1].lookup.pack_label }, { library_name: 'Cooked ham', category: 'meat', state: 'cured', usda_query: 'ham sliced deli', pack_label: true });
+});
