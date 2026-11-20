@@ -23,12 +23,12 @@ export function browseIngredients(foods,{query='',category='all'}={}){
 }
 // Bowl add-ons: foods a customer can sensibly add to a ready Bowl in their listed food state.
 // Raw meat/fish/egg, dry grains, sauces/condiments, sweeteners, water, spices, juices, liquid dairy and raw records of foods that need cooking stay library-only.
-const NEEDS_COOKING=new Set(['potato','sweet-potato','aubergine','butternut-squash','parsnip','swede','leek']);
-const LIBRARY_ONLY=new Set(['lemon-juice','orange-juice','lime-juice','tahini','whole-milk','buttermilk']);
+const NEEDS_COOKING=new Set(['potato','sweet-potato','aubergine','butternut-squash','parsnip','swede','leek','pumpkin','rhubarb','broad-bean','okra','tempeh']);
+const LIBRARY_ONLY=new Set(['lemon-juice','orange-juice','lime-juice','tahini','whole-milk','buttermilk','semi-skimmed-milk','skimmed-milk','goats-milk','single-cream','double-cream','soya-milk','almond-drink','rice-drink','coconut-milk','coconut-water','apple-juice','butter','unsalted-butter','lard','ghee']);
 export function isBowlAddOn(food){
  if(['sauce','sweetener','water','spice'].includes(food.category))return false;
  if(['meat','fish','egg'].includes(food.category)&&food.state==='raw')return false;
- if(food.category==='grain'&&food.state==='dry')return false;
+ if(['grain','pulse','soy'].includes(food.category)&&food.state==='dry')return false;
  if(NEEDS_COOKING.has(food.ingredient_id)&&food.state==='raw')return false;
  return !LIBRARY_ONLY.has(food.ingredient_id);
 }

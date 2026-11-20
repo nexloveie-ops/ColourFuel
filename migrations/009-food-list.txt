@@ -1,0 +1,416 @@
+# 009 library expansion: one food per line. variant_id | name_en | category | Chinese alias | source record (SR:/FD: exact USDA description, C: CoFID 2021 food code)
+## vegetables
+rocket--raw|Rocket|vegetable|芝麻菜|SR:Arugula, raw
+cos-lettuce--raw|Cos lettuce|vegetable|罗马生菜|SR:Lettuce, cos or romaine, raw
+butterhead-lettuce--raw|Butterhead lettuce|vegetable|奶油生菜|SR:Lettuce, butterhead (includes boston and bibb types), raw
+red-leaf-lettuce--raw|Red leaf lettuce|vegetable|红叶生菜|SR:Lettuce, red leaf, raw
+green-leaf-lettuce--raw|Green leaf lettuce|vegetable|绿叶生菜|SR:Lettuce, green leaf, raw
+watercress--raw|Watercress|vegetable|西洋菜|SR:Watercress, raw
+lambs-lettuce--raw|Lamb's lettuce|vegetable|羊生菜|SR:Cornsalad, raw
+swiss-chard--raw|Swiss chard|vegetable|瑞士甜菜|SR:Chard, swiss, raw
+endive--raw|Endive|vegetable|苦苣|SR:Endive, raw
+radicchio--raw|Radicchio|vegetable|红菊苣|SR:Radicchio, raw
+chicory--raw|Chicory|vegetable|菊苣|SR:Chicory, witloof, raw
+yellow-pepper--raw|Yellow pepper|vegetable|黄甜椒|SR:Peppers, sweet, yellow, raw
+green-pepper--raw|Green pepper|vegetable|青椒|SR:Peppers, sweet, green, raw
+jalapeno--raw|Jalapeño|vegetable|墨西哥辣椒|SR:Peppers, jalapeno, raw
+green-chilli--raw|Green chilli|vegetable|青辣椒|SR:Peppers, hot chili, green, raw
+cherry-tomato--raw|Cherry tomatoes|vegetable|樱桃番茄|FD:Tomatoes, grape, raw
+sun-dried-tomato--dried|Sun-dried tomatoes|vegetable|番茄干|SR:Tomatoes, sun-dried
+chopped-tomatoes--ready_to_use|Chopped tomatoes (tinned)|vegetable|罐装番茄碎|SR:Tomatoes, red, ripe, canned, packed in tomato juice
+tomato-puree--ready_to_use|Tomato purée|sauce|番茄浓缩酱|SR:Tomato products, canned, paste, without salt added
+red-onion--raw|Red onion|vegetable|红洋葱|FD:Onions, red, raw
+shallot--raw|Shallot|vegetable|红葱头|SR:Shallots, raw
+portobello-mushroom--raw|Portobello mushroom|vegetable|波特菇|SR:Mushrooms, portabella, raw
+chestnut-mushroom--raw|Chestnut mushroom|vegetable|栗子蘑菇|SR:Mushrooms, brown, italian, or crimini, raw
+shiitake-mushroom--raw|Shiitake mushroom|vegetable|香菇|SR:Mushrooms, shiitake, raw
+oyster-mushroom--raw|Oyster mushroom|vegetable|平菇|SR:Mushrooms, oyster, raw
+enoki-mushroom--raw|Enoki mushroom|vegetable|金针菇|SR:Mushrooms, enoki, raw
+broccoli--boiled|Broccoli|vegetable|西兰花|SR:Broccoli, cooked, boiled, drained, without salt
+cauliflower--boiled|Cauliflower|vegetable|菜花|SR:Cauliflower, cooked, boiled, drained, without salt
+carrot--boiled|Carrot|vegetable|胡萝卜|SR:Carrots, cooked, boiled, drained, without salt
+spinach--boiled|Spinach|vegetable|菠菜|SR:Spinach, cooked, boiled, drained, without salt
+kale--boiled|Kale|vegetable|羽衣甘蓝|SR:Kale, cooked, boiled, drained, without salt
+green-bean--boiled|Green beans|vegetable|四季豆|SR:Beans, snap, green, cooked, boiled, drained, without salt
+asparagus--boiled|Asparagus|vegetable|芦笋|SR:Asparagus, cooked, boiled, drained
+brussels-sprouts--boiled|Brussels sprouts|vegetable|抱子甘蓝|SR:Brussels sprouts, cooked, boiled, drained, without salt
+green-pea--raw|Garden peas|vegetable|豌豆|SR:Peas, green, raw
+green-pea--boiled|Garden peas|vegetable|豌豆|SR:Peas, green, frozen, cooked, boiled, drained, without salt
+broad-bean--raw|Broad beans|vegetable|蚕豆|SR:Broadbeans, immature seeds, raw
+potato--boiled|Potato|vegetable|土豆|SR:Potatoes, boiled, cooked in skin, flesh, without salt
+potato--baked|Baked potato|vegetable|烤土豆|SR:Potatoes, baked, flesh and skin, without salt
+mashed-potato--cooked|Mashed potato|vegetable|土豆泥|SR:Potatoes, mashed, home-prepared, whole milk and butter added
+oven-chips--baked|Oven chips|vegetable|烤薯条|SR:Potatoes, french fried, all types, salt not added in processing, frozen, oven-heated
+sweet-potato--baked|Sweet potato|vegetable|红薯|SR:Sweet potato, cooked, baked in skin, flesh, without salt
+butternut-squash--baked|Butternut squash|vegetable|奶油南瓜|SR:Squash, winter, butternut, cooked, baked, without salt
+pumpkin--raw|Pumpkin|vegetable|南瓜|SR:Pumpkin, raw
+turnip--raw|White turnip|vegetable|白萝卜(芜菁)|SR:Turnips, raw
+kohlrabi--raw|Kohlrabi|vegetable|苤蓝|SR:Kohlrabi, raw
+okra--raw|Okra|vegetable|秋葵|SR:Okra, raw
+bean-sprouts--raw|Bean sprouts|vegetable|绿豆芽|SR:Mung beans, mature seeds, sprouted, raw
+bamboo-shoots--ready_to_use|Bamboo shoots (tinned)|vegetable|竹笋|SR:Bamboo shoots, canned, drained solids
+water-chestnut--ready_to_use|Water chestnuts (tinned)|vegetable|荸荠|SR:Waterchestnuts, chinese, canned, solids and liquids
+chinese-leaf--raw|Chinese leaf|vegetable|大白菜|SR:Cabbage, chinese (pe-tsai), raw
+daikon--raw|Mooli (daikon)|vegetable|白萝卜|SR:Radishes, oriental, raw
+black-olive--ready_to_eat|Black olives|vegetable|黑橄榄|SR:Olives, ripe, canned (small-extra large)
+green-olive--ready_to_eat|Green olives|vegetable|绿橄榄|SR:Olives, pickled, canned or bottled, green
+sauerkraut--ready_to_eat|Sauerkraut|vegetable|德国酸菜|SR:Sauerkraut, canned, solids and liquids
+kimchi--ready_to_eat|Kimchi|vegetable|泡菜|SR:Cabbage, kimchi
+gherkin--ready_to_eat|Gherkins|vegetable|酸黄瓜|SR:Pickles, cucumber, dill or kosher dill
+roasted-red-pepper--ready_to_eat|Roasted red peppers (jar)|vegetable|烤红椒|SR:Peppers, sweet, red, canned, solids and liquids
+corn-on-the-cob--boiled|Corn on the cob|vegetable|玉米棒|SR:Corn, sweet, yellow, cooked, boiled, drained, without salt
+wakame--raw|Wakame|vegetable|裙带菜|SR:Seaweed, wakame, raw
+kelp--raw|Kelp|vegetable|海带|SR:Seaweed, kelp, raw
+nori--raw|Nori|vegetable|紫菜|SR:Seaweed, laver, raw
+carrageen-moss--raw|Carrageen moss|vegetable|爱尔兰苔藓|SR:Seaweed, irishmoss, raw
+spirulina--dried|Spirulina|vegetable|螺旋藻|SR:Seaweed, spirulina, dried
+beetroot--raw|Beetroot|vegetable|甜菜根|SR:Beets, raw
+## herbs and spices
+chives--raw|Chives|herb|细香葱|SR:Chives, raw
+lemongrass--raw|Lemongrass|herb|香茅|SR:Lemon grass (citronella), raw
+oregano--dried|Oregano|herb|牛至|SR:Spices, oregano, dried
+basil--dried|Basil|herb|罗勒|SR:Spices, basil, dried
+sage--dried|Sage|herb|鼠尾草|SR:Spices, sage, ground
+bay-leaf--dried|Bay leaf|herb|月桂叶|SR:Spices, bay leaf
+tarragon--dried|Tarragon|herb|龙蒿|SR:Spices, tarragon, dried
+thyme--dried|Thyme|herb|百里香|SR:Spices, thyme, dried
+rosemary--dried|Rosemary|herb|迷迭香|SR:Spices, rosemary, dried
+parsley--dried|Parsley|herb|欧芹|SR:Spices, parsley, dried
+dill--dried|Dill|herb|莳萝|SR:Spices, dill weed, dried
+cumin--dry|Cumin|spice|孜然|SR:Spices, cumin seed
+coriander-seed--dry|Coriander seed|spice|芫荽籽|SR:Spices, coriander seed
+turmeric--dry|Turmeric|spice|姜黄|SR:Spices, turmeric, ground
+paprika--dry|Paprika|spice|红椒粉|SR:Spices, paprika
+chilli-powder--dry|Chilli powder|spice|辣椒粉|SR:Spices, chili powder
+cayenne--dry|Cayenne pepper|spice|卡宴辣椒粉|SR:Spices, pepper, red or cayenne
+cinnamon--dry|Cinnamon|spice|肉桂|SR:Spices, cinnamon, ground
+nutmeg--dry|Nutmeg|spice|肉豆蔻|SR:Spices, nutmeg, ground
+ground-ginger--dry|Ground ginger|spice|姜粉|SR:Spices, ginger, ground
+curry-powder--dry|Curry powder|spice|咖喱粉|SR:Spices, curry powder
+garlic-powder--dry|Garlic powder|spice|蒜粉|SR:Spices, garlic powder
+onion-powder--dry|Onion powder|spice|洋葱粉|SR:Spices, onion powder
+cloves--dry|Cloves|spice|丁香|SR:Spices, cloves, ground
+cardamom--dry|Cardamom|spice|小豆蔻|SR:Spices, cardamom
+fennel-seed--dry|Fennel seed|spice|茴香籽|SR:Spices, fennel seed
+mustard-seed--dry|Mustard seed|spice|芥末籽|SR:Spices, mustard seed, ground
+anise-seed--dry|Anise seed|spice|茴芹籽|SR:Spices, anise seed
+allspice--dry|Allspice|spice|多香果|SR:Spices, allspice, ground
+white-pepper--dry|White pepper|spice|白胡椒|SR:Spices, pepper, white
+fenugreek--dry|Fenugreek seed|spice|葫芦巴籽|SR:Spices, fenugreek seed
+saffron--dry|Saffron|spice|藏红花|SR:Spices, saffron
+caraway--dry|Caraway seed|spice|葛缕子|SR:Spices, caraway seed
+salt--dry|Salt|spice|盐|SR:Salt, table
+vanilla-extract--ready_to_use|Vanilla extract|spice|香草精|SR:Vanilla extract
+## fruit
+lemon--raw|Lemon|fruit|柠檬|SR:Lemons, raw, without peel
+lime--raw|Lime|fruit|青柠|SR:Limes, raw
+grapefruit--raw|Grapefruit|fruit|西柚|SR:Grapefruit, raw, pink and red, all areas
+mandarin--raw|Mandarin / clementine|fruit|橘子|SR:Tangerines, (mandarin oranges), raw
+peach--raw|Peach|fruit|桃子|SR:Peaches, yellow, raw
+apricot--raw|Apricot|fruit|杏|SR:Apricots, raw
+cherry--raw|Cherries|fruit|樱桃|SR:Cherries, sweet, raw
+rhubarb--raw|Rhubarb|fruit|大黄|SR:Rhubarb, raw
+gooseberry--raw|Gooseberries|fruit|醋栗|SR:Gooseberries, raw
+blackcurrant--raw|Blackcurrants|fruit|黑加仑|SR:Currants, european black, raw
+redcurrant--raw|Redcurrants|fruit|红醋栗|SR:Currants, red and white, raw
+cranberry--raw|Cranberries|fruit|蔓越莓|SR:Cranberries, raw
+fig--raw|Fig|fruit|无花果|SR:Figs, raw
+lychee--raw|Lychee|fruit|荔枝|SR:Litchis, raw
+guava--raw|Guava|fruit|番石榴|SR:Guavas, common, raw
+starfruit--raw|Star fruit|fruit|杨桃|SR:Carambola, (starfruit), raw
+jackfruit--raw|Jackfruit|fruit|菠萝蜜|SR:Jackfruit, raw
+granny-smith-apple--raw|Granny Smith apple|fruit|青苹果|FD:Apples, granny smith, with skin, raw
+medjool-date--dried|Medjool dates|fruit|椰枣|SR:Dates, medjool
+dried-apricot--dried|Dried apricots|fruit|杏干|SR:Apricots, dried, sulfured, uncooked
+raisin--dried|Raisins|fruit|葡萄干|SR:Raisins, dark, seedless
+sultana--dried|Sultanas|fruit|金葡萄干|SR:Raisins, golden, seedless
+prune--dried|Prunes|fruit|西梅干|SR:Plums, dried (prunes), uncooked
+dried-cranberry--dried|Dried cranberries|fruit|蔓越莓干|SR:Cranberries, dried, sweetened
+dried-fig--dried|Dried figs|fruit|无花果干|SR:Figs, dried, uncooked
+dried-mango--dried|Dried mango|fruit|芒果干|SR:Mango, dried, sweetened
+goji-berry--dried|Goji berries|fruit|枸杞|SR:Goji berries, dried
+tinned-peach--ready_to_eat|Peaches in juice (tinned)|fruit|黄桃罐头|SR:Peaches, canned, juice pack, solids and liquids
+tinned-pineapple--ready_to_eat|Pineapple in juice (tinned)|fruit|菠萝罐头|SR:Pineapple, canned, juice pack, solids and liquids
+mandarin-segments--ready_to_eat|Mandarin segments in juice (tinned)|fruit|橘子罐头|SR:Tangerines, (mandarin oranges), canned, juice pack
+apple-juice--ready_to_use|Apple juice|fruit|苹果汁|SR:Apple juice, canned or bottled, unsweetened, without added ascorbic acid
+frozen-raspberry--raw|Frozen raspberries|fruit|冷冻覆盆子|SR:Raspberries, frozen, red, unsweetened
+frozen-blueberry--raw|Frozen blueberries|fruit|冷冻蓝莓|SR:Blueberries, frozen, unsweetened
+frozen-strawberry--raw|Frozen strawberries|fruit|冷冻草莓|SR:Strawberries, frozen, unsweetened
+clementine--raw|Clementine|fruit|小柑橘|SR:Clementines, raw
+## pulses and soy
+black-bean--boiled|Black beans|pulse|黑豆|SR:Beans, black, mature seeds, cooked, boiled, without salt
+butter-bean--boiled|Butter beans|pulse|利马豆|SR:Lima beans, large, mature seeds, cooked, boiled, without salt
+cannellini-bean--boiled|Cannellini beans|pulse|白芸豆|SR:Beans, white, mature seeds, cooked, boiled, without salt
+borlotti-bean--boiled|Borlotti beans|pulse|博罗蒂豆|SR:Beans, cranberry (roman), mature seeds, cooked, boiled, without salt
+pinto-bean--boiled|Pinto beans|pulse|斑豆|SR:Beans, pinto, mature seeds, cooked, boiled, without salt
+haricot-bean--boiled|Haricot beans|pulse|海军豆|SR:Beans, navy, mature seeds, cooked, boiled, without salt
+red-lentil--dry|Red lentils|pulse|红扁豆|SR:Lentils, pink or red, raw
+green-lentil--dry|Green lentils|pulse|绿扁豆|SR:Lentils, raw
+split-pea--boiled|Split peas|pulse|干豌豆瓣|SR:Peas, split, mature seeds, cooked, boiled, without salt
+mung-bean--boiled|Mung beans|pulse|绿豆|SR:Mung beans, mature seeds, cooked, boiled, without salt
+black-eyed-bean--boiled|Black-eyed beans|pulse|眉豆|SR:Cowpeas, common (blackeyes, crowder, southern), mature seeds, cooked, boiled, without salt
+adzuki-bean--boiled|Adzuki beans|pulse|红豆|SR:Beans, adzuki, mature seeds, cooked, boiled, without salt
+chickpea--dry|Chickpeas (dried)|pulse|鹰嘴豆|SR:Chickpeas (garbanzo beans, bengal gram), mature seeds, raw
+baked-beans--ready_to_eat|Baked beans in tomato sauce|pulse|茄汁焗豆|C:13-532
+hummus--ready_to_eat|Hummus|sauce|鹰嘴豆泥|SR:Hummus, commercial
+soybean--boiled|Soya beans|soy|黄豆|SR:Soybeans, mature cooked, boiled, without salt
+tempeh--raw|Tempeh|soy|天贝|SR:Tempeh
+soya-milk--ready_to_use|Soya drink (unsweetened)|soy|豆奶|SR:Soymilk (all flavors), unsweetened, with added calcium, vitamins A and D
+silken-tofu--raw|Silken tofu|soy|嫩豆腐|SR:Tofu, soft, prepared with calcium sulfate and magnesium chloride (nigari)
+miso--ready_to_use|Miso|soy|味噌|SR:Miso
+## grains, bread, cereals
+white-rice--cooked|White rice|grain|白米饭|SR:Rice, white, long-grain, regular, unenriched, cooked without salt
+white-rice--dry|White rice (uncooked)|grain|大米|SR:Rice, white, long-grain, regular, raw, unenriched
+brown-rice--dry|Brown rice (uncooked)|grain|糙米|SR:Rice, brown, long-grain, raw
+wild-rice--cooked|Wild rice|grain|菰米|SR:Wild rice, cooked
+pasta--cooked|Pasta|grain|意面|SR:Pasta, cooked, unenriched, without added salt
+pasta--dry|Pasta (uncooked)|grain|意面(干)|SR:Pasta, dry, unenriched
+wholewheat-pasta--cooked|Wholewheat pasta|grain|全麦意面|SR:Pasta, whole-wheat, cooked
+egg-noodles--cooked|Egg noodles|grain|鸡蛋面|SR:Noodles, egg, unenriched, cooked, without added salt
+rice-noodles--cooked|Rice noodles|grain|米粉|SR:Rice noodles, cooked
+soba-noodles--cooked|Soba noodles|grain|荞麦面|SR:Noodles, japanese, soba, cooked
+couscous--cooked|Couscous|grain|古斯米|SR:Couscous, cooked
+pearl-barley--cooked|Pearl barley|grain|珍珠麦|SR:Barley, pearled, cooked
+buckwheat--cooked|Buckwheat|grain|荞麦|SR:Buckwheat groats, roasted, cooked
+millet--cooked|Millet|grain|小米|SR:Millet, cooked
+spelt--cooked|Spelt|grain|斯佩尔特小麦|SR:Spelt, cooked
+amaranth--cooked|Amaranth|grain|苋菜籽|SR:Amaranth grain, cooked
+polenta--dry|Polenta (cornmeal)|grain|玉米粉|SR:Cornmeal, whole-grain, yellow
+oat-bran--raw|Oat bran|grain|燕麦麸|SR:Oat bran, raw
+wheat-bran--raw|Wheat bran|grain|麦麸|SR:Wheat bran, crude
+wheat-germ--raw|Wheat germ|grain|小麦胚芽|SR:Wheat germ, crude
+plain-flour--dry|Plain flour|grain|中筋面粉|SR:Wheat flour, white, all-purpose, unenriched
+wholemeal-flour--dry|Wholemeal flour|grain|全麦面粉|SR:Wheat flour, whole-grain
+cornflour--dry|Cornflour|grain|玉米淀粉|SR:Cornstarch
+rice-flour--dry|Rice flour|grain|米粉(面粉)|SR:Rice flour, white, unenriched
+chickpea-flour--dry|Gram flour|pulse|鹰嘴豆粉|SR:Chickpea flour (besan)
+white-bread--ready_to_eat|White sliced bread|grain|白切片面包|C:11-980
+wholemeal-bread--ready_to_eat|Wholemeal bread|grain|全麦面包|C:11-981
+brown-bread--ready_to_eat|Brown bread|grain|黑面包|C:11-971
+soda-bread--ready_to_eat|Soda bread|grain|苏打面包|C:11-1117
+sourdough-bread--ready_to_eat|Sourdough bread|grain|酸面包|SR:Bread, french or vienna (includes sourdough)
+rye-bread--ready_to_eat|Rye bread|grain|黑麦面包|SR:Bread, rye
+bagel--ready_to_eat|Bagel|grain|贝果|SR:Bagels, plain, unenriched, with calcium propionate (includes onion, poppy, sesame)
+pitta--ready_to_eat|Pitta bread|grain|皮塔饼|SR:Bread, pita, white, unenriched
+wholemeal-pitta--ready_to_eat|Wholemeal pitta|grain|全麦皮塔饼|SR:Bread, pita, whole-wheat
+flour-tortilla--ready_to_eat|Flour tortilla wrap|grain|面粉卷饼|SR:Tortillas, ready-to-bake or -fry, flour, shelf stable
+corn-tortilla--ready_to_eat|Corn tortilla|grain|玉米饼|SR:Tortillas, ready-to-bake or -fry, corn
+crumpet--toasted|Crumpets|grain|英式松饼|C:11-989
+oatcake--ready_to_eat|Oatcakes|grain|燕麦饼干|C:11-823
+rice-cake--ready_to_eat|Rice cakes|grain|米饼|SR:Snacks, rice cakes, brown rice, plain, unsalted
+crispbread--ready_to_eat|Rye crispbread|grain|黑麦脆饼|SR:Crackers, rye, wafers, plain
+cornflakes--ready_to_eat|Cornflakes|grain|玉米片|C:11-742
+wheat-biscuits--ready_to_eat|Wheat biscuit cereal|grain|全麦麦片饼|C:11-773
+muesli--ready_to_eat|Muesli|grain|什锦麦片|C:11-781
+granola--ready_to_eat|Granola|grain|格兰诺拉麦片|SR:Cereals ready-to-eat, granola, homemade
+porridge--cooked|Porridge (made with water)|grain|燕麦粥|C:11-1107
+popcorn--ready_to_eat|Popcorn (air-popped)|grain|爆米花|SR:Snacks, popcorn, air-popped
+## meat and poultry
+chicken-thigh--raw|Chicken thigh|meat|鸡腿肉|SR:Chicken, broilers or fryers, dark meat, thigh, meat only, raw
+chicken-thigh--roasted|Chicken thigh|meat|鸡腿肉|SR:Chicken, broilers or fryers, thigh, meat only, cooked, roasted
+chicken-drumstick--roasted|Chicken drumstick|meat|鸡小腿|SR:Chicken, broilers or fryers, dark meat, drumstick, meat only, cooked, roasted
+chicken-wing--roasted|Chicken wings|meat|鸡翅|SR:Chicken, broilers or fryers, wing, meat and skin, cooked, roasted
+roast-chicken--roasted|Roast chicken (meat and skin)|meat|烤鸡|SR:Chicken, broilers or fryers, meat and skin, cooked, roasted
+chicken-liver--raw|Chicken liver|meat|鸡肝|SR:Chicken, liver, all classes, raw
+turkey-breast--raw|Turkey breast|meat|火鸡胸|SR:Turkey, whole, breast, meat only, raw
+turkey-breast--roasted|Turkey breast|meat|火鸡胸|SR:Turkey, whole, breast, meat only, cooked, roasted
+turkey-mince--raw|Turkey mince|meat|火鸡肉末|SR:Turkey, Ground, raw
+duck-breast--raw|Duck|meat|鸭肉|SR:Duck, domesticated, meat only, raw
+duck--roasted|Duck|meat|鸭肉|SR:Duck, domesticated, meat only, cooked, roasted
+beef-mince--raw|Beef mince (15% fat)|meat|牛肉末|SR:Beef, ground, 85% lean meat / 15% fat, raw
+lean-beef-mince--raw|Lean beef mince (5% fat)|meat|瘦牛肉末|SR:Beef, ground, 95% lean meat / 5% fat, raw
+beef-mince--fried|Beef mince (15% fat)|meat|牛肉末|SR:Beef, ground, 85% lean meat / 15% fat, crumbles, cooked, pan-browned
+sirloin-steak--raw|Sirloin steak|meat|西冷牛排|SR:Beef, top sirloin, steak, separable lean and fat, trimmed to 1/8" fat, choice, raw
+sirloin-steak--grilled|Sirloin steak|meat|西冷牛排|SR:Beef, top sirloin, steak, separable lean and fat, trimmed to 1/8" fat, choice, cooked, broiled
+fillet-steak--raw|Fillet steak|meat|菲力牛排|SR:Beef, tenderloin, steak, separable lean and fat, trimmed to 1/8" fat, choice, raw
+stewing-beef--raw|Stewing beef (chuck)|meat|炖牛肉|SR:Beef, chuck, arm pot roast, separable lean and fat, trimmed to 1/8" fat, choice, raw
+corned-beef--cooked|Corned beef (brisket)|meat|咸牛肉|SR:Beef, cured, corned beef, brisket, cooked
+beef-liver--raw|Beef liver|meat|牛肝|SR:Beef, variety meats and by-products, liver, raw
+lamb-mince--raw|Lamb mince|meat|羊肉末|SR:Lamb, ground, raw
+lamb-leg--roasted|Roast leg of lamb|meat|烤羊腿|SR:Lamb, leg, whole (shank and sirloin), separable lean only, trimmed to 1/4" fat, choice, cooked, roasted
+lamb-chop--grilled|Lamb loin chop|meat|羊排|SR:Lamb, loin, separable lean and fat, trimmed to 1/4" fat, choice, cooked, broiled
+lamb-liver--raw|Lamb's liver|meat|羊肝|SR:Lamb, variety meats and by-products, liver, raw
+pork-mince--raw|Pork mince|meat|猪肉末|SR:Pork, fresh, ground, raw
+pork-loin-chop--raw|Pork loin chop|meat|猪排|SR:Pork, fresh, loin, center loin (chops), bone-in, separable lean and fat, raw
+pork-loin-chop--grilled|Pork loin chop|meat|猪排|SR:Pork, fresh, loin, center loin (chops), bone-in, separable lean and fat, cooked, broiled
+pork-fillet--raw|Pork fillet (tenderloin)|meat|猪里脊|SR:Pork, fresh, loin, tenderloin, separable lean and fat, raw
+pork-belly--raw|Pork belly|meat|五花肉|SR:Pork, fresh, belly, raw
+back-rashers--grilled|Back rashers|meat|培根(背部)|C:19-500
+back-rashers--raw|Back rashers|meat|培根(背部)|C:19-497
+streaky-rashers--grilled|Streaky rashers|meat|五花培根|C:19-018
+pork-sausages--grilled|Pork sausages|meat|猪肉香肠|C:19-509
+pork-sausages--raw|Pork sausages|meat|猪肉香肠|C:19-510
+black-pudding--fried|Black pudding|meat|黑布丁|C:19-114
+black-pudding--raw|Black pudding|meat|黑布丁|C:19-113
+gammon--boiled|Gammon|meat|烟熏火腿|C:19-021
+gammon-rashers--grilled|Gammon steak|meat|火腿排|C:19-505
+chorizo--ready_to_eat|Chorizo|meat|西班牙辣香肠|C:19-516
+salami--ready_to_eat|Salami|meat|萨拉米|SR:Salami, dry or hard, pork
+pepperoni--ready_to_eat|Pepperoni|meat|意大利辣香肠|SR:Pepperoni, beef and pork, sliced
+venison--raw|Venison|meat|鹿肉|SR:Game meat, deer, raw
+rabbit--raw|Rabbit|meat|兔肉|SR:Game meat, rabbit, domesticated, composite of cuts, raw
+## fish and seafood
+cod--raw|Cod|fish|鳕鱼|SR:Fish, cod, Atlantic, raw
+cod--baked|Cod|fish|鳕鱼|SR:Fish, cod, Atlantic, cooked, dry heat
+haddock--raw|Haddock|fish|黑线鳕|SR:Fish, haddock, raw
+smoked-haddock--smoked|Smoked haddock|fish|烟熏黑线鳕|SR:Fish, haddock, smoked
+hake--raw|Hake|fish|无须鳕|C:16-070
+hake--grilled|Hake|fish|无须鳕|C:16-071
+pollock--raw|Pollock|fish|青鳕|SR:Fish, pollock, Atlantic, raw
+plaice--raw|Plaice|fish|鲽鱼|C:16-381
+plaice--baked|Plaice|fish|鲽鱼|C:16-434
+mackerel--raw|Mackerel|fish|鲭鱼|C:16-393
+mackerel--grilled|Mackerel|fish|鲭鱼|C:16-394
+smoked-mackerel--smoked|Smoked mackerel|fish|烟熏鲭鱼|C:16-414
+herring--raw|Herring|fish|鲱鱼|SR:Fish, herring, Atlantic, raw
+kippers--grilled|Kippers|fish|烟熏鲱鱼|C:16-397
+sardines--ready_to_eat|Sardines in oil (tinned)|fish|沙丁鱼罐头|SR:Fish, sardine, Atlantic, canned in oil, drained solids with bone
+tinned-tuna--ready_to_eat|Tuna in spring water (tinned)|fish|水浸金枪鱼罐头|SR:Fish, tuna, light, canned in water, drained solids
+tuna-steak--raw|Tuna steak|fish|金枪鱼排|SR:Fish, tuna, fresh, yellowfin, raw
+smoked-salmon--smoked|Smoked salmon|fish|烟熏三文鱼|SR:Fish, salmon, chinook, smoked
+tinned-salmon--ready_to_eat|Pink salmon (tinned)|fish|三文鱼罐头|SR:Fish, salmon, pink, canned, drained solids
+trout--raw|Rainbow trout|fish|虹鳟|SR:Fish, trout, rainbow, farmed, raw
+sea-bass--raw|Sea bass|fish|鲈鱼|SR:Fish, sea bass, mixed species, raw
+sole--raw|Sole|fish|比目鱼|SR:Fish, flatfish (flounder and sole species), raw
+monkfish--raw|Monkfish|fish|鮟鱇鱼|SR:Fish, monkfish, raw
+tilapia--raw|Tilapia|fish|罗非鱼|SR:Fish, tilapia, raw
+fish-fingers--grilled|Fish fingers (cod)|fish|鱼柳条|C:16-405
+prawn--raw|Prawns|fish|虾|SR:Crustaceans, shrimp, raw
+prawn--cooked|Prawns|fish|虾|SR:Crustaceans, shrimp, cooked
+mussels--raw|Mussels|fish|青口贝|SR:Mollusks, mussel, blue, raw
+mussels--cooked|Mussels|fish|青口贝|SR:Mollusks, mussel, blue, cooked, moist heat
+oyster--raw|Oysters|fish|生蚝|SR:Mollusks, oyster, Pacific, raw
+scallop--raw|Scallops|fish|扇贝|SR:Mollusks, scallop, mixed species, raw
+crab--cooked|Crab|fish|蟹肉|SR:Crustaceans, crab, blue, cooked, moist heat
+lobster--cooked|Lobster|fish|龙虾|SR:Crustaceans, lobster, northern, cooked, moist heat
+squid--raw|Squid|fish|鱿鱼|SR:Mollusks, squid, mixed species, raw
+clams--raw|Clams|fish|蛤蜊|SR:Mollusks, clam, mixed species, raw
+## eggs
+egg--boiled|Egg|egg|鸡蛋|SR:Egg, whole, cooked, hard-boiled
+egg--fried|Egg|egg|鸡蛋|SR:Egg, whole, cooked, fried
+scrambled-egg--cooked|Scrambled egg|egg|炒蛋|SR:Egg, whole, cooked, scrambled
+poached-egg--cooked|Poached egg|egg|水波蛋|SR:Egg, whole, cooked, poached
+egg-white--raw|Egg white|egg|蛋清|SR:Egg, white, raw, fresh
+egg-yolk--raw|Egg yolk|egg|蛋黄|SR:Egg, yolk, raw, fresh
+duck-egg--raw|Duck egg|egg|鸭蛋|SR:Egg, duck, whole, fresh, raw
+quail-egg--raw|Quail egg|egg|鹌鹑蛋|SR:Egg, quail, whole, fresh, raw
+## dairy
+semi-skimmed-milk--pasteurised|Semi-skimmed milk|dairy|半脱脂牛奶|C:12-313
+skimmed-milk--pasteurised|Skimmed milk|dairy|脱脂牛奶|C:12-307
+butter--ready_to_eat|Butter (salted)|dairy|黄油|SR:Butter, salted
+unsalted-butter--ready_to_eat|Butter (unsalted)|dairy|无盐黄油|SR:Butter, without salt
+cheddar--ready_to_eat|Cheddar|dairy|切达奶酪|SR:Cheese, cheddar
+mozzarella--ready_to_eat|Mozzarella|dairy|马苏里拉奶酪|SR:Cheese, mozzarella, whole milk
+cottage-cheese--ready_to_eat|Cottage cheese|dairy|茅屋奶酪|SR:Cheese, cottage, lowfat, 2% milkfat
+cream-cheese--ready_to_eat|Cream cheese|dairy|奶油奶酪|SR:Cheese, cream
+goats-cheese--ready_to_eat|Goat's cheese|dairy|山羊奶酪|SR:Cheese, goat, soft type
+brie--ready_to_eat|Brie|dairy|布里奶酪|SR:Cheese, brie
+camembert--ready_to_eat|Camembert|dairy|卡门贝尔奶酪|SR:Cheese, camembert
+blue-cheese--ready_to_eat|Blue cheese|dairy|蓝纹奶酪|SR:Cheese, blue
+ricotta--ready_to_eat|Ricotta|dairy|乳清奶酪|SR:Cheese, ricotta, whole milk
+edam--ready_to_eat|Edam|dairy|埃丹奶酪|SR:Cheese, edam
+gouda--ready_to_eat|Gouda|dairy|高达奶酪|SR:Cheese, gouda
+emmental--ready_to_eat|Emmental|dairy|埃曼塔奶酪|SR:Cheese, swiss
+halloumi--ready_to_eat|Halloumi|dairy|哈罗米奶酪|C:12-496
+double-cream--ready_to_use|Double cream|dairy|高脂奶油|C:12-334
+single-cream--ready_to_use|Single cream|dairy|淡奶油|SR:Cream, fluid, light (coffee cream or table cream)
+sour-cream--ready_to_use|Soured cream|dairy|酸奶油|SR:Cream, sour, cultured
+greek-yogurt--ready_to_eat|Greek yogurt|dairy|希腊酸奶|SR:Yogurt, Greek, plain, whole milk
+fat-free-greek-yogurt--ready_to_eat|Fat-free Greek yogurt|dairy|脱脂希腊酸奶|SR:Yogurt, Greek, plain, nonfat
+vanilla-ice-cream--ready_to_eat|Vanilla ice cream|dairy|香草冰淇淋|SR:Ice creams, vanilla
+almond-drink--ready_to_use|Almond drink (unsweetened)|nut|杏仁奶|SR:Beverages, almond milk, unsweetened, shelf stable
+rice-drink--ready_to_use|Rice drink|grain|米浆|SR:Beverages, rice milk, unsweetened
+## nuts and seeds
+peanut--roasted|Peanuts|nut|花生|SR:Peanuts, all types, dry-roasted, without salt
+peanut-butter--ready_to_use|Peanut butter|nut|花生酱|SR:Peanut butter, smooth style, without salt
+hazelnut--raw|Hazelnuts|nut|榛子|SR:Nuts, hazelnuts or filberts
+brazil-nut--dried|Brazil nuts|nut|巴西坚果|SR:Nuts, brazilnuts, dried, unblanched
+pecan--raw|Pecans|nut|碧根果|SR:Nuts, pecans
+pistachio--raw|Pistachios|nut|开心果|SR:Nuts, pistachio nuts, raw
+macadamia--raw|Macadamia nuts|nut|夏威夷果|SR:Nuts, macadamia nuts, raw
+chestnut--roasted|Chestnuts|nut|栗子|SR:Nuts, chestnuts, european, roasted
+almond-butter--ready_to_use|Almond butter|nut|杏仁酱|SR:Nuts, almond butter, plain, without salt added
+coconut-milk--ready_to_use|Coconut milk (tinned)|nut|椰浆|SR:Nuts, coconut milk, canned (liquid expressed from grated meat and water)
+desiccated-coconut--dried|Desiccated coconut|nut|椰蓉|SR:Nuts, coconut meat, dried (desiccated), not sweetened
+cashew--roasted|Cashews (roasted)|nut|烤腰果|SR:Nuts, cashew nuts, dry roasted, without salt added
+almond--roasted|Almonds (roasted)|nut|烤杏仁|SR:Nuts, almonds, dry roasted, without salt added
+flaxseed--dried|Flaxseed (linseed)|seed|亚麻籽|SR:Seeds, flaxseed
+hemp-seed--dried|Hemp seeds|seed|火麻仁|SR:Seeds, hemp seed, hulled
+poppy-seed--dried|Poppy seeds|seed|罂粟籽|SR:Spices, poppy seed
+sesame-seed--dried|Sesame seeds|seed|芝麻|SR:Seeds, sesame seeds, whole, dried
+## oils and fats
+sunflower-oil--ready_to_use|Sunflower oil|oil|葵花籽油|SR:Oil, sunflower, linoleic, (approx. 65%)
+coconut-oil--ready_to_use|Coconut oil|oil|椰子油|SR:Oil, coconut
+sesame-oil--ready_to_use|Sesame oil|oil|芝麻油|SR:Oil, sesame, salad or cooking
+avocado-oil--ready_to_use|Avocado oil|oil|牛油果油|SR:Oil, avocado
+walnut-oil--ready_to_use|Walnut oil|oil|核桃油|SR:Oil, walnut
+flaxseed-oil--ready_to_use|Flaxseed oil|oil|亚麻籽油|SR:Oil, flaxseed, cold pressed
+groundnut-oil--ready_to_use|Groundnut oil|oil|花生油|SR:Oil, peanut, salad or cooking
+lard--ready_to_use|Lard|oil|猪油|SR:Lard
+ghee--ready_to_use|Ghee|oil|酥油|SR:Butter oil, anhydrous
+## sauces and condiments
+ketchup--ready_to_use|Tomato ketchup|sauce|番茄酱|SR:Catsup
+yellow-mustard--ready_to_use|Mustard (yellow)|sauce|黄芥末|SR:Mustard, prepared, yellow
+salad-cream--ready_to_use|Salad cream|sauce|沙拉酱|C:17-703
+pesto--ready_to_use|Pesto|sauce|青酱|SR:Sauce, pesto, ready-to-serve, refrigerated
+salsa--ready_to_use|Salsa|sauce|莎莎酱|SR:Sauce, salsa, ready-to-serve
+sriracha--ready_to_use|Sriracha|sauce|是拉差辣酱|SR:Sauce, hot chile, sriracha
+hot-sauce--ready_to_use|Hot pepper sauce|sauce|辣椒汁|SR:Sauce, ready-to-serve, pepper or hot
+worcestershire--ready_to_use|Worcestershire sauce|sauce|伍斯特酱|SR:Sauce, worcestershire
+fish-sauce--ready_to_use|Fish sauce|sauce|鱼露|SR:Sauce, fish, ready-to-serve
+oyster-sauce--ready_to_use|Oyster sauce|sauce|蚝油|SR:Sauce, oyster, ready-to-serve
+hoisin--ready_to_use|Hoisin sauce|sauce|海鲜酱|SR:Sauce, hoisin, ready-to-serve
+teriyaki--ready_to_use|Teriyaki sauce|sauce|照烧汁|SR:Sauce, teriyaki, ready-to-serve
+barbecue-sauce--ready_to_use|Barbecue sauce|sauce|烧烤酱|SR:Sauce, barbecue
+red-wine-vinegar--ready_to_use|Red wine vinegar|sauce|红酒醋|SR:Vinegar, red wine
+white-vinegar--ready_to_use|White vinegar|sauce|白醋|SR:Vinegar, distilled
+pasta-sauce--ready_to_use|Tomato pasta sauce|sauce|番茄意面酱|SR:Sauce, pasta, spaghetti/marinara, ready-to-serve
+horseradish--ready_to_use|Horseradish sauce|sauce|辣根酱|SR:Horseradish, prepared
+cranberry-sauce--ready_to_use|Cranberry sauce|sauce|蔓越莓酱|SR:Cranberry sauce, canned, sweetened
+apple-sauce--ready_to_use|Apple sauce|sauce|苹果酱|SR:Applesauce, canned, unsweetened, without added ascorbic acid
+jam--ready_to_use|Jam|sweetener|果酱|SR:Jams and preserves
+marmalade--ready_to_use|Marmalade|sweetener|橘子果酱|SR:Marmalade, orange
+capers--ready_to_use|Capers|sauce|刺山柑|SR:Capers, canned
+## sweeteners
+maple-syrup--ready_to_use|Maple syrup|sweetener|枫糖浆|SR:Syrups, maple
+brown-sugar--dry|Brown sugar|sweetener|红糖|SR:Sugars, brown
+icing-sugar--dry|Icing sugar|sweetener|糖粉|SR:Sugars, powdered
+agave-syrup--ready_to_use|Agave syrup|sweetener|龙舌兰糖浆|SR:Sweetener, syrup, agave
+molasses--ready_to_use|Molasses (black treacle)|sweetener|糖蜜|SR:Molasses
+dark-chocolate--ready_to_eat|Dark chocolate (70–85%)|sweetener|黑巧克力|SR:Chocolate, dark, 70-85% cacao solids
+milk-chocolate--ready_to_eat|Milk chocolate|sweetener|牛奶巧克力|SR:Candies, milk chocolate
+cocoa-powder--dry|Cocoa powder|sweetener|可可粉|SR:Cocoa, dry powder, unsweetened
+## drinks
+tea--ready_to_use|Black tea|water|红茶|C:17-165
+green-tea--ready_to_use|Green tea|water|绿茶|C:17-171
+coffee--ready_to_use|Coffee (filter)|water|咖啡|C:17-833
+coconut-water--ready_to_use|Coconut water|water|椰子水|SR:Nuts, coconut water (liquid from coconuts)
+## additions round 2
+green-cabbage--boiled|Cabbage|vegetable|卷心菜|SR:Cabbage, cooked, boiled, drained, without salt
+parsnip--boiled|Parsnip|vegetable|欧防风|SR:Parsnips, cooked, boiled, drained, without salt
+swede--boiled|Swede (turnip)|vegetable|芜菁甘蓝|SR:Rutabagas, cooked, boiled, drained, without salt
+leek--boiled|Leek|vegetable|韭葱|SR:Leeks, (bulb and lower leaf-portion), cooked, boiled, drained, without salt
+courgette--boiled|Courgette|vegetable|西葫芦|SR:Squash, summer, zucchini, includes skin, cooked, boiled, drained, without salt
+pickled-beetroot--ready_to_eat|Pickled beetroot|vegetable|腌甜菜根|SR:Beets, pickled, canned, solids and liquids
+quinoa--dry|Quinoa (uncooked)|grain|藜麦|SR:Quinoa, uncooked
+bulgur--cooked|Bulgur wheat|grain|碎干小麦|SR:Bulgur, cooked
+couscous--dry|Couscous (uncooked)|grain|古斯米|SR:Couscous, dry
+asian-pear--raw|Nashi pear|fruit|亚洲梨|SR:Pears, asian, raw
+pomelo--raw|Pomelo|fruit|柚子|SR:Pummelo, raw
+dried-apple--dried|Dried apple|fruit|苹果干|SR:Apples, dried, sulfured, uncooked
+chicken-mince--raw|Chicken mince|meat|鸡肉末|SR:Chicken, ground, raw
+pork-shoulder--roasted|Roast pork shoulder|meat|烤猪肩肉|SR:Pork, fresh, shoulder, whole, separable lean and fat, cooked, roasted
+whiting--raw|Whiting|fish|牙鳕|SR:Fish, whiting, mixed species, raw
+turbot--raw|Turbot|fish|大菱鲆|SR:Fish, turbot, european, raw
+halibut--raw|Halibut|fish|大比目鱼|C:16-073
+ling--raw|Ling|fish|魣鳕|C:16-091
+swordfish--raw|Swordfish|fish|剑鱼|SR:Fish, swordfish, raw
+octopus--raw|Octopus|fish|章鱼|SR:Mollusks, octopus, common, raw
+cuttlefish--raw|Cuttlefish|fish|墨鱼|SR:Mollusks, cuttlefish, mixed species, raw
+whelk--raw|Whelks|fish|海螺|SR:Mollusks, whelk, unspecified, raw
+winkles--boiled|Periwinkles|fish|玉黍螺|C:16-270
+provolone--ready_to_eat|Provolone|dairy|波罗伏洛奶酪|SR:Cheese, provolone
+gruyere--ready_to_eat|Gruyère|dairy|格吕耶尔奶酪|SR:Cheese, gruyere
+paneer--ready_to_eat|Paneer|dairy|印度奶酪|C:12-495
+goats-milk--ready_to_use|Goat's milk|dairy|山羊奶|SR:Milk, goat, fluid, with added vitamin D
+sweet-and-sour-sauce--ready_to_use|Sweet and sour sauce|sauce|糖醋酱|SR:Sauce, sweet and sour, ready-to-serve

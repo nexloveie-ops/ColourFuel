@@ -38,7 +38,8 @@ enum CF {
     static func stateLabel(_ state: String) -> String {
         [
             "raw": "Raw", "boiled": "Boiled · cooked", "cooked": "Cooked", "roasted": "Roasted · cooked", "ready_to_use": "Ready to use",
-            "ready_to_eat": "Ready to eat", "toasted": "Toasted", "dry": "Dry", "dried": "Dried", "unroasted": "Unroasted", "pasteurised": "Pasteurised"
+            "ready_to_eat": "Ready to eat", "toasted": "Toasted", "dry": "Dry", "dried": "Dried", "unroasted": "Unroasted", "pasteurised": "Pasteurised",
+            "grilled": "Grilled · cooked", "fried": "Fried · cooked", "baked": "Baked · cooked", "smoked": "Smoked", "cured": "Cured", "steamed": "Steamed · cooked"
         ][state] ?? state
     }
 
