@@ -48,6 +48,24 @@ export function readCatalog(){
   return pendingCatalog;
 }
 
+/**
+ * Adds one sourced food through colourfuel_catalog.add_photo_food (migration 007). The runtime
+ * account can execute only that validated function; it has no direct table write access.
+ */
+export async function addPhotoFood(payload) {
+  if (!process.env.INSTANCE_CONNECTION_NAME || !process.env.DB_USER) throw new Error('Database configuration missing');
+  const client = await (await getPool()).connect();
+  try {
+    await client.query('BEGIN READ WRITE');
+    const { rows } = await client.query('SELECT colourfuel_catalog.add_photo_food($1::jsonb) AS variant_id', [JSON.stringify(payload)]);
+    await client.query('COMMIT');
+    return rows[0].variant_id;
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => {});
+    throw error;
+  } finally { client.release(); }
+}
+
 export async function closeDatabase() {
   if (poolPromise) {
     try { await (await poolPromise).end(); } finally { connector?.close(); }

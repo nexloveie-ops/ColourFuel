@@ -28,3 +28,12 @@ Execution order:
 Rollback: if the persistence-only application was deployed, restore the previous application revision first. Then execute `006_persistent_catalog.rollback.sql`. It restores the exact previous catalogue view definition, retaining all imported tables and audit data; it does not delete ingredient records. Do not rerun the import to recover after later edits.
 
 Rebuild a reviewed import only from the captured fixture: `node migrations/build-persistent-catalog.mjs`. It verifies the source SHA-256 before generating SQL. Any future source change requires a new reviewed migration, not an edit to an applied migration.
+
+
+# 007 photo food additions
+
+Status: imported into Cloud SQL on 20 November 2026 as `postgres` (import operation `34787ded-316d-40cc-be1e-274d00000024`, DONE). Object `gs://colourfuel-nutrition-import-721850220313/migrations/007-photo-food-additions-030849e9-20261120.sql`, SHA-256 `030849e91fab1167a555da6cf93ec44217bbd9eeeb63438a8c40155cb7a59ff0`. A first attempt without `--user=postgres` failed with `permission denied for schema colourfuel_catalog` before any change and was rolled back.
+
+Adds datasets `usda_fdc_photo_lookup` and `photo_pack_label`, the audit table `colourfuel_catalog.photo_addition`, and the SECURITY DEFINER function `colourfuel_catalog.add_photo_food(jsonb)`. The runtime IAM account gets `USAGE` on the schema and `EXECUTE` on that function only (user instruction, 20 November 2026); it still has no INSERT/UPDATE/DELETE on any table. The function inserts a new food only (an existing variant id is returned unchanged), requires a USDA FDC or pack-label record id, checks metric units and per-100 g bounds, requires energy and protein, stores every other metric as `missing`, writes a placeholder photo record (so the catalogue keeps one photo per food) and enforces 50 additions per 24 hours. Before commit the migration adds a test food inside a rolled-back subtransaction and checks the catalogue view, photo invariant and privileges.
+
+Local tests: `photo-food-migration.test.mjs` runs 006 then 007 on embedded PostgreSQL and checks runtime-only access through the function, rejection of unsourced or implausible data, the daily limit, re-run guard and rollback. Rollback: `007_photo_food_additions.rollback.sql` revokes the grant and drops the function; foods already added remain (with source and unreviewed flag).

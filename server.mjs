@@ -4,7 +4,8 @@ import {gzipSync} from 'node:zlib';
 import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readCatalog, closeDatabase } from './db.mjs';
+import { readCatalog, closeDatabase, addPhotoFood } from './db.mjs';
+import { addMissingFoods, searchUsda, chooseUsdaRecord } from './food-additions.mjs';
 import { estimatePhoto, readPhotoRequest, photoErrorResponse, createPhotoLimiter, MAX_BODY_BYTES } from './photo-estimate.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -19,7 +20,7 @@ const clientId=req=>String(req.headers?.['x-forwarded-for']||'').split(',')[0].t
 let photoCatalog={at:0,value:null};
 async function catalogForPhotos(read){if(!photoCatalog.value||Date.now()-photoCatalog.at>600_000)photoCatalog={at:Date.now(),value:await read()};return photoCatalog.value;}
 const defaultPhotoLimiter=createPhotoLimiter();
-const defaults={readCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY};
+const defaults={readCatalog,estimatePhoto,photoLimiter:defaultPhotoLimiter,photoEnabled:()=>!!process.env.ANTHROPIC_API_KEY,addMissingFoods,foodLookups:{searchUsda,chooseUsdaRecord,addPhotoFood}};
 
 async function handlePhotoEstimate(req,res,deps){
   if(req.method==='GET'||req.method==='HEAD'){json(res,200,{available:deps.photoEnabled(),stores_photos:false});return;}
@@ -35,6 +36,18 @@ async function handlePhotoEstimate(req,res,deps){
   try{
     const catalog=await catalogForPhotos(deps.readCatalog);
     const result=await deps.estimatePhoto({image:photo.image,mediaType:photo.mediaType,catalog});
+    // Foods missing from the library: add them from a pack label or USDA record, then return their records.
+    const added=deps.addMissingFoods?await deps.addMissingFoods(result,catalog,deps.foodLookups):[];
+    if(added.length){
+      photoCatalog={at:0,value:null};
+      let fresh=await catalogForPhotos(deps.readCatalog);
+      if(!added.every(id=>fresh.ingredients.some(f=>f.variant_id===id))){photoCatalog={at:0,value:null};fresh=await catalogForPhotos(deps.readCatalog);}
+    }
+    // Full records of every matched food, so the app can calculate even if its copy of the
+    // library predates foods added from other photos.
+    const lib=new Map(((added.length?photoCatalog.value:catalog)?.ingredients||[]).map(f=>[f.variant_id,f]));
+    for(const food of result.foods)if(food.variant_id&&!lib.has(food.variant_id)){food.variant_id=null;food.source='not_found';}
+    result.food_records=[...new Set(result.foods.map(f=>f.variant_id).filter(Boolean))].map(id=>lib.get(id));
     json(res,200,result);
   }catch(error){
     const failure=photoErrorResponse(error);

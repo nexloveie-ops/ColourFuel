@@ -35,9 +35,9 @@ test('estimates keep only library-backed ids and never carry nutrient values', (
   assert.equal(result.estimate_only, true);
   assert.equal(result.sauce_or_dressing_visible, true);
   assert.deepEqual(result.foods, [
-    { label: 'Broccoli', variant_id: 'broccoli--raw', grams: 80, confidence: 'high' },
-    { label: 'Falafel', variant_id: null, grams: 80, confidence: 'medium' },
-    { label: 'Rice', variant_id: 'brown-rice--cooked', grams: 1000, confidence: 'low' },
+    { label: 'Broccoli', variant_id: 'broccoli--raw', grams: 80, confidence: 'high', source: 'library' },
+    { label: 'Falafel', variant_id: null, grams: 80, confidence: 'medium', source: 'not_found' },
+    { label: 'Rice', variant_id: 'brown-rice--cooked', grams: 1000, confidence: 'low', source: 'library' },
   ]);
   assert.ok(!JSON.stringify(result).includes('999'));
   assert.deepEqual(sanitizeEstimate({ is_food_photo: false, foods: [{ variant_id: 'broccoli--raw', grams: 50 }] }, catalog).foods, []);
@@ -59,7 +59,7 @@ test('Claude request uses structured output, the image, the library and a refusa
   assert.equal(sent.thinking, undefined, 'Opus 5.5 rejects disabled thinking; leave it adaptive');
   // Weight calibration found by the photo eval (bias ×1.22 → ×1.09); keep the total check.
   assert.match(sent.system, /add up your weights/);
-  assert.match(sent.system, /Do not give nutrient values/);
+  assert.match(sent.system, /Never estimate or invent nutrient values/);
   assert.equal(result.foods[0].grams, 70);
 });
 

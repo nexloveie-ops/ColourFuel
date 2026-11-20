@@ -6,7 +6,7 @@ public struct Catalog: Decodable, Sendable {
     public let readAt: String?
     public let dataMode: String?
     public let metrics: [Metric]
-    public let ingredients: [Ingredient]
+    public private(set) var ingredients: [Ingredient]
     public let recipes: [Recipe]
     public let products: [Product]
     public let sauces: [Sauce]
@@ -16,7 +16,7 @@ public struct Catalog: Decodable, Sendable {
     public let irishBuyingReferences: [BuyingReference]
     public let irishRetailers: [Retailer]
     private let photoRecords: [String: IngredientPhoto]
-    private let ingredientIndex: [String: Ingredient]
+    private var ingredientIndex: [String: Ingredient]
     private let photoIndex: [String: String]
 
     enum CodingKeys: String, CodingKey { case readAt, dataMode, metrics, ingredients, recipes, products, sauces, presets, ingredientPhotos, nutrientRankings, irishBuyingReferences, irishRetailers }
@@ -47,6 +47,14 @@ public struct Catalog: Decodable, Sendable {
     }
 
     public func ingredient(_ variantId: String) -> Ingredient? { ingredientIndex[variantId] }
+    /// The same catalogue plus foods the server just added to the library (photo estimate).
+    public func adding(_ extra: [Ingredient]) -> Catalog {
+        var copy = self
+        for food in extra where copy.ingredientIndex[food.variantId] == nil {
+            copy.ingredients.append(food); copy.ingredientIndex[food.variantId] = food
+        }
+        return copy
+    }
     public func sauce(_ id: String) -> Sauce? { sauces.first { $0.id == id } }
     public func photo(for variantId: String) -> String? { photoIndex[variantId] }
     public func photoRecord(for variantId: String) -> IngredientPhoto? { photoRecords[variantId] }
@@ -85,7 +93,18 @@ public struct Ingredient: Decodable, Sendable, Identifiable, Hashable {
     public let datasetId: String?
     public let verificationStatus: String?
     public let nutrients: [Nutrient]
+    public let recordId: String?
+    public let sourceName: String?
+    public let sourceUrl: String?
+    /// Present when the food was added automatically from a customer photo (migration 007).
+    public let photoAddition: PhotoAddition?
     public var id: String { variantId }
+
+    public struct PhotoAddition: Decodable, Sendable, Hashable {
+        public let sourceType: String
+        public let reviewStatus: String?
+        public var sourceLabel: String { sourceType == "pack_label" ? "pack label" : "USDA FoodData Central" }
+    }
 }
 
 public struct RecipeItem: Decodable, Sendable, Hashable {

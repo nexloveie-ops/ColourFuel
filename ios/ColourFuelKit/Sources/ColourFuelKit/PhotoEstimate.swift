@@ -8,16 +8,21 @@ public struct PhotoEstimate: Decodable, Sendable, Hashable {
         public let variantId: String?
         public let grams: Double
         public let confidence: String
+        /// library · library_photo_added · added_usda · added_pack_label · not_found
+        public let source: String?
         public var id: String { (variantId ?? "none") + "|" + label }
-        public init(label: String, variantId: String?, grams: Double, confidence: String) {
-            self.label = label; self.variantId = variantId; self.grams = grams; self.confidence = confidence
+        public init(label: String, variantId: String?, grams: Double, confidence: String, source: String? = nil) {
+            self.label = label; self.variantId = variantId; self.grams = grams; self.confidence = confidence; self.source = source
         }
+        public var addedNow: Bool { source == "added_usda" || source == "added_pack_label" }
     }
     public let estimateOnly: Bool
     public let isFoodPhoto: Bool
     public let foods: [Food]
     public let sauceOrDressingVisible: Bool
     public let note: String
+    /// Full library records of every matched food (includes foods added from photos after the app loaded).
+    public let foodRecords: [Ingredient]?
 
     public static func decode(_ data: Data) throws -> PhotoEstimate {
         let decoder = JSONDecoder(); decoder.keyDecodingStrategy = .convertFromSnakeCase
