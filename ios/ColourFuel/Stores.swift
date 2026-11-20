@@ -32,7 +32,10 @@ final class BowlSession {
     private(set) var original: BowlRecipe
     var current: BowlRecipe
     /// Last change, used to animate the stage chip and its "+50 g" bubble.
-    private(set) var lastChange: (id: String, delta: Double, tick: Int)?
+    /// Latest change per food (grams), shown as "+50 g" bubbles on the stage. A preset switch can change several foods at once.
+    private(set) var changeDeltas: [String: Double] = [:]
+    private(set) var changeTick = 0
+    private func announce(_ deltas: [String: Double]) { changeDeltas = deltas; if !deltas.isEmpty { changeTick += 1 } }
 
     init(catalog: Catalog, product: Product) {
         self.catalog = catalog
@@ -47,7 +50,7 @@ final class BowlSession {
         self.product = product
         original = BowlRecipe(recipe: recipe)
         current = original
-        lastChange = nil
+        changeDeltas = [:]
     }
 
     // MARK: Portions
@@ -62,13 +65,13 @@ final class BowlSession {
         let delta = grams - current.items[index].grams
         guard abs(delta) > 1e-9 else { return }
         current.items[index].grams = grams
-        lastChange = (id, delta, (lastChange?.tick ?? 0) + 1)
+        announce([id: delta])
     }
 
     func add(_ id: String) {
         guard !current.items.contains(where: { $0.variantId == id }), let s = standard(id) else { return }
         current.items.append(BowlItem(variantId: id, grams: s.grams))
-        lastChange = (id, s.grams, (lastChange?.tick ?? 0) + 1)
+        announce([id: s.grams])
     }
 
     func remove(_ id: String) { current.items.removeAll { $0.variantId == id } }
@@ -77,7 +80,20 @@ final class BowlSession {
     var presets: [Preset] { (catalog.presets ?? []).filter { $0.recipeId == product.recipeId } }
     var isCustom: Bool { current.items != original.items }
     func apply(_ preset: Preset?) {
+        let before = current.items
         current.items = original.items.map { BowlItem(variantId: $0.variantId, grams: preset?.weights[$0.variantId] ?? $0.grams) }
+        var deltas: [String: Double] = [:]
+        for item in current.items {
+            let d = item.grams - (before.first { $0.variantId == item.variantId }?.grams ?? 0)
+            if abs(d) > 1e-9 { deltas[item.variantId] = d }
+        }
+        announce(deltas)
+    }
+    /// Grams changed against the original recipe (nil when unchanged); `isNew` for foods the recipe doesn't have.
+    func differenceFromOriginal(_ id: String) -> (delta: Double, isNew: Bool)? {
+        guard let g = current.items.first(where: { $0.variantId == id })?.grams else { return nil }
+        guard let o = original.items.first(where: { $0.variantId == id })?.grams else { return (g, true) }
+        return abs(g - o) > 1e-9 ? (g - o, false) : nil
     }
     var activePreset: String? {
         if current.items == original.items { return "Original" }
