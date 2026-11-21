@@ -23,6 +23,12 @@ enum CF {
         return URL(string: path, relativeTo: site)?.absoluteURL
     }
 
+    /// The ColourFuel logos ship inside the app, so they show at once and offline instead of waiting on the network.
+    static func bundled(_ path: String?) -> UIImage? {
+        guard let path, ["colourfuel-horizontal.jpg", "colourfuel-round.jpg"].contains(path) else { return nil }
+        return UIImage(named: String(path.dropLast(4)))
+    }
+
     static func display(_ size: CGFloat) -> Font { .system(size: size, weight: .heavy) }
 
     static func euro(_ cents: Int) -> String {
@@ -58,6 +64,14 @@ extension Color {
 struct RemoteImage: View {
     let path: String?
     var body: some View {
+        if let local = CF.bundled(path) {
+            Image(uiImage: local).resizable().scaledToFill()
+        } else {
+            remote
+        }
+    }
+
+    private var remote: some View {
         AsyncImage(url: CF.url(path), transaction: Transaction(animation: .easeOut(duration: 0.25))) { phase in
             switch phase {
             case .success(let image): image.resizable().scaledToFill()
