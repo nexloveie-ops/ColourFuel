@@ -83,9 +83,9 @@ test('bowl add-ons leave out raw, dry and drink-like foods from the expansion', 
     assert.equal(isBowlAddOn(food(id)), true, id);
 });
 
-test('010 and 011 photo manifests: checksums, open licences, Commons sources, 009 foods only, no overlap', async () => {
+test('010, 011 and 012 photo manifests: checksums, open licences, Commons sources, 009 foods only, no overlap', async () => {
   const all = [];
-  for (const id of ['010', '011']) {
+  for (const id of ['010', '011', '012']) {
     const text = await readFile(new URL(`./fixtures/library-photos-${id}.json`, import.meta.url), 'utf8');
     assert.equal(createHash('sha256').update(text).digest('hex'), (await readFile(new URL(`./fixtures/library-photos-${id}.sha256`, import.meta.url), 'utf8')).trim());
     all.push(...JSON.parse(text).photos);
@@ -99,4 +99,31 @@ test('010 and 011 photo manifests: checksums, open licences, Commons sources, 00
     assert.match(p.sha256, /^[0-9a-f]{64}$/); assert.ok(p.bytes >= 1000 && p.bytes <= 400000);
     assert.ok(p.width >= 100 && p.width <= 2000 && p.height >= 100 && p.height <= 2000);
   }
+});
+
+test('013 adds one checked SuperValu reference per uncovered ingredient; rollback restores the catalogue exactly', async () => {
+  const text = await readFile(new URL('./fixtures/buying-references-013.json', import.meta.url), 'utf8');
+  assert.equal(createHash('sha256').update(text).digest('hex'), (await readFile(new URL('./fixtures/buying-references-013.sha256', import.meta.url), 'utf8')).trim());
+  const refs = JSON.parse(text).references;
+  const pg = await setup(); try {
+    await pg.exec(await mig('009_library_expansion'));
+    // Two foods referenced by 013 were added on the live site from customer photos (migration 007 path).
+    await pg.exec("INSERT INTO colourfuel_catalog.ingredient VALUES ('cooked-ham','Cooked ham','meat'),('beef-ribeye-thinly-sliced','Beef ribeye, thinly sliced','meat')");
+    const before = await catalog(pg);
+    const covered = new Set(before.irish_buying_references.map(r => r.ingredient_id));
+    for (const r of refs) assert.ok(!covered.has(r.ingredient_id), `${r.ingredient_id} had no reference`);
+    await pg.exec(await mig('013_buying_references'));
+    const after = await catalog(pg);
+    assert.equal(after.irish_buying_references.length, before.irish_buying_references.length + refs.length);
+    assert.deepEqual(after.irish_buying_references.slice(0, before.irish_buying_references.length), before.irish_buying_references, 'existing references unchanged and first');
+    const lentils = after.irish_buying_references.find(r => r.ingredient_id === 'red-lentil');
+    assert.equal(lentils.retailer_id, 'supervalu'); assert.equal(lentils.reviewed_on, '2026-11-21'); assert.match(lentils.url, /^https:\/\/shop\.supervalu\.ie\/product\//);
+    assert.match(after.irish_retailers.find(r => r.id === 'supervalu').note, /21 November 2026/);
+    const { hydrateIrishShopping } = await import('./irish-shopping.mjs');
+    const photoOnly = new Set(['cooked-ham', 'beef-ribeye-thinly-sliced']); // no variants in this test database
+    assert.doesNotThrow(() => hydrateIrishShopping({ ...after, irish_buying_references: after.irish_buying_references.filter(r => !photoOnly.has(r.ingredient_id)) }, { validateOnly: true }));
+    await assert.rejects(pg.exec(await mig('013_buying_references')), /already applied/); await pg.exec('ROLLBACK');
+    await pg.exec(local(await readFile(new URL('./migrations/013_buying_references.rollback.sql', import.meta.url), 'utf8')));
+    assert.deepEqual(strip(await catalog(pg)), strip(before));
+  } finally { await pg.close(); }
 });

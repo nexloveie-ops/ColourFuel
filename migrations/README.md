@@ -69,6 +69,20 @@ Status: imported into Cloud SQL on 20 November 2026 as `postgres` (operation `3c
 
 # 011 library photos (second pass)
 
-Status: prepared and dry-run locally; not yet imported.
+Status: imported into Cloud SQL on 20 November 2026 as `postgres` (operation `d60833f9-a5b6-49b4-b046-db5900000024`, DONE). Object `gs://colourfuel-nutrition-import-721850220313/migrations/011-library-photos-11a8a729-20261120.sql`, SQL SHA-256 `11a8a729e7d728432d0976a92eafd2e7842508a109a68ca5a65f1fed024660af`. Live check: 375 database photos, 28 placeholders.
 
 36 more openly licensed Wikimedia Commons photos for 009 foods that still showed the placeholder after 010, found with hand-written search phrases (no Anthropic API) and chosen by reviewing thumbnails. Manifest `fixtures/library-photos-011.json` (+ `.sha256`); `build-011-library-photos.mjs [image-cache-dir]` re-reads or re-downloads every image and refuses any byte difference; the generated `011_library_photos.sql` is not committed. Same checks as 010 (only placeholders of 009 foods are replaced, licence, Commons file page, artist, size, hashes, photo invariant, runtime privileges); the migration receipt lists the pictured variants. 28 foods still keep the placeholder. Rollback: `011_library_photos.rollback.sql` restores placeholders for exactly those variants.
+
+# 012 library photos (third pass)
+
+Status: prepared and dry-run locally (006→012 on embedded PostgreSQL); import pending.
+
+19 more openly licensed Wikimedia Commons photos for 009 foods that still showed the placeholder after 011, found with new hand-written search phrases (no Anthropic API) and chosen by reviewing contact sheets, then checked again as a full grid (two candidates were replaced or dropped: a steak plate for horseradish sauce, bean sprouts for boiled soya beans). Manifest `fixtures/library-photos-012.json` (+ `.sha256`); `build-012-library-photos.mjs [image-cache-dir]` works like 011 and requires 011. Nine foods keep the placeholder because no suitable open photo was found: avocado oil, chicken mince, couscous (uncooked), duck breast, boiled parsnip, tinned pink salmon, tuna steak, wheat germ and boiled soya beans. Rollback: `012_library_photos.rollback.sql`.
+
+# 013 SuperValu buying references
+
+Status: prepared and tested locally; import pending.
+
+Adds one SuperValu buying reference for each of 264 library ingredients that had none (mostly 009 foods; two are live photo-added foods, cooked ham and thinly sliced beef ribeye). Each reference is a public `shop.supervalu.ie` product page found through the site's own search and matched to the ingredient by hand: `ingredient` (the same food), `prepare` (needs cooking or brewing, e.g. dry pasta for cooked pasta) or `alternative` (a close substitute, e.g. light cream for single cream); `prepare` and `alternative` always carry a note. On 21 November 2026 every product page was re-opened and its title compared with the recorded product and pack; all 264 matched. Tesco, ALDI and Dunnes block automated page reads, so they were not used. 89 ingredients still have no verified reference (no matching SuperValu listing, e.g. watercress, radicchio, squid, lard, ghee).
+
+Fixture `fixtures/buying-references-013.json` (+ `.sha256`); `build-013-buying-references.mjs` writes the committed `013_buying_references.sql`. Before commit it refuses unknown ingredients or ingredients that already have a reference, checks that the catalogue view shows every reference and that the runtime account cannot write the table, and updates the SuperValu retailer note to describe the wider listing. References supply no nutrition, stock or price. Test: `library-expansion-migration.test.mjs` (apply, refusal on re-run, exact rollback). Rollback: `013_buying_references.rollback.sql` (removes exactly the listed references and restores the previous note).
