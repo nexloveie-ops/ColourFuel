@@ -83,9 +83,9 @@ test('bowl add-ons leave out raw, dry and drink-like foods from the expansion', 
     assert.equal(isBowlAddOn(food(id)), true, id);
 });
 
-test('010, 011 and 012 photo manifests: checksums, open licences, Commons sources, 009 foods only, no overlap', async () => {
+test('010, 011, 012 and 014 photo manifests: checksums, open licences, Commons sources, 009 foods only, no overlap', async () => {
   const all = [];
-  for (const id of ['010', '011', '012']) {
+  for (const id of ['010', '011', '012', '014']) {
     const text = await readFile(new URL(`./fixtures/library-photos-${id}.json`, import.meta.url), 'utf8');
     assert.equal(createHash('sha256').update(text).digest('hex'), (await readFile(new URL(`./fixtures/library-photos-${id}.sha256`, import.meta.url), 'utf8')).trim());
     all.push(...JSON.parse(text).photos);
@@ -124,6 +124,38 @@ test('013 adds one checked SuperValu reference per uncovered ingredient; rollbac
     assert.doesNotThrow(() => hydrateIrishShopping({ ...after, irish_buying_references: after.irish_buying_references.filter(r => !photoOnly.has(r.ingredient_id)) }, { validateOnly: true }));
     await assert.rejects(pg.exec(await mig('013_buying_references')), /already applied/); await pg.exec('ROLLBACK');
     await pg.exec(local(await readFile(new URL('./migrations/013_buying_references.rollback.sql', import.meta.url), 'utf8')));
+    assert.deepEqual(strip(await catalog(pg)), strip(before));
+  } finally { await pg.close(); }
+});
+
+test('015 adds references from more Irish shops and three retailers; rollback restores the catalogue exactly', async () => {
+  const text = await readFile(new URL('./fixtures/buying-references-015.json', import.meta.url), 'utf8');
+  assert.equal(createHash('sha256').update(text).digest('hex'), (await readFile(new URL('./fixtures/buying-references-015.sha256', import.meta.url), 'utf8')).trim());
+  const fixture = JSON.parse(text);
+  const pg = await setup(); try {
+    await pg.exec(await mig('009_library_expansion'));
+    await pg.exec("INSERT INTO colourfuel_catalog.ingredient VALUES ('cooked-ham','Cooked ham','meat'),('beef-ribeye-thinly-sliced','Beef ribeye, thinly sliced','meat')");
+    await pg.exec(await mig('013_buying_references'));
+    // Stewed beef was also added on the live site from a customer photo.
+    await pg.exec("INSERT INTO colourfuel_catalog.ingredient VALUES ('stewed-beef','Stewed beef','meat')");
+    const before = await catalog(pg);
+    const covered = new Set(before.irish_buying_references.map(r => r.ingredient_id));
+    for (const r of fixture.references) assert.ok(!covered.has(r.ingredient_id), `${r.ingredient_id} had no reference`);
+    await pg.exec(await mig('015_buying_references'));
+    const after = await catalog(pg);
+    assert.equal(after.irish_buying_references.length, before.irish_buying_references.length + fixture.references.length);
+    assert.deepEqual(after.irish_buying_references.slice(0, before.irish_buying_references.length), before.irish_buying_references, 'existing references unchanged and first');
+    assert.deepEqual(after.irish_retailers.slice(0, before.irish_retailers.length).map(r => r.id), before.irish_retailers.map(r => r.id), 'existing retailers keep their order');
+    assert.deepEqual(after.irish_retailers.slice(before.irish_retailers.length).map(r => r.id), ['asia-market', 'evergreen', 'fallon-byrne']);
+    assert.match(after.irish_retailers.find(r => r.id === 'village-butcher').note, /21 November 2026/);
+    assert.equal(after.irish_retailers.find(r => r.id === 'supervalu').note, before.irish_retailers.find(r => r.id === 'supervalu').note);
+    const rabbit = after.irish_buying_references.find(r => r.ingredient_id === 'rabbit');
+    assert.equal(rabbit.retailer_id, 'village-butcher'); assert.equal(rabbit.reviewed_on, '2026-11-21');
+    const { hydrateIrishShopping } = await import('./irish-shopping.mjs');
+    const photoOnly = new Set(['cooked-ham', 'beef-ribeye-thinly-sliced', 'stewed-beef']);
+    assert.doesNotThrow(() => hydrateIrishShopping({ ...after, irish_buying_references: after.irish_buying_references.filter(r => !photoOnly.has(r.ingredient_id)) }, { validateOnly: true }));
+    await assert.rejects(pg.exec(await mig('015_buying_references')), /already applied/); await pg.exec('ROLLBACK');
+    await pg.exec(local(await readFile(new URL('./migrations/015_buying_references.rollback.sql', import.meta.url), 'utf8')));
     assert.deepEqual(strip(await catalog(pg)), strip(before));
   } finally { await pg.close(); }
 });
