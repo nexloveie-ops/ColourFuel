@@ -102,6 +102,7 @@ struct PassportScreen: View {
     }
 
     private func loadImage(_ path: String?) async -> UIImage? {
+        if let local = CF.bundled(path) { return local }
         guard let url = CF.url(path), let (data, _) = try? await URLSession.shared.data(from: url) else { return nil }
         return UIImage(data: data)
     }
