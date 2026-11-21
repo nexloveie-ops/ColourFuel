@@ -12,3 +12,4 @@ ios/**/xcuserdata/
 migrations/010_library_photos.sql
 migrations/011_library_photos.sql
 migrations/012_library_photos.sql
+migrations/014_library_photos.sql

@@ -1,0 +1,568 @@
+{
+ "reviewed_on": "2026-11-21",
+ "method": "Public product listings read from each shop (Shopify product data, WooCommerce Store API or the product page), matched to the ingredient by hand; every product page opened and its title checked on 21 November 2026. Tesco, ALDI, Dunnes and Holland & Barrett block automated reads and were not used. No nutrition, stock or price is recorded.",
+ "retailers": [
+  {
+   "id": "asia-market",
+   "url": "https://www.asiamarket.ie/",
+   "name": "Asia Market",
+   "note": "Dublin Asian supermarket with an online shop. Product listings for Asian vegetables, pulses, flours, seaweed and noodles (reviewed 21 November 2026). Check the site for delivery and availability."
+  },
+  {
+   "id": "evergreen",
+   "url": "https://evergreen.ie/",
+   "name": "Evergreen Healthfoods",
+   "note": "Galway health-food shop with an online shop. Product listings for pulses, grains, seeds, spices, oils and dried fruit (reviewed 21 November 2026). Check the site for delivery and availability."
+  },
+  {
+   "id": "fallon-byrne",
+   "url": "https://www.fallonandbyrne.com/",
+   "name": "Fallon & Byrne",
+   "note": "Dublin food hall with an online shop. Product listings for saffron, rhubarb, clementines and tinned clams (reviewed 21 November 2026). Check the site for delivery and availability."
+  }
+ ],
+ "retailer_notes": {
+  "village-butcher": "Butcher with an online shop. Boneless pork loin for recipe development (reviewed 17 November 2026) and meat, offal and lobster listings for the wider library (reviewed 21 November 2026). Check the delivery area and availability."
+ },
+ "references": [
+  {
+   "ingredient_id": "enoki-mushroom",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/enoki-mushroom-100g",
+   "product": "Enoki Mushroom",
+   "pack": "100 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "kohlrabi",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/fresh-kohlrabi-1kg",
+   "product": "Fresh Kohlrabi",
+   "pack": "1 kg",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "bamboo-shoots",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/golden-swan-bamboo-shoot-slices-227g",
+   "product": "Golden Swan Bamboo Shoot Slices",
+   "pack": "227 g tin",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "water-chestnut",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/golden-swan-whole-water-chestnuts-227g",
+   "product": "Golden Swan Whole Water Chestnuts",
+   "pack": "227 g tin",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "chinese-leaf",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/fresh-chinese-leaf-1pc",
+   "product": "Fresh Chinese Leaf",
+   "pack": "1 head",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "wakame",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/well-pac-fueru-wakame-dried-seaweed-56-7g",
+   "product": "Well Pac Fueru Wakame (dried seaweed)",
+   "pack": "56.7 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dried wakame; soak in water before use. The library food is raw wakame."
+  },
+  {
+   "ingredient_id": "kelp",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/well-pac-dashi-kombu-dried-seaweed",
+   "product": "Well Pac Dashi Kombu (dried kelp)",
+   "pack": "113.4 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dried kombu; soak or simmer before use. The library food is raw kelp."
+  },
+  {
+   "ingredient_id": "onion-powder",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/eastend-onion-powder-100g",
+   "product": "East End Onion Powder",
+   "pack": "100 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "split-pea",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/eastend-yellow-split-peas-500g",
+   "product": "East End Yellow Split Peas",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dry split peas; boil before use. The library uses boiled split peas."
+  },
+  {
+   "ingredient_id": "mung-bean",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/east-end-moong-whole-beans-mung-beans-500g",
+   "product": "East End Moong Whole Beans (mung beans)",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dry mung beans; boil before use. The library uses boiled mung beans."
+  },
+  {
+   "ingredient_id": "black-eyed-bean",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/east-end-black-eye-beans-in-salted-water-400g",
+   "product": "East End Black Eye Beans in Salted Water",
+   "pack": "400 g tin",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": "Cooked beans in salted water; drain and rinse."
+  },
+  {
+   "ingredient_id": "soba-noodles",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/hakubaku-organic-soba-noodle-270g",
+   "product": "Hakubaku Organic Soba Noodle",
+   "pack": "270 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dry soba; boil before use. The library uses cooked soba."
+  },
+  {
+   "ingredient_id": "rice-flour",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/flck-rice-flour-450g",
+   "product": "FLCK Rice Flour",
+   "pack": "450 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "chickpea-flour",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/balah-gram-flour-1kg",
+   "product": "Balah Gram Flour (Besan)",
+   "pack": "1 kg",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "ghee",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/ktc-butter-ghee-500g",
+   "product": "KTC Butter Ghee",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "shiitake-mushroom",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/dried-shiitake-mushroom-1kg",
+   "product": "Greatharvest Dried Shiitake Mushroom",
+   "pack": "1 kg",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "alternative",
+   "note": "Dried shiitake; soak before use. The library food is fresh (raw) shiitake."
+  },
+  {
+   "ingredient_id": "jackfruit",
+   "retailer_id": "asia-market",
+   "url": "https://www.asiamarket.ie/products/aroyd-jackfruit-in-syrup-565g",
+   "product": "Aroy-D Jackfruit in Syrup",
+   "pack": "565 g tin",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "alternative",
+   "note": "Ripe jackfruit tinned in sweet syrup; the library food is fresh raw jackfruit, and the syrup adds sugar."
+  },
+  {
+   "ingredient_id": "macadamia",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-macadamia-nuts",
+   "product": "True Natural Goodness Macadamia Nuts",
+   "pack": "100 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "miso",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/clearspring-organic-japanese-brown-rice-miso-paste-pasteurised",
+   "product": "Clearspring Organic Japanese Brown Rice Miso Paste (pasteurised)",
+   "pack": "300 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "carrageen-moss",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/wild-irish-seaweed-organic-carrageen",
+   "product": "Wild Irish Seaweed Organic Carrageen",
+   "pack": "40 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dried carrageen; soak before use. The library food is raw carrageen."
+  },
+  {
+   "ingredient_id": "allspice",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/sonnentor-organic-ground-allspice",
+   "product": "Sonnentor Organic Ground Allspice",
+   "pack": "35 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "fenugreek",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/sonnentor-organic-fenugreek-seeds",
+   "product": "Sonnentor Organic Fenugreek Seeds",
+   "pack": "120 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "anise-seed",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/sonnentor-organic-aniseed",
+   "product": "Sonnentor Organic Aniseed",
+   "pack": "50 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "borlotti-bean",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/biona-organic-borlotti-beans",
+   "product": "Biona Organic Borlotti Beans",
+   "pack": "400 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": "Cooked beans in water; drain before use."
+  },
+  {
+   "ingredient_id": "haricot-bean",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/biona-organic-haricot-beans",
+   "product": "Biona Organic Haricot Beans",
+   "pack": "400 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": "Cooked beans in water; drain before use."
+  },
+  {
+   "ingredient_id": "soybean",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-organic-soya-beans",
+   "product": "True Natural Goodness Organic Soya Beans",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dry soya beans; soak overnight and boil. The library uses boiled soya beans."
+  },
+  {
+   "ingredient_id": "spelt",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-organic-spelt-grain",
+   "product": "True Natural Goodness Organic Spelt Grain",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Whole spelt grain; cook before use. The library uses cooked spelt."
+  },
+  {
+   "ingredient_id": "amaranth",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-organic-amaranth-1",
+   "product": "True Natural Goodness Organic Amaranth",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dry amaranth grain; cook before use. The library uses cooked amaranth."
+  },
+  {
+   "ingredient_id": "oat-bran",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-organic-oatbran",
+   "product": "True Natural Goodness Organic Oatbran",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "wheat-bran",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-wheatbran",
+   "product": "True Natural Goodness Wheatbran",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "poppy-seed",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-organic-poppy-seeds",
+   "product": "True Natural Goodness Organic Poppy Seeds",
+   "pack": "250 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "avocado-oil",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/clearspring-organic-avocado-oil",
+   "product": "Clearspring Organic Avocado Oil",
+   "pack": "250 ml",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "walnut-oil",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/emile-noel-organic-walnut-oil",
+   "product": "Emile Noel Organic Walnut Oil",
+   "pack": "250 ml",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "flaxseed-oil",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/biona-organic-flax-seed-oil",
+   "product": "Biona Organic Flax Seed Oil",
+   "pack": "250 ml",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "dried-apple",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-apple-rings",
+   "product": "True Natural Goodness Apple Rings",
+   "pack": "125 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "millet",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/true-natural-goodness-organic-millet-grain",
+   "product": "True Natural Goodness Organic Millet Grain",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Dry millet grain; cook before use. The library uses cooked millet."
+  },
+  {
+   "ingredient_id": "adzuki-bean",
+   "retailer_id": "evergreen",
+   "url": "https://evergreen.ie/products/biona-organic-aduki-beans",
+   "product": "Biona Organic Aduki Beans",
+   "pack": "400 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": "Cooked beans in water; drain and rinse."
+  },
+  {
+   "ingredient_id": "saffron",
+   "retailer_id": "fallon-byrne",
+   "url": "https://www.fallonandbyrne.com/shop/food-cupboard/salts-spices/don-gastronom-spanish-saffron-1g/",
+   "product": "Don Gastronom Spanish Saffron",
+   "pack": "1 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "rhubarb",
+   "retailer_id": "fallon-byrne",
+   "url": "https://www.fallonandbyrne.com/shop/fruit-vegetables/vegetables/rhubarb-bunch12pc/",
+   "product": "Rhubarb Bunch",
+   "pack": "1 bunch",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "clementine",
+   "retailer_id": "fallon-byrne",
+   "url": "https://www.fallonandbyrne.com/shop/fruit-vegetables/fruit/clementine/",
+   "product": "Clementine",
+   "pack": "Sold individually",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "clams",
+   "retailer_id": "fallon-byrne",
+   "url": "https://www.fallonandbyrne.com/shop/food-cupboard/preserved-meat-fish/maruxaina-almejas-al-natural/",
+   "product": "Maruxaina Almejas al Natural (white clams in brine)",
+   "pack": "120 g tin",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "alternative",
+   "note": "Tinned white clams (Spisula solida) in brine; the library food is raw clams."
+  },
+  {
+   "ingredient_id": "rabbit",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/farmed-rabbit/",
+   "product": "Farmed Rabbit",
+   "pack": "Whole, 900 g–1.1 kg",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": "EU origin; the listing says it is occasionally frozen."
+  },
+  {
+   "ingredient_id": "venison",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/venison-haunch-steaks/",
+   "product": "Wild Irish Venison Haunch Steaks",
+   "pack": "300 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "beef-liver",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/beef-liver/",
+   "product": "Beef Liver",
+   "pack": "500 g frozen pack",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "chicken-liver",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/free-range-chicken-liver/",
+   "product": "Free Range Chicken Liver",
+   "pack": "500 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "ingredient",
+   "note": ""
+  },
+  {
+   "ingredient_id": "gammon",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/full-gammon-on-the-bone-free-range/",
+   "product": "Gammon With Bone – Free Range",
+   "pack": "Full or half joint",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Raw gammon joint on the bone; boil before use. The library uses boiled gammon."
+  },
+  {
+   "ingredient_id": "pork-shoulder",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/shoulder-of-pork/",
+   "product": "Irish Pork Shoulder/Butt (plain)",
+   "pack": "1 kg / 2 kg",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Raw boneless pork shoulder; choose the plain option and roast. The library uses roast pork shoulder."
+  },
+  {
+   "ingredient_id": "stewed-beef",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/tender-diced-beef-pieces/",
+   "product": "Tender Diced Beef Pieces",
+   "pack": "500 g / 1 kg",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "prepare",
+   "note": "Raw diced brisket for stewing; the library uses cooked stewed beef."
+  },
+  {
+   "ingredient_id": "lobster",
+   "retailer_id": "village-butcher",
+   "url": "https://thevillagebutcher.ie/product/lobster-tail-140-160g/",
+   "product": "Lobster Tail 140/160 g",
+   "pack": "140–160 g",
+   "reviewed_on": "2026-11-21",
+   "evidence_type": "product",
+   "match": "alternative",
+   "note": "Frozen North Atlantic lobster tail only; cook before use. The library uses cooked lobster."
+  }
+ ]
+}

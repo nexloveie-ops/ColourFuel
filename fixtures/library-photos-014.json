@@ -1,0 +1,51 @@
+{
+ "batch": "ireland-core-2026-11-20",
+ "source": "Wikimedia Commons (CC0, public domain, CC BY, CC BY-SA); hand-written searches, chosen by reviewing thumbnails",
+ "photos": [
+  {
+   "variant_id": "duck-breast--raw",
+   "title": "Duck Breasts (4365129327).jpg",
+   "artist": "Ryan Snyder",
+   "license": "CC BY 2.0",
+   "license_url": "https://creativecommons.org/licenses/by/2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Duck_Breasts_(4365129327).jpg",
+   "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Duck_Breasts_%284365129327%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "description": "Duck Breasts",
+   "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Duck_Breasts_%284365129327%29.jpg/960px-Duck_Breasts_%284365129327%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "width": 960,
+   "height": 1283,
+   "bytes": 310557,
+   "sha256": "be7f45076162d8e5aac3d4f80b9e2f01388ba888691d8eeaa4273d1d79e364ab"
+  },
+  {
+   "variant_id": "tuna-steak--raw",
+   "title": "Filete de atún rojo 0.jpg",
+   "artist": "Xemenendura",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Filete_de_at%C3%BAn_rojo_0.jpg",
+   "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Filete_de_at%C3%BAn_rojo_0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "description": "Chiclana de la Frontera, España",
+   "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Filete_de_at%C3%BAn_rojo_0.jpg/960px-Filete_de_at%C3%BAn_rojo_0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "width": 960,
+   "height": 720,
+   "bytes": 192466,
+   "sha256": "fdcb574c825238c9f6b1f7f2348bb5f1294f83d3d1030509326b403076db4474"
+  },
+  {
+   "variant_id": "couscous--dry",
+   "title": "Couscous-01.jpg",
+   "artist": "Josefine Stenudd",
+   "license": "CC BY 2.0",
+   "license_url": "https://creativecommons.org/licenses/by/2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Couscous-01.jpg",
+   "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Couscous-01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+   "description": "Couscous",
+   "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Couscous-01.jpg/500px-Couscous-01.jpg",
+   "width": 500,
+   "height": 436,
+   "bytes": 57800,
+   "sha256": "6df32e02e0d29d9526f737df3bd280d05a50244c4efdc2280dac51d4f9d668c8"
+  }
+ ]
+}
