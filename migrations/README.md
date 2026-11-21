@@ -89,13 +89,13 @@ Fixture `fixtures/buying-references-013.json` (+ `.sha256`); `build-013-buying-r
 
 # 014 library photos (fourth pass)
 
-Status: prepared and dry-run locally (006→015 on embedded PostgreSQL); import pending.
+Status: imported 21 November 2026 03:24 UTC with `gcloud sql import sql … --user=postgres` from `gs://colourfuel-nutrition-import-721850220313/migrations/014_library_photos-d9be87b4.sql` (SQL SHA-256 `d9be87b4d82746eba4da96dfd9a5ff34d30a168d27fb160e967dd8b40086ebba`, 1.1 MB; operation DONE, no error). Application at main `c4e0d82` (Cloud Build `263229cf`). Live afterwards: 6 placeholders.
 
 Three more openly licensed Wikimedia Commons photos for foods still on the placeholder after 012, found by browsing Commons categories as well as new search phrases (no Anthropic API) and chosen from contact sheets: dry couscous, raw duck breasts and a raw bluefin tuna steak. Manifest `fixtures/library-photos-014.json` (+ `.sha256`); `build-014-library-photos.mjs [image-cache-dir]` works like 012 and requires 012. Six foods keep the placeholder because no open photo shows the food in the library's state: avocado oil, chicken mince, boiled parsnip, tinned pink salmon, wheat germ and boiled (mature) soya beans; the Commons soya photos are edamame and the parsnip ones are mixed dishes. Rollback: `014_library_photos.rollback.sql`.
 
 # 015 buying references from more Irish shops
 
-Status: prepared and tested locally; import pending.
+Status: imported 21 November 2026 03:24 UTC after 014, from `gs://colourfuel-nutrition-import-721850220313/migrations/015_buying_references-f31654ea.sql` (SQL SHA-256 `f31654ea082b54b3433fba1cd5fe801ab009b53f6252b5c699191cc21e7b32e0`; operation DONE, no error). Live afterwards: 433 references, 12 retailers, 40 ingredients without a reference.
 
 Adds 49 product references for ingredients still without one after 013, from shops whose public product data can be read without bypassing any block: Asia Market (17, new retailer), Evergreen Healthfoods (20, new retailer), Fallon & Byrne (4, new retailer) and The Village Butcher (8, existing retailer, note widened). Each was matched by hand and its product page opened on 21 November 2026; `prepare` and `alternative` references carry a note (for example dried wakame for raw wakame, tinned clams for raw clams). Not used: a capsule product for flax oil, tortillas not stated to be corn, and out-of-stock listings. 40 ingredients still have no verified reference, mostly fresh fish and shellfish, seasonal fruit and specialist salad leaves. Tesco, ALDI, Dunnes and Holland & Barrett block automated reads and were not used.
 
