@@ -75,13 +75,13 @@ Status: imported into Cloud SQL on 20 November 2026 as `postgres` (operation `d6
 
 # 012 library photos (third pass)
 
-Status: prepared and dry-run locally (006→012 on embedded PostgreSQL); import pending.
+Status: imported 21 November 2026 02:37 UTC with `gcloud sql import sql … --user=postgres` from `gs://colourfuel-nutrition-import-721850220313/migrations/012_library_photos-3baf91fd.sql` (SQL SHA-256 `3baf91fd1468005285a30647f80b301a8a22a0b84971ccb3c9e690b1129eebfa`, 5.2 MB; operation DONE, no error). Application at main `5461872` (Cloud Build `2e877db6`).
 
 19 more openly licensed Wikimedia Commons photos for 009 foods that still showed the placeholder after 011, found with new hand-written search phrases (no Anthropic API) and chosen by reviewing contact sheets, then checked again as a full grid (two candidates were replaced or dropped: a steak plate for horseradish sauce, bean sprouts for boiled soya beans). Manifest `fixtures/library-photos-012.json` (+ `.sha256`); `build-012-library-photos.mjs [image-cache-dir]` works like 011 and requires 011. Nine foods keep the placeholder because no suitable open photo was found: avocado oil, chicken mince, couscous (uncooked), duck breast, boiled parsnip, tinned pink salmon, tuna steak, wheat germ and boiled soya beans. Rollback: `012_library_photos.rollback.sql`.
 
 # 013 SuperValu buying references
 
-Status: prepared and tested locally; import pending.
+Status: imported 21 November 2026 02:38 UTC after 012, from `gs://colourfuel-nutrition-import-721850220313/migrations/013_buying_references-81a49c2e.sql` (SQL SHA-256 `81a49c2edae56db581eab72e39e6be834ba8ecfbbfa18261be02fbcde62b6ca5`; operation DONE, no error).
 
 Adds one SuperValu buying reference for each of 264 library ingredients that had none (mostly 009 foods; two are live photo-added foods, cooked ham and thinly sliced beef ribeye). Each reference is a public `shop.supervalu.ie` product page found through the site's own search and matched to the ingredient by hand: `ingredient` (the same food), `prepare` (needs cooking or brewing, e.g. dry pasta for cooked pasta) or `alternative` (a close substitute, e.g. light cream for single cream); `prepare` and `alternative` always carry a note. On 21 November 2026 every product page was re-opened and its title compared with the recorded product and pack; all 264 matched. Tesco, ALDI and Dunnes block automated page reads, so they were not used. 89 ingredients still have no verified reference (no matching SuperValu listing, e.g. watercress, radicchio, squid, lard, ghee).
 
